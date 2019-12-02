@@ -4,9 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--css-->
+    <link rel="stylesheet" href="./style.css">
+    <!-- Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!--font awesome-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Home</title>
 </head>
-<body>
+<body id="grad">
+    <!--Nav-->
+    <li class="nav justify-content-end">
+        <a href="#" class="nav-link text-white">
+            <i class="fa fa-id-badge" aria-hidden="true"></i>
+            login
+        </a>
+    </li>
+    <nav class="navbar navbar-expand-lg shadow text-light sticky-top">
+        <a class="navbar-brand text-light" href="#">NMCNPM</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex " id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link text-light" href="#">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="#">Team</a>
+            </li>
+            <li class="nav-item ">
+                <a href="#" class="nav-link disabled text-light">OverView</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link text-light">About</a>
+            </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="&#xF002; Search" aria-label="Search">
+            </form>
+        </div>
+    </nav>
+    <!--/Nav-->
+
+    <!--container-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-9 d-flex align-items-center flex-wrap flex-column mt-auto text-white">
+                <div class="h4">
+                    What's game we play??
+                </div>
+                <div class="h1">
+                    WE PLAY
+                </div>
+                <div class="h1 text-danger">
+                    NAMEGAME
+                </div>
+            </div>
+            <div class="col-3 d-flex justify-content-end">
+                <div class="card text-center">
+                    <div class="card-header">
+                        UP COMING MATCHES
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                            </li>
+                            <li class="list-group-item">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            </li>
+                            <li class="list-group-item">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/container-->
     
+    <!--JS-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>

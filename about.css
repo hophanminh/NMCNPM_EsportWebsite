@@ -1,0 +1,10 @@
+@import './style.css';
+
+.limit-text{
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    display: -webkit-box; 
+    -webkit-line-clamp: 4; 
+    -webkit-box-orient: vertical;
+}

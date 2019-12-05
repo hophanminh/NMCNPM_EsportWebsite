@@ -1,0 +1,6 @@
+@import './style.css';
+
+table.table-hover tbody tr:hover {
+    background-color: #fb9692; 
+}
+

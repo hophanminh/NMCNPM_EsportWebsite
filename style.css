@@ -1,5 +1,7 @@
 html, body{
-    height: 150%;
+    height: 100%;
+    background-attachment: fixed;
+
 }
 #grad {
     background-image: linear-gradient(red 15%, black 50%);
@@ -10,4 +12,15 @@ html, body{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-  }
+}
+
+.title{
+    margin-top: 80px;
+    text-align: center;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+.title h1{
+    color: yellow;
+}
+

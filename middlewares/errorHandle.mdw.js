@@ -1,6 +1,6 @@
 module.exports=function(app){
     app.use((req,res,next)=>{
-        res.send('Yo, u lost, be back');
+        res.send('You are lost');
     })
 
     app.use((err,req,res,next)=>{

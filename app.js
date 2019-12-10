@@ -7,20 +7,12 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
-    extended: true
+  extended: true
 }));
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-
-require('./middlewares/routes.mdw')(app);
 require('./middlewares/engine.mdw')(app);
-// app.get('/',(req,res)=>{
-//     res.render('home',{
-//         title: 'Home',
-//         style: 'home.css',
-//         js: 'home.js',
-//     })
-// })
+require('./middlewares/routes.mdw')(app);
 
 require('./middlewares/errorHandle.mdw')(app);
 app.listen(3000,()=>{

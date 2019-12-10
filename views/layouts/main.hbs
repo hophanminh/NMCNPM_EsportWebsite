@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--css-->
-    <link rel="stylesheet" href="css/{{style}}">
+    {{#each style}}
+    <link rel="stylesheet" type="text/css" href="css/{{this}}">
+    {{/each}}
     <!-- Bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <!--font awesome-->
@@ -64,7 +66,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bracket/0.11.1/jquery.bracket.min.js"></script>
-    <script src="js/home.js"></script>
+    {{#each js}}
+    <script type="text/javascript" src="js/{{this}}"></script>
+    {{/each}}
 
 </body>
 

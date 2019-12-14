@@ -14,6 +14,26 @@
         timepicker: false,
         mask: true,
     });
+
+    function dateValid(){
+        const startDate = $("input[name=startDate_raw]").val();
+        const endDate = $("input[name=endDate_raw]").val();
+        
+        if(startDate > endDate)
+        {
+            Swal.fire();
+            return false;
+        }
+        return true;
+    }
+
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Date start go after date end',
+        footer: 'You need to check Start Date and End Date'
+    })
+
 </script>
 {{/section}}
 
@@ -56,28 +76,28 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form method="POST">
+            <form method="POST" onsubmit="return dateValid();">
                 <div class="form-group">
                     <div class="row">
                         <div class="col">
                             <label for="nameTournament">Tournament name</label>
-                            <input type="text" class="form-control" id="nameTournament" name="nameTournament">
+                            <input type="text" class="form-control" id="nameTournament" name="nameTournament" required>
                         </div>
                         <div class="col">
                             <label for="prizeTournament">Total Prize</label>
-                            <input type="text" class="form-control" id="prizeTournament" name="prizeTournament">
+                            <input type="text" class="form-control" id="prizeTournament" name="prizeTournament" required>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col">
-                             <label for="date">Start Date</label>
-                            <input type="text" class="form-control dateF" id="date" name="startDate_raw">
+                            <label for="date">Start Date</label>
+                            <input type="text" class="form-control dateF" id="date" name="startDate_raw" required>
                         </div>
                         <div class="col">
                              <label for="date">End Date</label>
-                            <input type="text" class="form-control dateF" id="date" name="endDate_raw">
+                            <input type="text" class="form-control dateF" id="date" name="endDate_raw" required>
                         </div>
                     </div>
                 </div>
@@ -93,7 +113,7 @@
                     <label for="FullDes">Full Description</label>
                     <textarea class="form-control bg-transparent " aria-label="With textarea" id="FulDes" name="FullDescription"></textarea>
                 </div>
-                <button type="submit" class="btn btn-outline-success" formaction="/tournament">
+                <button type="submit" class="btn btn-outline-success" value="SUBMIT" formaction="/tournament">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                     Create
                 </button>

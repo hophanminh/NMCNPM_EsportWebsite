@@ -52,7 +52,7 @@ router.post('/tournament',async (req,res)=>{
     delete entity.endDate_raw
 
     const result = await adminModel.add(entity);
-
+    
     res.redirect('/');
 })
 

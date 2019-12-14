@@ -10,6 +10,8 @@ module.exports = {
     delete entity.CatID;
     return db.patch('categories', entity, condition);
   },*/
+
+  add: (entity)=> db.add('tournament',entity),
   
 
   

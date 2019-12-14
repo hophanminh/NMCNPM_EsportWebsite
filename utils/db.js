@@ -4,6 +4,8 @@ const util = require('util');
 const pool = mysql.createPool({
   connectionLimit: 50,
   host: 'localhost',
+  // Minh port:
+  //port: 3012,
   port: 8889,
   user: 'root',
   password: 'root',
@@ -17,7 +19,10 @@ module.exports = {
   add: (tableName, entity) => mysql_query(`insert into ${tableName} set ?`, entity),
   del: (tableName, condition) => mysql_query(`delete from ${tableName} where ?`, condition),
   patch: (tableName, entity, condition) => mysql_query(`update ${tableName} set ? where ?`, [entity, condition]),*/
-
+  
+  load: sql => mysql_query(sql),
+  add: (tableName,entity) => mysql_query(`insert into ${tableName} set ?`,entity),
+  modify:(tableName,entity,condition)=> mysql_query(`update ${tableName} set ? where ?`[entity,condition])
 
   
 };

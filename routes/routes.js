@@ -1,5 +1,6 @@
 const express = require('express');
-const productModel = require('../models/model');
+const moment = require('moment');
+const adminModel = require('../models/model');
 const router = express.Router();
 
 router.get('/',(req,res)=>{
@@ -29,6 +30,30 @@ router.get('/match',(req,res)=>{
         style: ['match.css'],
         js: ['home.js']
     })
+})
+
+router.get('/tournament',(req,res)=>{
+    res.render('tournament',{
+        title: 'Tournament',
+        style: ['style.css'],
+        js:['home.js']
+    })
+})
+
+router.post('/tournament',async (req,res)=>{
+    const entity = req.body;
+    const startDate = entity.startDate_raw;
+    const endDate = entity.endDate_raw;
+
+    entity.dateStart = moment(startDate,'LL').format('YYYY-MM-DD');
+    entity.dateEnd = moment(endDate,'LL').format('YYYY-MM-DD');
+
+    delete entity.startDate_raw;
+    delete entity.endDate_raw
+
+    const result = await adminModel.add(entity);
+
+    res.redirect('/');
 })
 
 module.exports = router;

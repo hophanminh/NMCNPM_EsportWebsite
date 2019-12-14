@@ -10,6 +10,12 @@ router.get('/',(req,res)=>{
         js: ['home.js']
     })
 })
+router.post('/',async (req,res)=>{
+    const data = req.body;
+    console.log(data.results[0]);
+
+})
+
 router.get('/about',(req,res)=>{
     res.render('about',{
         title: 'About Page',

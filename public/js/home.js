@@ -43,14 +43,13 @@ var doubleElimination = {
 
 
 function saveFn(data, userData) {
-    var json = jQuery.toJSON(data)
-    $('#saveOutput').text('POST ' + userData + ' ' + json)
-    /* You probably want to do something like this
-    jQuery.ajax("rest/"+userData, {contentType: 'application/json',
+    var json = JSON.stringify(data)
+    //$('.title').text('POST ' + userData + ' ' + json)
+    jQuery.ajax("http://localhost:3000"+userData, {contentType: 'application/json',
                                   dataType: 'json',
                                   type: 'post',
                                   data: json})
-    */
+    
 }
 
 $(function init() {
@@ -67,7 +66,7 @@ $(function init() {
         disableToolbar: true,
         disableTeamEdit: false,
         userData: "/",
+        
     })
+
 })
-
-

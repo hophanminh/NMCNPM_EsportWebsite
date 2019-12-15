@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--css-->
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        #grad {
+            background-image: linear-gradient(red 25%, black 60%);
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .Required {
+            font-weight: bold;
+            
+        }
+    </style>
+    <!-- Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!--font awesome-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Player</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body id="grad">
+    <!--Nav-->
+    <li class="nav justify-content-end">
+        <a href="#" class="nav-link text-white">
+            <i class="fa fa-id-badge" aria-hidden="true"></i>
+            login
+        </a>
+    </li>
+    <nav class="navbar navbar-expand-lg shadow text-light sticky-top">
+        <a class="navbar-brand text-light" href="#">NMCNPM</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex " id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Team</a>
+                </li>
+                <li class="nav-item ">
+                    <a href="#" class="nav-link disabled text-light">OverView</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-light">About</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="&#xF002; Search" aria-label="Search">
+            </form>
+        </div>
+    </nav>
+    <!--/Nav-->
+
+    <!--container-->
+    <div class="container border mt-3">
+        <h1 class="text-center text-white">INFORMATION OF PLAYER</h1>
+        <div class="row text-center text-white">
+            <div class="col-6">
+                <img src="img/tour3.jpg" alt="Responsive image" height="350px" width="450px">
+
+            </div>
+
+            <div class="col-6">
+                <div class="input-group mb-5 mt-3 border-bottom">
+                    <p><a class="Required">User Name:&ensp;</a>quanky99</p>
+                </div>
+                <div class="input-group mb-5 mt-3 border-bottom">
+                    <p><a class="Required">Full Real Name:&ensp;</a>Lưu Đặng Kỳ Quân</p>
+                </div>
+
+                <div class="input-group mb-5 mt-3 border-bottom">
+                    <p><a class="Required">Address:&ensp;</a>32 Cao Lỗ, quận 8, tp HCM </p>
+                </div>
+                <div class="input-group mb-5 mt-3 border-bottom">
+                    <p><a class="Required">Birthday:&ensp;</a>04-07-1999</p>
+                </div>
+
+                <!-- <button class="btn mt-3 bg-danger text-white">ADD PLAYER</button> -->
+            </div>
+
+        </div>
+        <div class="row text-white text-center">
+            <div class="col-6 ">
+                <a class="text-center Required border-bottom font-italic"> History</a>
+                <div class="content-history mt-3">
+                    <p>Tham gia giải FIFA 2010</p>
+                    <p>Tham gia giải FIFA 2014</p>
+                </div>
+            </div>
+            <div class="col-6 ">
+                <a class="text-center Required border-bottom font-italic "> Prize</a>
+                <div class="content-prize mt-3">
+                   
+                    <p>Giải Nhất FIFA 2010</p>
+                    <p>Giải Nhì FIFA 2014</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    </div>
+    <!--/container-->
+
+    <!--JS-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

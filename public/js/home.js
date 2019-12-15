@@ -1,5 +1,3 @@
-var doubleElimination = document.getElementById("hiddenObject").value;
-
 function saveFn(data, userData) {
     var json = JSON.stringify(data)
     //$('.title').text('POST ' + userData + ' ' + json)
@@ -55,7 +53,7 @@ function edit_fn(container, data, doneCb) {
         return;
     }
   }
-$(function init(doubleElimination) {
+function init(doubleElimination) {
     $('.bracket').bracket({
         centerConnectors: true,
         teamWidth: 80,
@@ -72,4 +70,4 @@ $(function init(doubleElimination) {
         disableTeamEdit: true,
         userData: "/",
     })
-})
+}

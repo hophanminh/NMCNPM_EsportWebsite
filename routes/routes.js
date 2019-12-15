@@ -25,7 +25,7 @@ router.get('/', async (req,res)=>{
             // 16 team
             [[data[0].s1, data[0].s2], [data[1].s1, data[1].s2], [data[2].s1, data[2].s2], [data[3].s1, data[3].s2],
              [data[4].s1, data[4].s2], [data[5].s1, data[5].s2], [data[6].s1, data[6].s2], [data[7].s1, data[7].s2]],
-            [[data[8].s1, data[8].s2], [data[9].s1, data[9].s2], [data[10].s1, data[10].s2][data[11].s1, data[11].s2]],
+            [[data[8].s1, data[8].s2], [data[9].s1, data[9].s2], [data[10].s1, data[10].s2],[data[11].s1, data[11].s2]],
             [[data[12].s1, data[12].s2], [data[13].s1, data[13].s2]],
             [[data[14].s1, data[14].s2]]
         ], [         /* LOSER BRACKET */
@@ -49,12 +49,17 @@ router.get('/', async (req,res)=>{
             //[[2, 1]]
         ]]
     }
+    console.log(doubleElimination.teams);
+    console.log(doubleElimination.results);
+    console.log(doubleElimination.results[0]);
+
     res.render('home',{
         title: 'Home Page',
         style: ['home.css'],
+        js: ['home.js'],
         bracketFormat: JSON.stringify(doubleElimination),
     })
-})
+});
 router.post('/',async (req,res)=>{
     const data = req.body;
 

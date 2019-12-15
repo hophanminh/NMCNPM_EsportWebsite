@@ -34,11 +34,14 @@
         </div>
     </div>
 
-    <div class="title">
+    <div class="title" id="123">
         <h1>Tournament Title</h1>
     </div>
-    <div class="bracket my-5">
-
-    </div>
+    <div class="bracket my-5"></div>
+    <input type = "hidden" id = "hiddenObject" value = {{bracketFormat}}/>
+    
 </div>
-<script src="home.js"></script>
+<script>
+    var doubleElimination = document.getElementById("hiddenObject").value;
+    init(doubleElimination);
+</script>

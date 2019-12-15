@@ -1,46 +1,4 @@
-var doubleElimination = {
-    teams: [
-        [{name: "Team 1", ID: 1}, {name: "Team 2", ID: 2}],
-        [{name: "Team 3", ID: 3}, {name: "Team 4", ID: 4}],
-        [{name: "Team 5", ID: 5}, {name: "Team 6", ID: 6}],
-        [{name: "Team 7", ID: 7}, {name: "Team 8", ID: 8}],
-        [{name: "Team 9", ID: 9}, {name: "Team 10", ID: 10}],
-        [{name: "Team 11", ID: 11}, {name: "Team 12", ID: 12}],
-        [{name: "Team 13", ID: 13}, {name: "Team 14", ID: 14}],
-        [{name: "Team 15", ID: 15}, {name: "Team 16", ID: 16}],
-    ],
-    results: [[ /* WINNER BRACKET */
-        // 8 team
-        /*[[3, 5], [2, 4], [6, 3], [2, 3]],
-        [[1, 2], [3, 4]],
-        [[null, null]],*/
-
-        // 16 team
-        [[3, 5], [2, 4], [6, 3], [2, 3], [1, 5], [5, 3], [7, 2], [1, 2]],
-        [[1, 2], [3, 4], [5, 6], [7, 8]],
-        [[null, null], [null, null]],
-        [[null, null]]
-    ], [         /* LOSER BRACKET */
-        // 8 team
-        /*[[5, 1], [1, 2]],
-        [[8, 2], [1, 2]],
-        [[null, null]],
-        [[null, null]],
-        [[null, null]]*/
-    
-        // 16 team
-        [[5, 1], [1, 2], [3, 2], [6, 9]],
-        [[8, 2], [1, 2], [6, 2], [1, 3]],
-        [[null, null], [null, null]],
-        [[null, null], [null, null]],
-        [[null, null]],
-        [[null, null]]
-    ], [         /* FINALS */
-        [[3, 8], [1, 2]],
-        [[2, 1]]
-    ]]
-}
-
+var doubleElimination = document.getElementById("hiddenObject").value;
 
 function saveFn(data, userData) {
     var json = JSON.stringify(data)
@@ -97,7 +55,7 @@ function edit_fn(container, data, doneCb) {
         return;
     }
   }
-$(function init() {
+$(function init(doubleElimination) {
     $('.bracket').bracket({
         centerConnectors: true,
         teamWidth: 80,
@@ -113,7 +71,5 @@ $(function init() {
         disableToolbar: true,
         disableTeamEdit: true,
         userData: "/",
-        
     })
-
 })

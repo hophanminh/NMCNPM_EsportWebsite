@@ -364,7 +364,7 @@ insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tourn
 insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (13, 1,  1, 9, 1, 5, 1);
 insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (14, 1,  1, 2, 19, 2, 8);
 insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (1, 2,  1, 5, 6, 3, 2);
-insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (2, 2,  2, 15, 4, 4, 1);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (2, 2,  1, 15, 4, 4, 1);
 insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (33, 2,  2, 8, 16, 5, 2);
 insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (34, 0,  2, 19, 15, 8, 3);
 insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (35, 0,  2, 18, 9, 5, 6);

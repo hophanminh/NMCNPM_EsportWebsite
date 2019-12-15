@@ -6,9 +6,9 @@ const pool = mysql.createPool({
   host: 'localhost',
   // Minh port:
   //port: 3012,
-  port: 8889,
+  port: 3306,
   user: 'root',
-  password: 'root',
+  password: 'root3306',
   database: 'esport'
 });
 
@@ -22,7 +22,7 @@ module.exports = {
   
   load: sql => mysql_query(sql),
   add: (tableName,entity) => mysql_query(`insert into ${tableName} set ?`,entity),
-  modify:(tableName,entity,condition)=> mysql_query(`update ${tableName} set ? where ?`[entity,condition])
+  modify:(tableName,entity,condition)=> mysql_query(`update ${tableName} set ? where ?`[entity,condition]),
+  loadA: (sql,entity) => mysql_query(sql,entity),
 
-  
 };

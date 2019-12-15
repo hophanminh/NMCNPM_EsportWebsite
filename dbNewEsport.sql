@@ -68,13 +68,12 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS `esport`.`match` ;
 
 CREATE TABLE IF NOT EXISTS `esport`.`match` (
-  `idMatch` INT NOT NULL AUTO_INCREMENT,
   `roundMatch` INT NOT NULL COMMENT 'ID of match in branch',
+  `branch` INT NOT NULL COMMENT '0: win branch\n 1: lose branch 2: final',
   `dateMatch` DATETIME NOT NULL,
   `statusMatch` INT NOT NULL COMMENT '0: Not yet\\n1: Happening\\n2: Done',
-  `branch` INT NULL COMMENT '0: win branch\n 1: lose branch 2: final',
   `tournament_idTournament` INT NOT NULL,
-  PRIMARY KEY (`idMatch`, `tournament_idTournament`),
+  PRIMARY KEY (`roundMatch`, `branch`,  `tournament_idTournament`),
   INDEX `fk_match_tournament1_idx` (`tournament_idTournament` ASC) VISIBLE,
   CONSTRAINT `fk_match_tournament1`
     FOREIGN KEY (`tournament_idTournament`)
@@ -97,13 +96,14 @@ CREATE TABLE IF NOT EXISTS `esport`.`detailmatch` (
   `died` INT NULL DEFAULT NULL,
   `time` DATE NULL DEFAULT NULL,
   `highlight` VARCHAR(100) NULL DEFAULT NULL COMMENT 'link hình ảnh',
-  `match_idMatch` INT NOT NULL,
+  `match_roundMatch` INT NOT NULL COMMENT 'ID of match in branch',
+  `match_branch` INT NOT NULL COMMENT '0: win branch\n 1: lose branch 2: final',
   `match_tournament_idTournament` INT NOT NULL,
-  PRIMARY KEY (`idDetailMatch`, `match_idMatch`, `match_tournament_idTournament`),
-  INDEX `fk_detailmatch_match1_idx` (`match_idMatch` ASC, `match_tournament_idTournament` ASC) VISIBLE,
+  PRIMARY KEY (`idDetailMatch`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`),
+  INDEX `fk_detailmatch_match1_idx` (`match_roundMatch` ASC, `match_branch` ASC, `match_tournament_idTournament` ASC) VISIBLE,
   CONSTRAINT `fk_detailmatch_match1`
-    FOREIGN KEY (`match_idMatch` , `match_tournament_idTournament`)
-    REFERENCES `esport`.`match` (`idMatch` , `tournament_idTournament`)
+    FOREIGN KEY (`match_roundMatch` , `match_branch`, `match_tournament_idTournament`)
+    REFERENCES `esport`.`match` (`roundMatch`, `branch` , `tournament_idTournament`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -163,15 +163,15 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS `esport`.`player_has_match` ;
 
 CREATE TABLE IF NOT EXISTS `esport`.`player_has_match` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
-  `match_idMatch` INT NOT NULL,
+  `match_roundMatch` INT NOT NULL,
+  `match_branch` INT NOT NULL,
   `match_tournament_idTournament` INT NOT NULL,
   `player_idPlayer1` INT,
   `player_idPlayer2` INT,
   `score1` INT,
   `score2` INT,
-  PRIMARY KEY (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`),
-  INDEX `fk_player_has_match_match1_idx` (`match_idMatch` ASC, `match_tournament_idTournament` ASC) VISIBLE,
+  PRIMARY KEY (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`),
+  INDEX `fk_player_has_match_match1_idx` (`match_roundMatch` ASC, `match_branch` ASC, `match_tournament_idTournament` ASC) VISIBLE,
   INDEX `fk_player_has_match_player1_idx` (`player_idPlayer1` ASC) VISIBLE,
   INDEX `fk_player_has_match_player2_idx` (`player_idPlayer2` ASC) VISIBLE,
   CONSTRAINT `fk_player_has_match_player1`
@@ -179,14 +179,14 @@ CREATE TABLE IF NOT EXISTS `esport`.`player_has_match` (
     REFERENCES `esport`.`player` (`idPlayer`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_player_has_match_player12`
+  CONSTRAINT `fk_player_has_match_player2`
     FOREIGN KEY (`player_idPlayer2`)
     REFERENCES `esport`.`player` (`idPlayer`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_player_has_match_match1`
-    FOREIGN KEY (`match_idMatch` , `match_tournament_idTournament`)
-    REFERENCES `esport`.`match` (`idMatch` , `tournament_idTournament`)
+    FOREIGN KEY (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`)
+    REFERENCES `esport`.`match` (`roundMatch`, `branch`, `tournament_idTournament`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -213,107 +213,105 @@ insert into `overview` (`tournament_idTournament`, `mostkillPlayer`, `Champion`,
 insert into `overview` (`tournament_idTournament`, `mostkillPlayer`, `Champion`, `viewers`, `Discription`) values (5, 5, 6, 4, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.');
 
 
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 10,'2019-01-13 08:24:04', 8, 6, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 9, '2019-08-30 14:25:52', 5, 2, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 7, '2019-11-15 13:11:02', 1, 9, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 2, '2019-02-25 22:32:00', 4, 4, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 1, '2019-11-08 08:51:15', 10, 10, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 5, '2019-12-04 04:21:39', 3, 3, 5);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 10,'2019-01-20 04:27:24', 5, 10, 2);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 1, '2019-07-14 18:13:32', 3, 7, 4);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 6, '2019-03-29 02:48:32', 4, 4, 2);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 1, '2019-09-06 02:55:38', 5, 6, 4);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 4, '2019-10-25 09:43:30', 8, 6, 2);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 2, '2019-06-22 05:52:03', 5, 6, 4);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 7, '2019-07-24 10:19:27', 4, 1, 5);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 6, '2019-11-28 07:11:38', 8, 3, 4);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 4, '2019-01-03 16:55:01', 7, 4, 4);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 2, '2019-06-04 06:39:51', 6, 3, 2);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 9, '2019-03-15 05:18:54', 4, 10, 5);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 3,'2019-02-16 05:15:16', 9, 2, 2);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 6,'2019-07-03 08:35:43', 5, 6, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 7,'2019-10-09 04:09:20', 4, 4, 5);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 4,'2019-03-06 16:39:25', 9, 10, 3);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 5,'2019-10-15 10:51:37', 10, 1, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 6,'2019-01-08 08:26:43', 10, 5, 4);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 5,'2019-04-08 21:30:03', 8, 10, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 9,'2019-01-07 12:09:01', 5, 3, 2);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL,10, '2019-12-06 05:26:56', 6, 10, 3);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 1,'2019-07-26 16:14:20', 4, 7, 4);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 5,'2019-12-03 22:35:49', 10, 3, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 7,'2019-08-04 05:07:49', 8, 9, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 8, '2019-02-24 11:40:38', 10, 2, 3);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 6,'2019-01-12 02:02:16', 9, 3, 4);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 7,'2019-06-24 14:17:59', 8, 7, 2);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 6,'2019-03-19 11:47:47', 4, 1, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 7,'2019-10-09 12:30:23', 6, 9, 3);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 7,'2019-08-09 11:47:55', 5, 2, 4);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 1,'2019-11-12 06:55:57', 8, 3, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 10, '2019-11-06 09:49:15', 1, 2, 3);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 5,'2019-06-05 14:31:56', 6, 5, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 9,'2019-10-28 02:09:51', 9, 1, 2);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 9,'2019-10-05 01:32:33', 2, 1, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 1,'2019-10-06 07:26:34', 3, 3, 3);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 9,'2019-01-01 04:45:41', 2, 8, 5);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 2,'2019-11-04 14:29:34', 8, 6, 5);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 2,'2019-11-25 23:24:33', 3, 8, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 8,'2019-06-30 10:24:13', 6, 9, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 2,'2019-08-09 22:54:30', 5, 6, 5);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 4,'2019-03-23 15:46:59', 1, 10, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 9,'2019-10-19 17:37:46', 10, 7, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 4,'2019-05-18 00:01:45', 9, 7, 1);
-insert into `match` (`idMatch`, `roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (NULL, 7,'2019-04-10 20:27:44', 8, 8, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (1,  '2019-01-13 08:24:04', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (2,  '2019-08-30 14:25:52', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (3,  '2019-11-15 13:11:02', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (4,  '2019-02-25 22:32:00', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (5,  '2019-11-08 08:51:15', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (6,  '2019-12-04 04:21:39', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (7,  '2019-01-20 04:27:24', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (8,  '2019-07-14 18:13:32', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (9,  '2019-03-29 02:48:32', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (10, '2019-09-06 02:55:38', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (11, '2019-10-25 09:43:30', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (12, '2019-06-22 05:52:03', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (13, '2019-07-24 10:19:27', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (14, '2019-11-28 07:11:38', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (15, '2019-01-03 16:55:01', 2, 0, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (1,  '2019-06-04 06:39:51', 2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (2,  '2019-03-15 05:18:54', 2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (3,  '2019-02-16 05:15:16',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (4,  '2019-07-03 08:35:43',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (5,  '2019-10-09 04:09:20',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (6,  '2019-03-06 16:39:25',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (7,  '2019-10-15 10:51:37',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (8,  '2019-01-08 08:26:43',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (9,  '2019-04-08 21:30:03',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (10, '2019-01-07 12:09:01',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (11, '2019-12-06 05:26:56', 2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (12, '2019-07-26 16:14:20',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (13, '2019-12-03 22:35:49',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (14, '2019-08-04 05:07:49',  2, 1, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (1,  '2019-01-12 02:02:16',  2, 2, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (2,  '2019-06-24 14:17:59',  2, 2, 1);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (6,'2019-03-19 11:47:47',  2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (7,'2019-10-09 12:30:23',  2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (8,'2019-08-09 11:47:55',  2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (9,'2019-11-12 06:55:57',  2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (10, '2019-11-06 09:49:15',2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (11,'2019-06-05 14:31:56',  2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (12,'2019-10-28 02:09:51',  2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (13,'2019-10-05 01:32:33',  2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (14,'2019-10-06 07:26:34',  2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (15,'2019-01-01 04:45:41',  2, 1, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (1,'2019-11-04 14:29:34',  2, 0, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (2,'2019-11-25 23:24:33',  2, 0, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (3,'2019-06-30 10:24:13',  2, 0, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (4,'2019-08-09 22:54:30',  2, 0, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (5,'2019-03-23 15:46:59',  2, 0, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (6,'2019-10-19 17:37:46',  2, 0, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (7,'2019-05-18 00:01:45',  2, 0, 3);
+insert into `match` (`roundMatch`, `dateMatch`, `statusMatch`, `branch`, `tournament_idTournament`) values (8,'2019-04-10 20:27:44',  2, 0, 3);
 
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (1, 7, 1, '2019-04-09 12:41:37', 'http://dummyimage.com/102x167.bmp/dddddd/000000', 24, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (2, 5, 7, '2019-10-23 01:41:05', 'http://dummyimage.com/119x249.jpg/cc0000/ffffff', 10, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (3, 2, 7, '2019-05-28 21:04:46', 'http://dummyimage.com/175x230.png/cc0000/ffffff', 25, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (4, 4, 9, '2019-06-09 08:34:59', 'http://dummyimage.com/119x100.png/5fa2dd/ffffff', 48, 1);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (5, 4, 3, '2019-09-28 08:52:22', 'http://dummyimage.com/124x244.bmp/5fa2dd/ffffff', 27, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (6, 8, 2, '2019-10-24 13:16:04', 'http://dummyimage.com/221x153.jpg/ff4444/ffffff', 38, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (7, 5, 1, '2019-11-06 00:25:09', 'http://dummyimage.com/151x103.png/dddddd/000000', 23, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (8, 10, 2, '2019-04-03 20:45:27', 'http://dummyimage.com/159x211.bmp/5fa2dd/ffffff', 5, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (9, 1, 3, '2019-07-01 08:02:14', 'http://dummyimage.com/148x198.png/ff4444/ffffff', 23, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (10, 8, 10, '2019-04-01 19:05:27', 'http://dummyimage.com/206x250.bmp/dddddd/000000', 50, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (11, 9, 4, '2019-01-13 06:04:44', 'http://dummyimage.com/229x115.bmp/5fa2dd/ffffff', 35, 1);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (12, 8, 8, '2019-01-12 20:42:57', 'http://dummyimage.com/214x207.bmp/cc0000/ffffff', 9, 1);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (13, 6, 3, '2019-02-15 13:08:11', 'http://dummyimage.com/233x232.jpg/cc0000/ffffff', 10, 4);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (14, 1, 10, '2019-12-08 01:50:27', 'http://dummyimage.com/213x104.png/5fa2dd/ffffff', 48, 4);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (15, 8, 9, '2019-05-08 06:10:14', 'http://dummyimage.com/134x218.png/ff4444/ffffff', 11, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (16, 4, 8, '2019-07-26 17:04:25', 'http://dummyimage.com/110x103.jpg/dddddd/000000', 28, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (17, 9, 6, '2019-12-02 13:04:27', 'http://dummyimage.com/216x112.jpg/5fa2dd/ffffff', 8, 1);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (18, 2, 7, '2019-08-05 23:52:08', 'http://dummyimage.com/135x133.jpg/ff4444/ffffff', 33, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (19, 5, 3, '2019-02-10 04:24:29', 'http://dummyimage.com/132x152.bmp/dddddd/000000', 23, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (20, 5, 8, '2019-04-28 02:26:02', 'http://dummyimage.com/164x120.jpg/cc0000/ffffff', 47, 4);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (21, 9, 9, '2019-05-23 09:42:36', 'http://dummyimage.com/120x211.png/ff4444/ffffff', 3, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (22, 4, 1, '2019-07-15 01:49:24', 'http://dummyimage.com/227x107.png/cc0000/ffffff', 43, 1);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (23, 3, 5, '2019-11-04 22:12:19', 'http://dummyimage.com/135x223.png/ff4444/ffffff', 35, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (24, 9, 3, '2019-07-20 17:09:06', 'http://dummyimage.com/117x170.bmp/dddddd/000000', 28, 1);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (25, 1, 4, '2019-09-23 22:28:18', 'http://dummyimage.com/185x199.bmp/cc0000/ffffff', 34, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (26, 2, 5, '2019-11-02 13:44:18', 'http://dummyimage.com/216x228.jpg/dddddd/000000', 29, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (27, 8, 10, '2019-05-30 08:06:54', 'http://dummyimage.com/138x162.bmp/dddddd/000000', 21, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (28, 8, 8, '2019-03-08 15:55:02', 'http://dummyimage.com/196x237.bmp/dddddd/000000', 26, 4);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (29, 4, 9, '2019-03-05 13:48:37', 'http://dummyimage.com/107x219.jpg/cc0000/ffffff', 1, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (30, 9, 6, '2019-01-14 17:36:58', 'http://dummyimage.com/246x123.bmp/5fa2dd/ffffff', 45, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (31, 5, 5, '2018-12-30 07:33:41', 'http://dummyimage.com/121x170.jpg/5fa2dd/ffffff', 44, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (32, 6, 7, '2019-11-01 15:16:51', 'http://dummyimage.com/149x216.jpg/5fa2dd/ffffff', 50, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (33, 8, 2, '2019-08-30 09:47:50', 'http://dummyimage.com/247x233.bmp/5fa2dd/ffffff', 17, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (34, 2, 5, '2019-07-25 05:25:52', 'http://dummyimage.com/115x249.bmp/ff4444/ffffff', 9, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (35, 9, 4, '2019-03-03 21:27:15', 'http://dummyimage.com/126x233.bmp/dddddd/000000', 22, 4);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (36, 9, 7, '2019-07-26 05:07:52', 'http://dummyimage.com/222x201.jpg/ff4444/ffffff', 45, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (37, 6, 9, '2019-07-15 15:34:13', 'http://dummyimage.com/225x199.jpg/dddddd/000000', 24, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (38, 3, 5, '2019-05-31 23:29:36', 'http://dummyimage.com/181x113.bmp/5fa2dd/ffffff', 36, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (39, 5, 4, '2019-10-08 08:53:29', 'http://dummyimage.com/213x239.png/cc0000/ffffff', 27, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (40, 10, 1, '2018-12-12 08:25:30', 'http://dummyimage.com/109x160.png/dddddd/000000', 33, 4);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (41, 6, 7, '2019-06-12 22:25:50', 'http://dummyimage.com/152x125.bmp/cc0000/ffffff', 13, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (42, 8, 4, '2019-04-16 16:31:38', 'http://dummyimage.com/195x129.jpg/5fa2dd/ffffff', 41, 1);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (43, 4, 1, '2018-12-24 07:41:53', 'http://dummyimage.com/210x240.jpg/ff4444/ffffff', 45, 4);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (44, 8, 8, '2019-08-29 00:15:10', 'http://dummyimage.com/207x242.jpg/cc0000/ffffff', 4, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (45, 6, 10, '2019-09-16 08:27:46', 'http://dummyimage.com/139x161.bmp/ff4444/ffffff', 27, 5);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (46, 7, 8, '2019-08-02 10:15:54', 'http://dummyimage.com/214x132.png/ff4444/ffffff', 29, 3);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (47, 5, 7, '2019-10-09 11:38:53', 'http://dummyimage.com/175x171.png/5fa2dd/ffffff', 34, 2);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (48, 8, 10, '2019-09-23 07:15:02', 'http://dummyimage.com/168x125.png/ff4444/ffffff', 40, 4);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (49, 9, 8, '2019-05-31 12:20:14', 'http://dummyimage.com/160x141.bmp/dddddd/000000', 41, 4);
-insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_idMatch`, `match_tournament_idTournament`) values (50, 4, 8, '2019-03-24 06:46:42', 'http://dummyimage.com/189x186.bmp/5fa2dd/ffffff', 36, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (1, 7, 1, '2019-04-09 12:41:37', 'http://dummyimage.com/102x167.bmp/dddddd/000000',   1,  0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (2, 5, 7, '2019-10-23 01:41:05', 'http://dummyimage.com/119x249.jpg/cc0000/ffffff',   2,  0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (3, 2, 7, '2019-05-28 21:04:46', 'http://dummyimage.com/175x230.png/cc0000/ffffff',   3,  0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (4, 4, 9, '2019-06-09 08:34:59', 'http://dummyimage.com/119x100.png/5fa2dd/ffffff',   4,  0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (5, 4, 3, '2019-09-28 08:52:22', 'http://dummyimage.com/124x244.bmp/5fa2dd/ffffff',   5,  0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (6, 8, 2, '2019-10-24 13:16:04', 'http://dummyimage.com/221x153.jpg/ff4444/ffffff',   6,  0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (7, 5, 1, '2019-11-06 00:25:09', 'http://dummyimage.com/151x103.png/dddddd/000000',   7,  0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (8, 10, 2, '2019-04-03 20:45:27', 'http://dummyimage.com/159x211.bmp/5fa2dd/ffffff',  8,  0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (9, 1, 3, '2019-07-01 08:02:14', 'http://dummyimage.com/148x198.png/ff4444/ffffff',   9,  0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (10, 8, 10, '2019-04-01 19:05:27', 'http://dummyimage.com/206x250.bmp/dddddd/000000', 10, 0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (11, 9, 4, '2019-01-13 06:04:44', 'http://dummyimage.com/229x115.bmp/5fa2dd/ffffff',  11, 0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (12, 8, 8, '2019-01-12 20:42:57', 'http://dummyimage.com/214x207.bmp/cc0000/ffffff',  12, 0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (13, 6, 3, '2019-02-15 13:08:11', 'http://dummyimage.com/233x232.jpg/cc0000/ffffff',  13, 0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (14, 1, 10, '2019-12-08 01:50:27', 'http://dummyimage.com/213x104.png/5fa2dd/ffffff', 14, 0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (15, 8, 9, '2019-05-08 06:10:14', 'http://dummyimage.com/134x218.png/ff4444/ffffff',  15, 0, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (16, 4, 8, '2019-07-26 17:04:25', 'http://dummyimage.com/110x103.jpg/dddddd/000000',  1,  1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (17, 9, 6, '2019-12-02 13:04:27', 'http://dummyimage.com/216x112.jpg/5fa2dd/ffffff',  2,  1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (18, 2, 7, '2019-08-05 23:52:08', 'http://dummyimage.com/135x133.jpg/ff4444/ffffff',  3,  1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (19, 5, 3, '2019-02-10 04:24:29', 'http://dummyimage.com/132x152.bmp/dddddd/000000',  4,  1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (20, 5, 8, '2019-04-28 02:26:02', 'http://dummyimage.com/164x120.jpg/cc0000/ffffff',  5,  1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (21, 9, 9, '2019-05-23 09:42:36', 'http://dummyimage.com/120x211.png/ff4444/ffffff',  6,  1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (22, 4, 1, '2019-07-15 01:49:24', 'http://dummyimage.com/227x107.png/cc0000/ffffff',  7,  1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (23, 3, 5, '2019-11-04 22:12:19', 'http://dummyimage.com/135x223.png/ff4444/ffffff',  8,  1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (24, 9, 3, '2019-07-20 17:09:06', 'http://dummyimage.com/117x170.bmp/dddddd/000000',  9,  1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (25, 1, 4, '2019-09-23 22:28:18', 'http://dummyimage.com/185x199.bmp/cc0000/ffffff',  10, 1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (26, 2, 5, '2019-11-02 13:44:18', 'http://dummyimage.com/216x228.jpg/dddddd/000000',  11, 1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (27, 8, 10, '2019-05-30 08:06:54', 'http://dummyimage.com/138x162.bmp/dddddd/000000', 12, 1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (28, 8, 8, '2019-03-08 15:55:02', 'http://dummyimage.com/196x237.bmp/dddddd/000000',  13, 1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (29, 4, 9, '2019-03-05 13:48:37', 'http://dummyimage.com/107x219.jpg/cc0000/ffffff',  14, 1, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (31, 5, 5, '2018-12-30 07:33:41', 'http://dummyimage.com/121x170.jpg/5fa2dd/ffffff',  1, 2, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (32, 6, 7, '2019-11-01 15:16:51', 'http://dummyimage.com/149x216.jpg/5fa2dd/ffffff',  2, 2, 1);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (33, 8, 2, '2019-08-30 09:47:50', 'http://dummyimage.com/247x233.bmp/5fa2dd/ffffff', 17, 1, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (34, 2, 5, '2019-07-25 05:25:52', 'http://dummyimage.com/115x249.bmp/ff4444/ffffff', 9,  2, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (35, 9, 4, '2019-03-03 21:27:15', 'http://dummyimage.com/126x233.bmp/dddddd/000000', 22, 1, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (36, 9, 7, '2019-07-26 05:07:52', 'http://dummyimage.com/222x201.jpg/ff4444/ffffff', 45, 0, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (37, 6, 9, '2019-07-15 15:34:13', 'http://dummyimage.com/225x199.jpg/dddddd/000000', 24, 0, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (38, 3, 5, '2019-05-31 23:29:36', 'http://dummyimage.com/181x113.bmp/5fa2dd/ffffff', 36, 2, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (39, 5, 4, '2019-10-08 08:53:29', 'http://dummyimage.com/213x239.png/cc0000/ffffff', 27, 1, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (40, 10, 1, '2018-12-12 08:25:30', 'http://dummyimage.com/109x160.png/dddddd/000000',33, 1, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (41, 6, 7, '2019-06-12 22:25:50', 'http://dummyimage.com/152x125.bmp/cc0000/ffffff', 13, 2, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (42, 8, 4, '2019-04-16 16:31:38', 'http://dummyimage.com/195x129.jpg/5fa2dd/ffffff', 41, 1, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (43, 4, 1, '2018-12-24 07:41:53', 'http://dummyimage.com/210x240.jpg/ff4444/ffffff', 45, 2, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (44, 8, 8, '2019-08-29 00:15:10', 'http://dummyimage.com/207x242.jpg/cc0000/ffffff', 4,  1, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (45, 6, 10, '2019-09-16 08:27:46', 'http://dummyimage.com/139x161.bmp/ff4444/ffffff',27, 0, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (46, 7, 8, '2019-08-02 10:15:54', 'http://dummyimage.com/214x132.png/ff4444/ffffff', 29, 0, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (47, 5, 7, '2019-10-09 11:38:53', 'http://dummyimage.com/175x171.png/5fa2dd/ffffff', 34, 0, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (48, 8, 10, '2019-09-23 07:15:02', 'http://dummyimage.com/168x125.png/ff4444/ffffff',40,0,  2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (49, 9, 8, '2019-05-31 12:20:14', 'http://dummyimage.com/160x141.bmp/dddddd/000000', 41, 0, 2);
+insert into `detailmatch` (`idDetailMatch`, `kill`, `died`, `time`, `highlight`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) values (50, 4, 8, '2019-03-24 06:46:42', 'http://dummyimage.com/189x186.bmp/5fa2dd/ffffff', 36, 1, 2);
 
 insert into `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) values (1, 'blerwell0', 'Berny Lerwell', '2019-03-12 18:46:33', 2, 2);
 insert into `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) values (2, 'tmuirden1', 'Teri Muirden', '2019-10-24 20:12:56', 8, 3);
@@ -336,56 +334,55 @@ insert into `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `st
 insert into `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) values (19, 'ahuegetti', 'Addy Huegett', '2018-12-26 03:13:15', 8, 5);
 insert into `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) values (20, 'iolenanej', 'Ivan O''Lenane', '2019-11-25 16:50:48', 10, 5);
 
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (1, 46, 2, 14, 12, 8, 8);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (2, 42, 2, 11, 2, 1, 1);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (3, 29, 4, 10, 17, 7, 4);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (4, 1, 5, 4, 15, 8, 7);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (5, 21, 1, 5, 12, 2, 2);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (6, 16, 2, 3, 7, 5, 8);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (7, 32, 3, 19, 13, 1, 6);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (8, 8, 5, 18, 7, 2, 3);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (9, 14, 1, 16, 7, 2, 4);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (10, 28, 3, 18, 13, 1, 9);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (11, 38, 3, 15, 8, 8, 3);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (12, 47, 3, 18, 6, 1, 9);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (13, 14, 5, 3, 17, 5, 7);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (14, 13, 2, 19, 2, 2, 8);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (15, 33, 2, 14, 2, 2, 4);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (16, 9, 1, 16, 18, 3, 3);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (17, 18, 3, 7, 7, 1, 4);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (18, 41, 2, 16, 8, 5, 1);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (19, 44, 1, 1, 18, 3, 8);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (20, 25, 1, 12, 11, 7, 6);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (21, 20, 1, 16, 15, 1, 8);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (22, 18, 4, 16, 11, 4, 3);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (23, 14, 2, 10, 6, 1, 2);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (24, 33, 5, 9, 7, 3, 1);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (25, 48, 5, 9, 6, 4, 2);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (26, 44, 4, 19, 7, 5, 3);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (27, 49, 1, 3, 9, 5, 9);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (28, 30, 5, 9, 1, 5, 1);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (29, 30, 2, 2, 19, 2, 8);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (30, 44, 5, 9, 10, 6, 7);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (31, 21, 1, 5, 6, 3, 2);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (32, 36, 2, 15, 4, 4, 1);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (33, 2, 4, 8, 16, 5, 2);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (34, 1, 4, 19, 15, 8, 3);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (35, 42, 5, 18, 9, 5, 6);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (36, 20, 5, 10, 1, 3, 7);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (37, 34, 1, 1, 18, 6, 7);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (38, 45, 2, 2, 4, 8, 6);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (39, 44, 2, 8, 2, 2, 4);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (40, 17, 5, 16, 2, 6, 3);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (41, 41, 3, 8, 20, 1, 8);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (42, 30, 3, 1, 3, 2, 5);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (43, 29, 1, 8, 5, 3, 3);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (44, 22, 5, 13, 3, 6, 1);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (45, 20, 3, 8, 19, 6, 2);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (46, 39, 4, 11, 3, 3, 4);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (47, 49, 1, 16, 18, 2, 7);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (48, 17, 1, 13, 20, 1, 8);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (49, 46, 5, 13, 18, 3, 6);
-insert into `player_has_match` (`ID`, `match_idMatch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (50, 16, 1, 16, 11, 2, 2);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (1,  0, 1, 14, 12, 1, 8);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (2,  0, 1, 11, 2, 3, 1);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (3,  0, 1, 10, 17, 7, 4);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (4,  0, 1, 4, 15, 8, 7);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (5,  0, 1, 5, 12, 1, 2);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (6,  0, 1, 3, 7, 5, 8);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (7,  0, 1, 19, 13, 1, 6);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (8,  0, 1, 18, 7, 2, 3);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (9,  0, 1, 16, 7, 2, 4);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (10, 0, 1, 18, 13, 1, 9);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (11, 0, 1, 15, 8, 8, 3);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (12, 0, 1, 18, 6, 1, 9);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (13, 0, 1, 3, 17, 5, 7);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (14, 0, 1, 19, 2, 2, 8);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (15, 0, 1, 14, 2, 2, 4);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (1, 1,  1, 16, 18, 4, 3);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (2, 1,  1, 7, 7, 1, 4);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (3, 1,  1, 16, 8, 5, 1);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (4, 1,  1, 1, 18, 3, 8);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (5, 1,  1, 12, 11, 7, 6);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (6, 1,  1, 16, 15, 1, 8);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (7, 1,  1, 16, 11, 4, 3);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (8, 1,  1, 10, 6, 1, 2);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (9, 1,  1, 9, 7, 3, 1);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (10, 1,  1, 9, 6, 4, 2);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (11, 1,  1, 19, 7, 5, 3);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (12, 1,  1, 3, 9, 5, 9);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (13, 1,  1, 9, 1, 5, 1);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (14, 1,  1, 2, 19, 2, 8);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (1, 2,  1, 5, 6, 3, 2);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (2, 2,  2, 15, 4, 4, 1);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (33, 2,  2, 8, 16, 5, 2);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (34, 0,  2, 19, 15, 8, 3);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (35, 0,  2, 18, 9, 5, 6);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (36, 0,  2, 10, 1, 3, 7);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (37, 0,  2, 1, 18, 6, 7);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (38, 0,  2, 2, 4, 8, 6);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (39, 0,  2, 8, 2, 2, 4);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (40, 0,  2, 16, 2, 6, 3);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (41, 0,  2, 8, 20, 1, 8);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (42, 0,  2, 1, 3, 2, 5);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (43, 0,  2, 8, 5, 3, 3);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (44, 0,  2, 13, 3, 6, 1);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (45, 0,  2, 8, 19, 6, 2);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (46, 0,  2, 11, 3, 3, 4);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (47, 0,  2, 16, 18, 2, 7);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (48, 0,  2, 13, 20, 1, 8);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (49, 0,  2, 13, 18, 3, 6);
+insert into `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) values (50, 0,  2, 16, 11, 2, 2);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

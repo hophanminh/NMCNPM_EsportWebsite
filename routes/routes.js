@@ -49,10 +49,7 @@ router.get('/', async (req,res)=>{
             //[[2, 1]]
         ]]
     }
-    console.log(doubleElimination.teams);
-    console.log(doubleElimination.results);
-    console.log(doubleElimination.results[0]);
-
+    
     res.render('home',{
         title: 'Home Page',
         style: ['home.css'],

@@ -255,7 +255,6 @@ router.get('/match',(req,res)=>{
         js: ['home.js']
     })
 })
-
 router.get('/tournament',(req,res)=>{
     res.render('tournament',{
         title: 'Tournament',
@@ -263,7 +262,6 @@ router.get('/tournament',(req,res)=>{
         js:['home.js']
     })
 })
-
 router.post('/tournament',async (req,res)=>{
     const entity = req.body;
     const startDate = entity.startDate_raw;

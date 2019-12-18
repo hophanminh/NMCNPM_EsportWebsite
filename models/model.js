@@ -27,5 +27,13 @@ module.exports = {
                 WHERE match_tournament_idTournament = 1
                 ORDER BY match_branch, match_roundMatch
                 LIMIT 31`),
+
+  allPlayer: ()=> db.load(`select * from player`),
+  detailPlayer: (id)=> db.load(`select * from player where idPlayer=${id}`),
+  modifyPlayer: (entity) =>{
+    const condition = {idPlayer: entity.idPlayer};
+    delete entity.idPlayer;
+    return db.modify('player',entity,condition);
+  },
 }
 

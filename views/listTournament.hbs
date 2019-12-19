@@ -1,0 +1,35 @@
+    <!--container-->
+    <div class="container">
+        <div class="text-center text-white">
+            <p class="h1">
+                Tournament
+            </p>
+        </div>
+        <table class="table table-hover text-white">
+            <thead>
+                <tr>
+                <th scope="col">Tournament Name</th>
+                <th scope="col">Name game</th>
+                <th scope="col">Date start</th>
+                <th scope="col">Date end</th>
+                <th scope="col">Prize</th>
+                <th scope="col">Modify</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.tournament}}
+                <td>{{nameTournament}}</td>
+                <td>{{nameGame}}</td>
+                <td>{{dateStart}}</td>
+                <td>{{dateEnd}}</td>
+                <td>{{prizeTournament}}</td>
+                <td>
+                    <a href="/tournament/{{idTournament}}" role="button" class="btn btn-outline-success">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>

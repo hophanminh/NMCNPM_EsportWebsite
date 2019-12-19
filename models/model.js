@@ -35,5 +35,15 @@ module.exports = {
     delete entity.idPlayer;
     return db.modify('player',entity,condition);
   },
+  deletePlayer: (id) => db.del('player',{idPlayer: id}),
+
+  allTournament: ()=> db.load(`select * from tournament`),
+  detailTournament: (id)=> db.load(`select * from tournament where idTournament=${id}`),
+  modifyTournament: (entity) =>{
+    const condition = {idTournament: entity.idTournament};
+    delete entity.idTournament;
+    return db.modify('tournament',entity,condition);
+  },
+  deleteTournament: (id) => db.del('tournament',{idTournament: id}),
 }
 

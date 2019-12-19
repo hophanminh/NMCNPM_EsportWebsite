@@ -80,16 +80,20 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col">
-                            <label for="nameTournament">Tournament name</label>
-                            <input type="text" class="form-control" id="nameTournament" name="nameTournament" required>
+                            <label for="idTournament">Tournament name</label>
+                            <input type="text" class="form-control" id="idTournament" name="idTournament" value="{{this.tournament.idTournament}}" readonly >
                         </div>
                         <div class="col">
-                            <label for="prizeTournament">Total Prize</label>
-                            <input type="text" class="form-control" id="prizeTournament" name="prizeTournament" required>
+                            <label for="nameTournament">Tournament name</label>
+                            <input type="text" class="form-control" id="nameTournament" name="nameTournament" value="{{this.tournament.nameTournament}}" >
                         </div>
                         <div class="col">
                             <label for="nameGame">Name game</label>
-                            <input type="text" class="form-control" id="nameGame" name="nameGame" required>
+                            <input type="text" class="form-control" id="nameGame" name="nameGame" value="{{this.tournament.nameGame}}" >
+                        </div>
+                        <div class="col">
+                            <label for="prizeTournament">Total Prize</label>
+                            <input type="text" class="form-control" id="prizeTournament" name="prizeTournament" value="{{this.tournament.prizeTournament}}">
                         </div>
                     </div>
                 </div>
@@ -97,29 +101,33 @@
                     <div class="row">
                         <div class="col">
                             <label for="date">Start Date</label>
-                            <input type="text" class="form-control dateF" id="date" name="startDate_raw" required>
+                            <input type="text" class="form-control dateF" id="date" name="startDate_raw" value={{this.tournament.dateStart}}>
                         </div>
                         <div class="col">
                              <label for="date">End Date</label>
-                            <input type="text" class="form-control dateF" id="date" name="endDate_raw" required>
+                            <input type="text" class="form-control dateF" id="date" name="endDate_raw" value={{this.tournament.dateEnd}}>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="Rule">Rule</label>
-                    <textarea class="form-control bg-transparent " aria-label="With textarea" name="Rule"></textarea>
+                    <textarea class="form-control bg-transparent " aria-label="With textarea" name="Rule" value={{this.tournament.Rule}}></textarea>
                 </div>
                 <div class="form-group">
                     <label for="TinyDes">Brief Description</label>
-                    <textarea class="form-control bg-transparent " aria-label="With textarea" id="TinyDes" name="TinyDescription"></textarea>
+                    <textarea class="form-control bg-transparent " aria-label="With textarea" id="TinyDes" name="TinyDescription" value={{this.tournament.TinyDescription}}></textarea>
                 </div>
                 <div class="form-group">
                     <label for="FullDes">Full Description</label>
-                    <textarea class="form-control bg-transparent " aria-label="With textarea" id="FulDes" name="FullDescription"></textarea>
+                    <textarea class="form-control bg-transparent " aria-label="With textarea" id="FulDes" name="FullDescription" value={{this.tournament.FullDescription}}></textarea>
                 </div>
-                <button type="submit" class="btn btn-outline-success" value="SUBMIT" formaction="/tournament">
+                <button type="submit" class="btn btn-outline-success" value="SUBMIT" formaction="/admin/tournament/{{this.tournament.idTournament}}/modify">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
-                    Create
+                    Modify
+                </button>
+                <button type="submit" class="btn btn-outline-danger" value="SUBMIT" formaction="/admin/tournament/{{this.tournament.idTournament}}/delete">
+                    <i class="fa fa-delete" aria-hidden="true"></i>
+                    Delete
                 </button>
             </form>
         </div>

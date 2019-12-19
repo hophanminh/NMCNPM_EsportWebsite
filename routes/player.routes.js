@@ -56,7 +56,7 @@ router.get('/:idPlayer',async(req,res)=>{
     })
 })
 
-router.post('/:idPlayer',async(req,res)=>{
+router.post('/:idPlayer/modify',async(req,res)=>{
 
     const entity = req.body;
 
@@ -70,6 +70,12 @@ router.post('/:idPlayer',async(req,res)=>{
     console.log(result);
     res.redirect('/player');
 })
+// router.post('/:idPlayer/delete',async(req,res)=>{
+
+//     const result = await adminModel.deletePlayers(req.params.idPlayer);
+//     console.log(result);
+//     res.redirect('/player');
+// })
 
 
 

@@ -255,27 +255,43 @@ router.get('/match',(req,res)=>{
         js: ['home.js']
     })
 })
-router.get('/tournament',(req,res)=>{
-    res.render('tournament',{
+
+router.get('/listTournament',async(req,res)=>{
+    const tournament = await adminModel.allTournament();
+    console.log(tournament);
+
+    for(i=0;i < tournament.length ;i++){
+        tournament[i].dateStart = moment(tournament[i].dateStart,'YYYY-MM-DD').format('LL');
+        tournament[i].dateEnd = moment(tournament[i].dateEnd,'YYYY-MM-DD').format('LL');
+    }
+
+    console.log(tournament);
+    res.render('listTournament',{
+        tournament,
+        title: 'Tournament',
+        style: ['listPlayer.css'],
+        js: ['home.js']
+    })
+})
+
+router.use('/tournament/:idTournament', express.static('public'));
+
+router.get('/tournament/:idTournament',async(req,res)=>{
+    const tournament = await adminModel.detailTournament(req.params.idTournament);
+    console.log(tournament);
+
+    for(i=0;i < tournament.length ;i++){
+        tournament[i].dateStart = moment(tournament[i].dateStart,'YYYY-MM-DD').format('DD/MM/YYYY');
+        tournament[i].dateEnd = moment(tournament[i].dateEnd,'YYYY-MM-DD').format('DD/MM/YYYY');
+    }
+
+    res.render('tournamentDetail',{
+        tournament: tournament[0],
         title: 'Tournament',
         style: ['style.css'],
         js:['home.js']
     })
 })
-router.post('/tournament',async (req,res)=>{
-    const entity = req.body;
-    const startDate = entity.startDate_raw;
-    const endDate = entity.endDate_raw;
 
-    entity.dateStart = moment(startDate,'LL').format('YYYY-MM-DD');
-    entity.dateEnd = moment(endDate,'LL').format('YYYY-MM-DD');
-
-    delete entity.startDate_raw;
-    delete entity.endDate_raw
-
-    const result = await adminModel.add(entity);
-    
-    res.redirect('/');
-})
 
 module.exports = router;

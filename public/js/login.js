@@ -1,5 +1,6 @@
 function toggleResetPswd(e){
     e.preventDefault();
+    $('.alert-danger').toggle();
     $('#logreg-forms .form-signin').toggle() // display:block or none
     $('#logreg-forms .form-reset').toggle() // display:block or none
 }

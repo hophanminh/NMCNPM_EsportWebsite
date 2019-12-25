@@ -22,14 +22,23 @@
 
 <body>
     <!--Nav-->
+    {{#if isAuthenticated}}
     <li class="nav justify-content-end">
-        <a href="#" class="nav-link text-white">
+        <a href="/logout" class="nav-link text-white">
+            <i class="fa fa-id-badge" aria-hidden="true"></i>
+            sign-out
+        </a>
+    </li>
+    {{else}}
+    <li class="nav justify-content-end">
+        <a href="/login" class="nav-link text-white">
             <i class="fa fa-id-badge" aria-hidden="true"></i>
             login
         </a>
     </li>
+    {{/if}}
     <nav class="navbar navbar-expand-lg shadow text-light sticky-top">
-        <a class="navbar-brand text-light" href="#">NMCNPM</a>
+        <a class="navbar-brand text-light" href="/">NMCNPM</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -37,7 +46,7 @@
         <div class="collapse navbar-collapse d-flex " id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="#">
+                    <a class="nav-link text-light" href="/">
                         <i class="fa fa-home" aria-hidden="true"></i>
                         Home
                     </a>

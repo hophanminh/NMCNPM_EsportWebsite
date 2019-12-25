@@ -1,10 +1,12 @@
 module.exports=function(app){
-    app.use((req,res,next)=>{
-        res.send('You are lost');
+    app.use((req, res, next) => {
+        // res.render('vwError/404');
+        res.send('You\'re lost');
     })
-
-    app.use((err,req,res,next)=>{
+    
+    app.use((err, req, res, next) => {
         console.error(err.stack);
-        res.status.send('View error in console');
+        res.status(500).send('View error on console.');
     })
+    
 }

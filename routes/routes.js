@@ -1,7 +1,14 @@
 const express = require('express');
 const moment = require('moment');
 const adminModel = require('../models/model');
+const bcrypt = require('bcryptjs');
+const session = require('express-session');
+const GuestOnly = require('../middlewares/GuestOnly.mdw');
+const UserOnly = require('../middlewares/UserOnly.mdw');
+const { check, validationResult } = require('express-validator');
+
 const router = express.Router();
+router.use('/login', express.static('public'));
 
 router.get('/', async (req,res)=>{
     const data = await adminModel.getBracketData();
@@ -56,6 +63,7 @@ router.get('/', async (req,res)=>{
         js: ['home.js'],
         bracketFormat: JSON.stringify(doubleElimination),
     })
+    console.log("login: " + res.locals.isAuthenticated);
 });
 router.post('/',async (req,res)=>{
     const data = req.body;
@@ -234,18 +242,119 @@ router.post('/',async (req,res)=>{
     }
 })
 
+router.get('/login', GuestOnly, (req, res) => {
+    res.render('login', {
+        title: 'Đăng nhập',
+        style: ['login.css'],
+        js: ['login.js'],
+    });
+});
+  
+router.post('/login', async (req, res) => {
+    const user = await adminModel.getIdByUsername(req.body.username);
+    if (user.length == 0) {
+      return res.render("login", {
+        title: "Đăng nhập",
+        style: ["login.css"],
+        js: ["login.js"],
+        err_message: 'Tài khoản không tồn tại'
+      });
+    }
+    const rs = bcrypt.compareSync(req.body.f_password, user[0].password);
+    if (rs === false) {
+      return res.render("login", {
+        title: "Đăng nhập",
+        style: ["login.css"],
+        js: ["login.js"],
+        err_message: 'Sai mật khẩu'
+      });
+    }
+  
+    delete user[0].password;
+    req.session.isAuthenticated = true;
+    req.session.authUser = user[0];
+  
+    const url = req.query.retUrl || '/';
+    res.redirect(url);
+})
+  
+router.get('/logout', UserOnly,(req, res) => {
+    req.session.isAuthenticated = false;
+    req.session.authUser = null;
+    res.locals.isAuthenticated = false;
+    res.locals.authUser = null;
+    res.redirect("/");
+});
+
+router.get('/register', (req, res) => {
+    res.render('signup', {
+        title: 'Đăng kí',
+        style: ['login.css'],
+        errors: req.session.errors,
+        saveForm: req.session.saveForm
+    });
+    req.session.errors = null;
+    req.session.saveForm = null;
+});
+
+router.post('/register', [
+    check('username', "Tên tài khoản không hợp lệ")
+        .not().isEmpty()
+        .trim()
+        .isLength({ min: 6 }).withMessage("Tên tài khoản phải có ít nhất 6 ký tự")
+        .custom(async value => {
+          return id = await adminModel.getIdByUsername(value).then(result => {
+            if (result.length > 0) {
+              return Promise.reject('Tên tài khoản đã tồn tại');
+            }
+          })
+        }),
+    check('email', "Email không hợp lệ")
+        .isEmail()
+        .normalizeEmail()
+        .custom(async value => {
+          return id = await adminModel.getIdByEmail(value).then(result => {
+            if (result.length > 0) {
+              return Promise.reject('E-mail đã tồn tại');
+            }
+          })
+        }),
+    check('f_password')
+        .not().isEmpty()
+        .isLength({ min: 6 }).withMessage("Mật khẩu phải có ít nhất 6 ký tự")
+        .custom((val, { req }) => {
+          if (val !== req.body.f_rpassword) {
+              throw new Error("Mật khẩu nhập lại không đúng");
+          } else {
+              return val;
+          }
+        }),
+],async (req, res) => {
+    var errors = validationResult(req).array();
+    if (errors.length > 0) {
+      req.session.errors = errors;
+      req.session.saveForm = req.body;
+      res.redirect('/register');
+    } else {  
+      const N = 10;
+      const hash = bcrypt.hashSync(req.body.f_password, N);
+  
+      const entity = req.body;
+      entity.password = hash;
+  
+      delete entity.f_password;
+      delete entity.f_rpassword;
+  
+      const result = await adminModel.addUser(entity);
+      res.redirect('/');
+    }
+});
+
 router.get('/about',(req,res)=>{
     res.render('about',{
         title: 'About Page',
         style: ['about.css'],
         js: ['home.js']
-    })
-})
-router.get('/login',(req,res)=>{
-    res.render('login',{
-        title: 'Login Page',
-        style: ['login.css'],
-        js: ['login.js']
     })
 })
 router.get('/match',(req,res)=>{
@@ -292,6 +401,7 @@ router.get('/tournament/:idTournament',async(req,res)=>{
         js:['home.js']
     })
 })
+
 
 
 module.exports = router;

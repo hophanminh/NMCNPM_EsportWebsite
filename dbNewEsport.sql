@@ -71,7 +71,7 @@ DROP TABLE IF EXISTS `esport`.`match` ;
 CREATE TABLE IF NOT EXISTS `esport`.`match` (
   `roundMatch` INT NOT NULL COMMENT 'ID of match in branch',
   `branch` INT NOT NULL COMMENT '0: win branch\n 1: lose branch 2: final',
-  `dateMatch` DATETIME NOT NULL,
+  `dateMatch` DATETIME,
   `statusMatch` INT NOT NULL COMMENT '0: Not yet\\n1: Happening\\n2: Done',
   `tournament_idTournament` INT NOT NULL,
   PRIMARY KEY (`roundMatch`, `branch`,  `tournament_idTournament`),

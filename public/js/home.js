@@ -71,3 +71,15 @@ function init(doubleElimination) {
         userData: "/",
     })
 }
+
+function initGuest(doubleElimination) {
+  $('.bracket').bracket({
+      centerConnectors: true,
+      teamWidth: 80,
+      scoreWidth: 40,
+      matchMargin: 42,
+      roundMargin: 20,
+      skipSecondaryFinal: true,
+      init: doubleElimination, /* data to initialize the bracket with */
+  })
+}

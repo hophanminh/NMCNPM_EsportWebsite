@@ -11,9 +11,12 @@ const router = express.Router();
 router.use('/login', express.static('public'));
 
 router.get('/', async (req,res)=>{
-    const data = await adminModel.getBracketData();
-    var doubleElimination = {
-        teams: [    // 8 tran dau tien
+    const idTournament = await adminModel.getCurrentTournament();
+
+    const data = await adminModel.getBracketData(idTournament[0].max);
+    var listPlayer;
+    if (res.locals.isAuthenticated){ // list for admin have id to edit
+        listPlayer = [    
             [{name: data[0].name1, ID: data[0].ID1}, {name: data[0].name2, ID: data[0].ID2}],
             [{name: data[1].name1, ID: data[1].ID1}, {name: data[1].name2, ID: data[1].ID2}],
             [{name: data[2].name1, ID: data[2].ID1}, {name: data[2].name2, ID: data[2].ID2}],
@@ -22,7 +25,22 @@ router.get('/', async (req,res)=>{
             [{name: data[5].name1, ID: data[5].ID1}, {name: data[5].name2, ID: data[5].ID2}],
             [{name: data[6].name1, ID: data[6].ID1}, {name: data[6].name2, ID: data[6].ID2}],
             [{name: data[7].name1, ID: data[7].ID1}, {name: data[7].name2, ID: data[7].ID2}],
-        ],
+        ]
+    }
+    else{
+        listPlayer = [  
+            [data[0].name1, data[0].name2],
+            [data[1].name1, data[1].name2],
+            [data[2].name1, data[2].name2],
+            [data[3].name1, data[3].name2],
+            [data[4].name1, data[4].name2],
+            [data[5].name1, data[5].name2],
+            [data[6].name1, data[6].name2],
+            [data[7].name1, data[7].name2],
+        ]
+    }
+    var doubleElimination = {
+        teams: listPlayer,    // Danh sách tuyển thủ theo thứ tự thi đấu
         results: [[ /* WINNER BRACKET */
             // 8 team
             /*[[3, 5], [2, 4], [6, 3], [2, 3]],
@@ -57,16 +75,20 @@ router.get('/', async (req,res)=>{
         ]]
     }
     
+    const Tournament = await adminModel.detailTournament(idTournament[0].max);
+    console.log(Tournament[0]);
     res.render('home',{
         title: 'Home Page',
         style: ['home.css'],
         js: ['home.js'],
         bracketFormat: JSON.stringify(doubleElimination),
+        tournament: Tournament[0]
     })
     console.log("login: " + res.locals.isAuthenticated);
 });
 router.post('/',async (req,res)=>{
     const data = req.body;
+    const idTournament = await adminModel.getCurrentTournament();
 
     var listWin = [];
     var listLose =[];
@@ -109,6 +131,7 @@ router.post('/',async (req,res)=>{
                 player_idPlayer2: player2,
                 score1: s1,
                 score2: s2,
+                match_tournament_idTournament: idTournament[0].max
             })
             count++;
         }
@@ -188,6 +211,7 @@ router.post('/',async (req,res)=>{
                 player_idPlayer2: player2,
                 score1: s1,
                 score2: s2,
+                match_tournament_idTournament: idTournament[0].max
             })
             count++;
         }
@@ -214,10 +238,12 @@ router.post('/',async (req,res)=>{
         player_idPlayer2: player2,
         score1: round[0][0],
         score2: round[0][1],
+        match_tournament_idTournament: idTournament[0].max
     })
 
-    player1 = listFinal[listLose.length - 2];
-    player2 = listFinal[listLose.length - 1];
+
+    player1 = listLose[listLose.length - 2];
+    player2 = listLose[listLose.length - 1];
 
     if (player1 != null) player1 = player1.ID;
     if (player2 != null) player2 = player2.ID;
@@ -229,8 +255,9 @@ router.post('/',async (req,res)=>{
         player_idPlayer2: player2,
         score1: round[1][0],
         score2:  round[1][1],
+        match_tournament_idTournament: idTournament[0].max
     })
-    
+
     for (const item of winnerBracket) {
         const result = await adminModel.patchBracket(item);
     }

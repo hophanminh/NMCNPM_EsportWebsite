@@ -16,15 +16,15 @@ module.exports = {
   patchBracket: async (entity)=>{ 
     var query =`update player_has_match
                 set player_idPlayer1 = ?, player_idPlayer2 = ?, score1 = ?, score2 = ? 
-                where match_roundMatch = ? and match_branch = ?`;
-    return await db.loadA(query, [entity.player_idPlayer1, entity.player_idPlayer2, entity.score1, entity.score2, entity.match_roundMatch, entity.match_branch]);
+                where match_roundMatch = ? and match_branch = ? and match_tournament_idTournament = ?`;
+    return await db.loadA(query, [entity.player_idPlayer1, entity.player_idPlayer2, entity.score1, entity.score2, entity.match_roundMatch, entity.match_branch, entity.match_tournament_idTournament]);
   },
 
-  getBracketData: _ =>
+  getBracketData: id =>
         db.load(`SELECT PhM.match_roundMatch as idMatch, P1.idPlayer as ID1, P1.usernamePlayer as name1, P2.idPlayer as ID2, P2.usernamePlayer as name2, PhM.score1 as s1, PhM.score2 as s2
                 FROM esport.player_has_match PhM LEFT JOIN  esport.player P1 ON PhM.player_idPlayer1 = P1.idPlayer
                                                  LEFT JOIN  esport.player P2 ON PhM.player_idPlayer2 = P2.idPlayer
-                WHERE match_tournament_idTournament = 1
+                WHERE match_tournament_idTournament = ${id}
                 ORDER BY match_branch, match_roundMatch
                 LIMIT 31`),
 
@@ -51,5 +51,9 @@ module.exports = {
   getIdByEmail: email => db.loadSafe(`SELECT * FROM esport.account WHERE email = ?`, email),
 
   addUser: entity => db.add('esport.account', entity),
+
+  getCurrentTournament: () => db.load(`SELECT MAX(idTournament) as max FROM esport.tournament`),
+  addMatch: entity => db.add('esport.match', entity),
+  addPlayer_Match: entity => db.add('esport.player_has_match', entity),
 
 }

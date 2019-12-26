@@ -8,7 +8,7 @@
                 WE PLAY
             </div>
             <div class="h1 text-danger" style="font-size: 100px;">
-                NAMEGAME
+                {{tournament.nameGame}}
             </div>
         </div>
         <div class="col-3">
@@ -35,15 +35,20 @@
     </div>
 
     <div class="title" id="123">
-        <h1>Tournament Title</h1>
+        <h1>{{tournament.nameTournament}}</h1>
     </div>
     <div class="bracket my-5"></div>
     
 </div>
 {{#section 'js'}}
-<scr{{!}}ipt>
+<script>
     var doubleElimination = {{{bracketFormat}}};
-    init(doubleElimination);
-</scr{{!}}ipt>
+    if ({{isAuthenticated}}){
+        init(doubleElimination);
+    }
+    else{
+        initGuest(doubleElimination);
+    }
+</script>
 {{/section}}
 

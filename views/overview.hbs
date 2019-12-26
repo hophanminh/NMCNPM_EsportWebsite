@@ -1,0 +1,99 @@
+
+{{#section 'css'}}
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    #grad {
+        background-image: linear-gradient(red 25%, black 60%);
+        /* Full height */
+        height: 100%;
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    #limit-text {
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+    }
+
+    .first {
+        text-decoration-line: none;
+    }
+
+    .first:hover {
+        color: yellow;
+
+    }
+
+    .second:hover {
+        color: rgb(153, 138, 138);
+
+    }
+
+    .third:hover {
+        color: rgba(167, 55, 55, 0.884);
+    }
+    .player:hover{
+        text-decoration: none;
+    }
+</style>
+{{/section}}
+    <div class="container">
+        <div class=" row mt-3">
+
+            <div class="col-4" style="margin-top: 100px;">
+                <a href="#" class="player">
+                <div class="card text-dark second" style="width: 15rem;">
+                    
+                    <img src="img/ava.jpg" class="card-img-top" alt="...">
+                    <div class="card-body text-center second">
+                        <h5 class="card-title ">quanky99</h5>
+                        <p class="card-text">Lưu Đặng Kỳ Quân</p>
+                        <img src="img/2nd.jpg" class="card-img-top" alt="..." height="150px">
+                    </div>
+
+                </div>
+                </a>
+            </div>
+
+
+            <div class="col-4">
+                <a href="#" class="player">
+                    <div class="card text-dark " style="width: 15rem;">
+                        <img src="img/ava.jpg" class="card-img-top" alt="...">
+                        <div class="card-body text-center first ">
+                            <h5 class="card-title ">quanky99</h5>
+                            <p class="card-text ">Lưu Đặng Kỳ Quân</p>
+                            <img src="img/1st.png" class="card-img-top" alt="..." height="150px">
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
+            <div class="col-4" style="margin-top: 200px;">
+                <a href="#" class="player">
+                    <div class="card text-dark " style="width: 15rem;">
+                        <img src="img/ava.jpg" class="card-img-top" alt="...">
+                        <div class="card-body text-center third">
+                            <h5 class="card-title">quanky99</h5>
+                            <p class="card-text">Lưu Đặng Kỳ Quân</p>
+                            <img src="img/3rd.jpg" class="card-img-top" alt="..." height="150px">
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+    </div>

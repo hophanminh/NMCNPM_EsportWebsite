@@ -1,0 +1,129 @@
+{{#sections 'js'}}
+<script>
+    function Check() {
+        var Check = true;
+        // name
+        if (document.getElementById("requiredUserName").value == "") {
+            document.getElementById("RequiredName").innerHTML = "Please fill out  User Name";
+            Check = false;
+        }
+        else {
+            document.getElementById("RequiredName").innerHTML = "Correct";
+        }
+        //Full Name
+        if (document.getElementById("requiredFullName").value == "") {
+            document.getElementById("RequiredFullName").innerHTML = "Please fill out  Full Name";
+            Check = false;
+        }
+        else {
+            document.getElementById("RequiredFullName").innerHTML = "Correct";
+        }
+        //address
+        if (document.getElementById("requiredAddress").value == "") {
+            document.getElementById("RequiredAddress").innerHTML = "Please fill out  Address";
+            Check = false;
+        }
+        else {
+            document.getElementById("RequiredAddress").innerHTML = "Correct";
+        }
+        //birthday
+        // if (document.getElementById("datepicker").value == "") {
+        //     document.getElementById("RequiredBirthday").innerHTML = "Please fill out  Address";
+        //     Check = false;
+        // }
+        // else {
+        //     document.getElementById("RequiredBirthday").innerHTML = "Correct";
+        // }
+        checkDate(document.getElementById("datepicker").value, Check);
+
+    }
+    function checkDate(strDate, Check) {
+        var comp = strDate.split('/')
+        var m = parseInt(comp[0], 10)
+        var d = parseInt(comp[1], 10)
+        var y = parseInt(comp[2], 10)
+        var date = new Date(y, m - 1, d);
+        if (date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d) {
+
+            document.getElementById("RequiredBirthday").innerHTML = "Correct";
+
+        }
+        else {
+            document.getElementById("RequiredBirthday").innerHTML = "Please choose birthday of player";
+            Check = false;
+        }
+    }
+</script>
+{{/section}}
+<!--container-->
+<div class="container">
+    <h1 class="text-center text-white mt-3">Player</h1>
+    <div class="row text-center text-white">
+        <div class="col-6">
+            <img src="img/tour3.jpg" alt="Responsive image" height="500px" width="550px">
+            <button class="btn mt-5 bg-primary">Add Avatar</button>
+        </div>
+
+        <div class="col-6">
+            <b class="required" id="RequiredName">required</b>
+            <div class="input-group mb-5">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-info text-white" id="basic-addon1">User Name</span>
+                </div>
+                <input type="text" class=" form-control" placeholder="Username..." aria-label="Username"
+                    aria-describedby="basic-addon1" id="requiredUserName">
+            </div>
+            <b class="required" id="RequiredFullName">required</b>
+            <div class="input-group mb-5 mt-3">
+
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-info text-white" id="basic-addon1">Full Name&ensp;</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Full name..." aria-label="fullname"
+                    aria-describedby="basic-addon1" id="requiredFullName">
+            </div>
+            <b class="required" id="RequiredAddress">required</b>
+            <div class="input-group mb-5 mt-3">
+
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-info text-white" id="basic-addon1">Address&ensp;</span>
+                </div>
+                <input type="text" class=" form-control" placeholder="Address..." aria-label="address"
+                    aria-describedby="basic-addon1" id="requiredAddress">
+            </div>
+            <b class="required" id="RequiredBirthday">required</b>
+            <div class=" input-group mb-5 mt-3 ">
+                <div class="input-group-prepend  ">
+                    <span class="input-group-text bg-info text-white"
+                        id="basic-addon1">Birthday&ensp;&ensp;&ensp;</span>
+                </div>
+                <input id="datepicker" placeholder="Click On Icon Calendar -->" width="80%" />
+                <script>
+                    $('#datepicker').datepicker({
+                        uiLibrary: 'bootstrap4'
+                    });
+                </script>
+            </div>
+            <div class="input-group mb-5 mt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-info text-white">History&ensp;&ensp;&ensp;&ensp;</span>
+                </div>
+                <textarea class="form-control" aria-label="With textarea"
+                    placeholder="Tournament  Took Part In..."></textarea>
+            </div>
+            <div class="input-group mb-3 mt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-info text-white">Prize
+                        &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</span>
+                </div>
+                <textarea class="form-control" aria-label="With textarea" placeholder="Victory..."></textarea>
+            </div>
+            <button class="btn mt-3 bg-danger text-white" onclick="return Check()">CREATE PLAYER</button>
+        </div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<!--/container-->

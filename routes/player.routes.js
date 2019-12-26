@@ -37,14 +37,14 @@ router.get('/:idPlayer',async(req,res)=>{
 
     console.log(rows);
 
-    if(rows.statusPlayer === 0)
-        rows.branch = 'Win branch';
-    else if (rows.statusPlayer === 1)
-        rows.branch = 'Lose branch';
-    else rows.branch = 'Out';
+    if(rows[0].statusPlayer === 0)
+        rows[0].branch = 'Win branch';
+    else if (rows[0].statusPlayer === 1)
+        rows[0].branch = 'Lose branch';
+    else rows[0].branch = 'Out';
 
-    let dob = rows.DoB;
-    rows.DoBTemp = moment(dob).format('DD-MM-YYYY');
+    let dob = rows[0].DoB;
+    rows[0].DoBTemp = moment(dob).format('DD/MM/YYYY');
 
     console.log(rows);
 

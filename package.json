@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/hophanminh/NMCNPM_EsportWebsite#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-handlebars": "^3.1.0",

@@ -392,6 +392,8 @@ router.get('/match',(req,res)=>{
     })
 })
 
+router.use('/listTournament', express.static('public'));
+
 router.get('/listTournament',async(req,res)=>{
     const tournament = await adminModel.allTournament();
     console.log(tournament);
@@ -426,6 +428,13 @@ router.get('/tournament/:idTournament',async(req,res)=>{
         title: 'Tournament',
         style: ['style.css'],
         js:['home.js']
+    })
+})
+
+router.get('/overview',(req,res)=>{
+    res.render('overview',{
+        title: 'Over View',
+        style: ['style.css'],
     })
 })
 

@@ -35,13 +35,33 @@
         mask: true,
     });
 </script>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
 {{/section}}
 
 <div class="container text-white">
     <div class="h1 text-white d-flex justify-content-center mb-3">
         Player Detail
     </div>
-    <form method="POST">
+    <form method="POST" class="needs-validation" novalidate>
         <div class="form-row">
             <div class="col mb-3">
                 <label for="idPlayer">ID Player</label>
@@ -51,21 +71,21 @@
             <div class="col mb-3">
                 <label for="usernamePlayer">Usesrname Player</label>
                 <input type="text" class="form-control" id="usernamePlayer" name="usernamePlayer"
-                    value="{{this.player.usernamePlayer}}">
+                    value="{{this.player.usernamePlayer}}" required>
             </div>
             <div class="col mb-3">
                 <label for="realnamePlayer">Real name player</label>
-                <input type="text" class="form-control" id="realnamePlayer" name="realnamePlayer" value="{{this.player.realnamePlayer}}">
+                <input type="text" class="form-control" id="realnamePlayer" name="realnamePlayer" value="{{this.player.realnamePlayer}}" required>
             </div>
         </div>
         <div class="form-row">
-            <div class="col-md-6 mb-3">
+            <div class="col-6 mb-3">
                 <label for="dob">Date of birth</label>
-                <input type="text" class="form-control" id="dob" name='dob' value="{{this.player.DoBTemp}}">
+                <input class="form-control" id="dob" name='dob' value="{{this.player.DoBTemp}}" required>
             </div>
             <div class="col-md-3 mb-3">
                 <label for="statusPlayer">Status Player</label>
-                <select class="custom-select" id="statusPlayer" name="statusPlayer" value='{{this.player.branch}}'>
+                <select class="custom-select" id="statusPlayer" name="statusPlayer" value='{{this.player.branch}}' required>
                     <option value="0">Win branch</option>
                     <option value="1">Lose branch</option>
                     <option value="2">Out</option>
@@ -73,7 +93,7 @@
             </div>
             <div class="col-md-3 mb-3">
                 <label for="tournament_idTournament">ID tournament join</label>
-                <input type="text" class="form-control" id="tournament_idTournament" name="tournament_idTournament" value='{{this.player.tournament_idTournament}}'>
+                <input type="text" class="form-control" id="tournament_idTournament" name="tournament_idTournament" value='{{this.player.tournament_idTournament}}' required>
             </div>
         </div>
         <div class="form-group">

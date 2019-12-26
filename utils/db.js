@@ -8,6 +8,7 @@ const pool = mysql.createPool({
   //port: 3012,
   port: 3306,
   user: 'root',
+  //password: 'root',
   password: 'root3306',
   database: 'esport'
 });

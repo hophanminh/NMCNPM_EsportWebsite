@@ -4,7 +4,9 @@ function saveFn(data, userData) {
     jQuery.ajax("http://localhost:3000"+userData, {contentType: 'application/json',
                                   dataType: 'json',
                                   type: 'post',
-                                  data: json})
+                                  data: json,
+                                  timeout: 3000 // sets timeout to 3 seconds
+                                },)
     
 }
 

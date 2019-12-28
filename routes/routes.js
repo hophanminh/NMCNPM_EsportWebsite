@@ -76,7 +76,7 @@ router.get('/', async (req,res)=>{
     }
     
     const Tournament = await adminModel.detailTournament(idTournament[0].max);
-    console.log(Tournament[0]);
+    console.log(doubleElimination[0]);
     res.render('home',{
         title: 'Home Page',
         style: ['home.css'],

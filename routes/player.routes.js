@@ -71,6 +71,7 @@ router.post('/:idTournament/addPlayer',async (req,res)=>{
     const entity = req.body;
     delete entity.dob;
     entity.DoB = DoB;
+    entity.statusPlayer = 0;
 
     const result = await adminModel.addPlayer(entity);
     res.redirect('/player');

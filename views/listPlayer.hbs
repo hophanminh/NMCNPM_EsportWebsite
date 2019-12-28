@@ -14,7 +14,7 @@
                 <th scope="col">Date of birth</th>
                 <th scope="col">Status</th>
                 <th scope="col">Tournament</th>
-                <th scope="col">Detail</th>
+                {{#if isAuthenticated}}<th scope="col">Detail</th>{{/if}}
                 </tr>
             </thead>
             <tbody>
@@ -24,12 +24,14 @@
                 <td>{{realnamePlayer}}</td>
                 <td>{{DoB}}</td>
                 <td>{{branch}}</td>
-                <td>{{tournament_idTournament}}</td>
+                <td>{{nameTournament}}</td>
+                {{#if ../isAuthenticated}}
                 <td>
                     <a href="/player/{{idPlayer}}" role="button" class="btn btn-outline-success">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
                 </td>
+                {{/if}}
                 </tr>
                 {{/each}}
             </tbody>

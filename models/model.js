@@ -28,7 +28,8 @@ module.exports = {
                 ORDER BY match_branch, match_roundMatch
                 LIMIT 31`),
 
-  allPlayer: ()=> db.load(`select * from player`),
+  allPlayer: ()=> db.load(`select player.*, tournament.nameTournament 
+                          from player left join tournament on player.tournament_idTournament = tournament.idTournament`),
   detailPlayer: (id)=> db.load(`select * from player where idPlayer=${id}`),
   modifyPlayer: (entity) =>{
     const condition = {idPlayer: entity.idPlayer};

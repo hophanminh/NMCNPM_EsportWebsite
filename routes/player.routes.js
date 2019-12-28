@@ -56,6 +56,25 @@ router.get('/:idPlayer',async(req,res)=>{
     })
 })
 
+router.get('/:idTournament/addPlayer',(req,res)=>{
+    const idTournament = req.params.idTournament;
+    res.render('addPlayer',{
+        idTournament,
+        title: "Add Player",
+        style: ['style.css'],
+    });
+})
+router.post('/:idTournament/addPlayer',async (req,res)=>{
+    console.log(req.body);
+
+    const DoB = moment(req.body.dob,'DD/MM/YYYY').format('YYYY-MM-DD');
+    const entity = req.body;
+    delete entity.dob;
+    entity.DoB = DoB;
+
+    const result = await adminModel.addPlayer(entity);
+    res.redirect('/player');
+})
 router.post('/:idPlayer/modify',async(req,res)=>{
 
     const entity = req.body;

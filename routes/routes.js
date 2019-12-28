@@ -419,8 +419,8 @@ router.get('/tournament/:idTournament',async(req,res)=>{
     console.log(tournament);
 
     for(i=0;i < tournament.length ;i++){
-        tournament[i].dateStart = moment(tournament[i].dateStart,'YYYY-MM-DD').format('DD/MM/YYYY');
-        tournament[i].dateEnd = moment(tournament[i].dateEnd,'YYYY-MM-DD').format('DD/MM/YYYY');
+        tournament[i].dateStart = moment(tournament[i].dateStart,'YYYY-MM-DD').format('YYYY/MM/DD');
+        tournament[i].dateEnd = moment(tournament[i].dateEnd,'YYYY-MM-DD').format('YYYY/MM/DD');
     }
 
     res.render('tournamentDetail',{

@@ -45,6 +45,7 @@ module.exports = {
     return db.modify('tournament',entity,condition);
   },
   deleteTournament: (id) => db.del('tournament',{idTournament: id}),
+  addPlayer: entity => db.add('player',entity),
 
 
   getIdByUsername: username => db.loadSafe(`SELECT * FROM esport.account WHERE username = ?`, username),

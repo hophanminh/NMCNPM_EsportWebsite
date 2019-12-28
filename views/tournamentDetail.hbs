@@ -8,9 +8,15 @@
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script>
-    $('.dateF').datetimepicker({
+     $('#dateStart').datetimepicker({
         // format: 'd/m/Y H:i'
-        format: 'd/m/Y',
+        format: 'Y/m/d',
+        timepicker: false,
+        mask: true,
+    });
+    $('#dateEnd').datetimepicker({
+        // format: 'd/m/Y H:i'
+        format: 'Y/m/d',
         timepicker: false,
         mask: true,
     });
@@ -19,7 +25,7 @@
         const startDate = $("input[name=startDate_raw]").val();
         const endDate = $("input[name=endDate_raw]").val();
 
-        if (startDate > endDate) {
+        if(startDate > endDate){
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -29,7 +35,9 @@
             return false;
         }
         return true;
+
     }
+
 </script>
 <script
   src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6"></script>
@@ -134,12 +142,12 @@
                     <div class="row">
                         <div class="col">
                             <label for="date">Start Date</label>
-                            <input type="text" class="form-control dateF" id="date" name="startDate_raw"
+                            <input type="text" class="form-control dateF" id="dateStart" name="startDate_raw"
                                 value={{this.tournament.dateStart}}>
                         </div>
                         <div class="col">
                             <label for="date">End Date</label>
-                            <input type="text" class="form-control dateF" id="date" name="endDate_raw"
+                            <input type="text" class="form-control dateF" id="dateEnd" name="endDate_raw"
                                 value={{this.tournament.dateEnd}}>
                         </div>
                     </div>
@@ -159,14 +167,22 @@
                     <textarea class="form-control bg-transparent " aria-label="With textarea" id="FulDes"
                         name="FullDescription" value={{this.tournament.FullDescription}}></textarea>
                 </div>
-                <button type="submit" class="btn btn-outline-success" value="SUBMIT"
+                <a href="/listTournament" class="btn btn-outline-primary" role="button">
+                    <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                    Back
+                </a>
+                <button type="submit" class="btn btn-outline-warning" value="SUBMIT"
                     formaction="/admin/tournament/{{this.tournament.idTournament}}/modify">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                     Modify
                 </button>
+                <a href="/player/{{this.tournament.idTournament}}/addPlayer" class="btn btn-outline-primary" role="button">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Add Player
+                </a>
                 <button type="submit" class="btn btn-outline-danger" value="SUBMIT"
                     formaction="/admin/tournament/{{this.tournament.idTournament}}/delete">
-                    <i class="fa fa-delete" aria-hidden="true"></i>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                     Delete
                 </button>
             </form>

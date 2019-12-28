@@ -45,6 +45,7 @@ module.exports = {
     return db.modify('tournament',entity,condition);
   },
   deleteTournament: (id) => db.del('tournament',{idTournament: id}),
+  addPlayer: entity => db.add('player',entity),
 
 
   getIdByUsername: username => db.loadSafe(`SELECT * FROM esport.account WHERE username = ?`, username),
@@ -54,6 +55,8 @@ module.exports = {
 
   getCurrentTournament: () => db.load(`SELECT MAX(idTournament) as max FROM esport.tournament`),
   addMatch: entity => db.add('esport.match', entity),
-  addPlayer_Match: entity => db.add('esport.player_has_match', entity),
 
+  addPlayer_Match: entity => db.add('esport.player_has_match', entity),
+  addOverview: entity => db.add('overview',entity),
+  singleTournament: id => db.load(`select * from tournament where idTournament = ${id}`),
 }

@@ -92,4 +92,28 @@ router.post('/tournament/:idTournament/delete',async(req,res)=>{
     res.redirect('/listTournament');
 })
 
+router.use('/overview', express.static('public'));
+
+router.get('/:idTournament/overview',async(req,res)=>{
+    const rows = await adminModel.singleTournament(req.params.idTournament);
+    console.log(rows[0]);
+    res.render('addOverview',{
+        tournament: rows[0],
+        title: 'Add overview',
+        style: ['style.css']
+    })
+})
+router.post('/:idTournament/overview',async(req,res)=>{
+    const entity = req.body;
+
+    delete entity.nameTournament;
+    delete entity.prizeTournament;
+    delete entity.nameGame;
+
+    entity.tournament_idTournament = req.params.idTournament;
+    const result = await adminModel.addOverview(entity);
+    console.log(entity);
+    res.redirect('/');
+})
+
 module.exports = router;

@@ -1,0 +1,106 @@
+{{#section 'css'}}
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
+{{/section}}
+
+{{#section 'js'}}
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+{{!-- <script>
+    $('#dateStart').datetimepicker({
+        // format: 'd/m/Y H:i'
+        format: 'Y/m/d',
+        timepicker: false,
+        mask: true,
+    });
+    $('#dateEnd').datetimepicker({
+        // format: 'd/m/Y H:i'
+        format: 'Y/m/d',
+        timepicker: false,
+        mask: true,
+    });
+
+    function dateValid() {
+        const startDate = $("input[name=startDate_raw]").val();
+        const endDate = $("input[name=endDate_raw]").val();
+
+        if(startDate > endDate){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Date start go after date end',
+                footer: 'You need to check Start Date and End Date'
+            })            
+            return false;
+        }
+        return true;
+    }
+</script>--}}
+<script
+  src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6"></script>
+<script>
+  tinymce.init({
+    selector: '#Description',
+    height: 400,
+    plugins: 'paste image link autolink lists table media',
+    menubar: false,
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor',
+      'table link image media',
+    ],
+  });
+</script>
+{{/section}}
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form method="POST">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <label for="nameTournament">Tournament name</label>
+                            <input type="text" class="form-control" id="nameTournament" name="nameTournament" value='{{this.tournament.nameTournament}}'>
+                        </div>
+                        <div class="col">
+                            <label for="prizeTournament">Total Prize</label>
+                            <input type="text" class="form-control" id="prizeTournament" name="prizeTournament"
+                                value='{{this.tournament.prizeTournament}}'>
+                        </div>
+                        <div class="col">
+                            <label for="nameGame">Name game</label>
+                            <input type="text" class="form-control" id="nameGame" name="nameGame"  value='{{this.tournament.nameGame}}'>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Description">Description</label>
+                    <textarea class="form-control bg-transparent " aria-label="With textarea" id="Description"
+                        name="Discription"></textarea>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                            <label for="mostkillPlayer">Most kill Player</label>
+                            <input type="text" class="form-control" id="mostkillPlayer" name="mostkillPlayer" required>
+                        </div>
+                        <div class="col">
+                            <label for="Champion">Champion</label>
+                            <input type="text" class="form-control" id="Champion" name="Champion"
+                                required>
+                        </div>
+                        <div class="col">
+                            <label for="viewers">Viewers</label>
+                            <input type="text" class="form-control" id="viewers" name="viewers" required>
+                        </div>
+                </div>
+                  <a href="/listTournament" class="btn btn-outline-primary">
+                    <i class="fa fa-angle-double-left" aria-hidden="true"> Back to list tournament</i>
+                </a>
+                <button type="submit" class="btn btn-outline-success" value="SUBMIT">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                    Create
+                </button>
+            </form>
+        </div>
+        
+    </div>
+   

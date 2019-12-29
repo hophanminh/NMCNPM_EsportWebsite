@@ -36,4 +36,10 @@
                 {{/each}}
             </tbody>
         </table>
-    </div>
+    {{#if isAuthenticated}}
+    <a href="/player/{{current}}/addPlayer" class="btn btn-outline-primary">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Add
+    </a>
+    {{/if}}
+</div>

@@ -8,3 +8,6 @@ html, body{
     background-repeat: no-repeat;
     background-size: cover;
 }
+#changeTournament{
+    width: 200px;
+}

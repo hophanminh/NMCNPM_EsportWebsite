@@ -11,9 +11,9 @@ const router = express.Router();
 router.use('/login', express.static('public'));
 
 router.get('/', async (req,res)=>{
-    const idTournament = await adminModel.getCurrentTournament();
+    const idTournament = res.locals.current;
 
-    const data = await adminModel.getBracketData(idTournament[0].max);
+    const data = await adminModel.getBracketData(idTournament);
     var listPlayer;
     if (res.locals.isAuthenticated){ // list for admin have id to edit
         listPlayer = [    
@@ -75,8 +75,7 @@ router.get('/', async (req,res)=>{
         ]]
     }
     
-    const Tournament = await adminModel.detailTournament(idTournament[0].max);
-    console.log(doubleElimination[0]);
+    const Tournament = await adminModel.detailTournament(idTournament);
     res.render('home',{
         title: 'Home Page',
         style: ['home.css'],
@@ -88,7 +87,7 @@ router.get('/', async (req,res)=>{
 });
 router.post('/',async (req,res)=>{
     const data = req.body;
-    const idTournament = await adminModel.getCurrentTournament();
+    const idTournament = res.locals.current;
 
     var listWin = [];
     var listLose =[];
@@ -131,7 +130,7 @@ router.post('/',async (req,res)=>{
                 player_idPlayer2: player2,
                 score1: s1,
                 score2: s2,
-                match_tournament_idTournament: idTournament[0].max
+                match_tournament_idTournament: idTournament
             })
             count++;
         }
@@ -211,7 +210,7 @@ router.post('/',async (req,res)=>{
                 player_idPlayer2: player2,
                 score1: s1,
                 score2: s2,
-                match_tournament_idTournament: idTournament[0].max
+                match_tournament_idTournament: idTournament
             })
             count++;
         }
@@ -238,7 +237,7 @@ router.post('/',async (req,res)=>{
         player_idPlayer2: player2,
         score1: round[0][0],
         score2: round[0][1],
-        match_tournament_idTournament: idTournament[0].max
+        match_tournament_idTournament: idTournament
     })
 
 
@@ -255,7 +254,7 @@ router.post('/',async (req,res)=>{
         player_idPlayer2: player2,
         score1: round[1][0],
         score2:  round[1][1],
-        match_tournament_idTournament: idTournament[0].max
+        match_tournament_idTournament: idTournament
     })
 
     for (const item of winnerBracket) {
@@ -392,6 +391,11 @@ router.get('/match',(req,res)=>{
     })
 })
 
+router.post('/current',(req,res)=>{
+    req.session.current = req.body.current;
+    res.redirect('back');
+})
+
 router.use('/listTournament', express.static('public'));
 
 router.get('/listTournament',async(req,res)=>{
@@ -437,7 +441,5 @@ router.get('/overview',(req,res)=>{
         style: ['style.css'],
     })
 })
-
-
 
 module.exports = router;

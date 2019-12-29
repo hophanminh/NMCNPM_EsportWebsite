@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/',async(req,res)=>{
 
-    const rows = await adminModel.allPlayer();
+    const rows = await adminModel.allPlayerByTournament(res.locals.current);
 
     for(i=0;i<rows.length;i++)
     {
@@ -18,8 +18,6 @@ router.get('/',async(req,res)=>{
         let dob = rows[i].DoB;
         rows[i].DoB = moment(dob).format('LL');
     }
-
-    console.log(rows);
 
     res.render('listPlayer',{
         player: rows,
@@ -90,12 +88,10 @@ router.post('/:idPlayer/modify',async(req,res)=>{
     console.log(result);
     res.redirect('/player');
 })
-// router.post('/:idPlayer/delete',async(req,res)=>{
-
-//     const result = await adminModel.deletePlayers(req.params.idPlayer);
-//     console.log(result);
-//     res.redirect('/player');
-// })
+router.post('/:idPlayer/delete',async(req,res)=>{
+    const result = await adminModel.deletePlayer(req.params.idPlayer);
+    res.redirect('/player');
+})
 
 
 

@@ -60,6 +60,7 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link text-light">About</a>
                 </li>
+                
                 {{#if isAuthenticated}}
                 <li class="nav justify-content-end">
                     <a href="/listTournament" class="nav-link text-white">
@@ -68,11 +69,31 @@
                 </li>
                 {{/if}}
             </ul>
-            <form class="form-inline md-form form-sm mt-0">
+            <!--<form class="form-inline md-form form-sm mt-0">
                 <i class="fa fa-search" aria-hidden="true"></i>
                 <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
                     aria-label="Search">
-            </form>
+            </form>-->
+            <p class="my-auto mr-1">Tournament:</p>
+            <form class="form-inline md-form form-sm mt-0" method="POST" action="/current">
+                <select class="form-control overflow-hidden" name = "current" id="changeTournament" dir="rtl" onchange="this.form.submit();">
+                    {{#each list}}
+                    <option value="{{idTournament}}" {{#if_eq idTournament ../current}}selected="selected"{{/if_eq}}>
+                        {{nameTournament}}
+                    </option>
+                    {{/each}}
+                </select>
+            </form>     
+            <script>
+                function mySubmit(e) {
+                    $.ajax({
+                        type: 'POST',
+                        data: {current: e.value},
+                        url: '/current',
+                        dataType: 'text',
+                    });
+                }
+            </script>
         </div>
     </nav>
     <!--/Nav-->

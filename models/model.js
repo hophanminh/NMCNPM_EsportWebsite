@@ -30,6 +30,9 @@ module.exports = {
 
   allPlayer: ()=> db.load(`select player.*, tournament.nameTournament 
                           from player left join tournament on player.tournament_idTournament = tournament.idTournament`),
+  allPlayerByTournament: id => db.loadSafe(`select player.*, tournament.nameTournament 
+                                          from player left join tournament on player.tournament_idTournament = tournament.idTournament
+                                          where player.tournament_idTournament = ?`, id),
   detailPlayer: (id)=> db.load(`select * from player where idPlayer=${id}`),
   modifyPlayer: (entity) =>{
     const condition = {idPlayer: entity.idPlayer};
@@ -55,6 +58,7 @@ module.exports = {
   addUser: entity => db.add('esport.account', entity),
 
   getCurrentTournament: () => db.load(`SELECT MAX(idTournament) as max FROM esport.tournament`),
+  getIDAllTournament: ()=> db.load(`select idTournament, nameTournament from tournament order by idTournament desc`),
   addMatch: entity => db.add('esport.match', entity),
 
   addPlayer_Match: entity => db.add('esport.player_has_match', entity),

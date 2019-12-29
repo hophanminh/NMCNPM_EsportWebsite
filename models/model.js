@@ -13,21 +13,55 @@ module.exports = {
 
   add: (entity)=> db.add('tournament',entity),
   
+  // bracket
   patchBracket: async (entity)=>{ 
     var query =`update player_has_match
                 set player_idPlayer1 = ?, player_idPlayer2 = ?, score1 = ?, score2 = ? 
                 where match_roundMatch = ? and match_branch = ? and match_tournament_idTournament = ?`;
     return await db.loadA(query, [entity.player_idPlayer1, entity.player_idPlayer2, entity.score1, entity.score2, entity.match_roundMatch, entity.match_branch, entity.match_tournament_idTournament]);
   },
-
   getBracketData: id =>
-        db.load(`SELECT PhM.match_roundMatch as idMatch, P1.idPlayer as ID1, P1.usernamePlayer as name1, P2.idPlayer as ID2, P2.usernamePlayer as name2, PhM.score1 as s1, PhM.score2 as s2
-                FROM esport.player_has_match PhM LEFT JOIN  esport.player P1 ON PhM.player_idPlayer1 = P1.idPlayer
-                                                 LEFT JOIN  esport.player P2 ON PhM.player_idPlayer2 = P2.idPlayer
-                WHERE match_tournament_idTournament = ${id}
-                ORDER BY match_branch, match_roundMatch
-                LIMIT 31`),
-
+        db.loadSafe(` SELECT PhM.match_roundMatch as idMatch, PhM.match_branch as branch, M.dateMatch as date, P1.idPlayer as ID1, P1.usernamePlayer as name1, P2.idPlayer as ID2, P2.usernamePlayer as name2, PhM.score1 as s1, PhM.score2 as s2 
+                      FROM esport.match M LEFT JOIN esport.player_has_match PhM ON M.roundMatch = PhM.match_roundMatch AND
+                                                                                   M.branch = PhM.match_branch AND
+                                                                                   M.tournament_idTournament = PhM.match_tournament_idTournament
+                                          LEFT JOIN esport.player P1 ON PhM.player_idPlayer1 = P1.idPlayer
+                                          LEFT JOIN esport.player P2 ON PhM.player_idPlayer2 = P2.idPlayer
+                      WHERE match_tournament_idTournament = ?
+                      ORDER BY M.branch, M.roundMatch
+                      LIMIT 31`, id),
+  getUpcomingMatch: id =>
+        db.loadSafe(` SELECT M.dateMatch as date, P1.idPlayer as ID1, P1.usernamePlayer as name1, P2.idPlayer as ID2, P2.usernamePlayer as name2, PhM.score1 as s1, PhM.score2 as s2 
+                      FROM esport.match M LEFT JOIN esport.player_has_match PhM ON M.roundMatch = PhM.match_roundMatch AND
+                                                                                   M.branch = PhM.match_branch AND
+                                                                                   M.tournament_idTournament = PhM.match_tournament_idTournament
+                                          LEFT JOIN esport.player P1 ON PhM.player_idPlayer1 = P1.idPlayer
+                                          LEFT JOIN esport.player P2 ON PhM.player_idPlayer2 = P2.idPlayer
+                      WHERE match_tournament_idTournament = ?
+                      ORDER BY M.dateMatch DESC
+                      LIMIT 2`, id),
+  getUpcomingMatch: id =>
+        db.loadSafe(` SELECT M.dateMatch as date, P1.idPlayer as ID1, P1.usernamePlayer as name1, P2.idPlayer as ID2, P2.usernamePlayer as name2, PhM.score1 as s1, PhM.score2 as s2 
+                      FROM esport.match M LEFT JOIN esport.player_has_match PhM ON M.roundMatch = PhM.match_roundMatch AND
+                                                                                   M.branch = PhM.match_branch AND
+                                                                                   M.tournament_idTournament = PhM.match_tournament_idTournament
+                                          LEFT JOIN esport.player P1 ON PhM.player_idPlayer1 = P1.idPlayer
+                                          LEFT JOIN esport.player P2 ON PhM.player_idPlayer2 = P2.idPlayer
+                      WHERE match_tournament_idTournament = ? AND M.dateMatch > NOW()
+                      ORDER BY M.dateMatch ASC
+                      LIMIT 1`, id),
+  getFinishedMatch: id =>
+        db.loadSafe(` SELECT M.dateMatch, P1.idPlayer as ID1, P1.usernamePlayer as name1, P2.idPlayer as ID2, P2.usernamePlayer as name2, PhM.score1 as s1, PhM.score2 as s2 
+                      FROM esport.match M LEFT JOIN esport.player_has_match PhM ON M.roundMatch = PhM.match_roundMatch AND
+                                                                                   M.branch = PhM.match_branch AND
+                                                                                   M.tournament_idTournament = PhM.match_tournament_idTournament
+                                          LEFT JOIN esport.player P1 ON PhM.player_idPlayer1 = P1.idPlayer
+                                          LEFT JOIN esport.player P2 ON PhM.player_idPlayer2 = P2.idPlayer
+                      WHERE match_tournament_idTournament = ? AND M.dateMatch < NOW()
+                      ORDER BY M.dateMatch DESC
+                      LIMIT 2`, id),            
+                    
+  // player page
   allPlayer: ()=> db.load(`select player.*, tournament.nameTournament 
                           from player left join tournament on player.tournament_idTournament = tournament.idTournament`),
   allPlayerByTournament: id => db.loadSafe(`select player.*, tournament.nameTournament 
@@ -41,6 +75,7 @@ module.exports = {
   },
   deletePlayer: (id) => db.del('player',{idPlayer: id}),
 
+  // tournament page
   allTournament: ()=> db.load(`select * from tournament`),
   detailTournament: (id)=> db.load(`select * from tournament where idTournament=${id}`),
   modifyTournament: (entity) =>{
@@ -51,12 +86,12 @@ module.exports = {
   deleteTournament: (id) => db.del('tournament',{idTournament: id}),
   addPlayer: entity => db.add('player',entity),
 
-
+  // login-register
   getIdByUsername: username => db.loadSafe(`SELECT * FROM esport.account WHERE username = ?`, username),
   getIdByEmail: email => db.loadSafe(`SELECT * FROM esport.account WHERE email = ?`, email),
-
   addUser: entity => db.add('esport.account', entity),
 
+  //
   getCurrentTournament: () => db.load(`SELECT MAX(idTournament) as max FROM esport.tournament`),
   getIDAllTournament: ()=> db.load(`select idTournament, nameTournament from tournament order by idTournament desc`),
   addMatch: entity => db.add('esport.match', entity),

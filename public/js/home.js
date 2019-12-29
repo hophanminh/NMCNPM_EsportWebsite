@@ -55,6 +55,33 @@ function edit_fn(container, data, doneCb) {
         return;
     }
   }
+
+function onhover(data, hover) {
+  // format date
+  var date;
+  if (data.date == undefined){
+    date = 'wait for update';
+  }
+  else {
+    date = moment(data.date).format('MMMM Do YYYY, h:mm');
+  }
+
+  //delete all popup
+  $('div.teamContainer').popover('dispose');
+  //create all popup
+  $('div.teamContainer').popover({
+    trigger : 'hover',  
+    placement : 'top', 
+    content : date
+  });
+}
+
+function onclick(data) {
+  var string = "http://localhost:3000/match/" + data.idTour + "/" + data.branch + "/" + data.idMatch;
+  window.location.href = string;
+}
+
+  
 function init(doubleElimination) {
     $('.bracket').bracket({
         centerConnectors: true,
@@ -82,6 +109,9 @@ function initGuest(doubleElimination) {
       matchMargin: 42,
       roundMargin: 20,
       skipSecondaryFinal: true,
+
+      onMatchClick: onclick,
+      //onMatchHover: onhover,
       init: doubleElimination, /* data to initialize the bracket with */
   })
 }

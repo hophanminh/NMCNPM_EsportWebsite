@@ -1,3 +1,6 @@
+{{#section 'css'}}
+{{/section}}
+
 <div class="container-fluid mt-5">
     <div class="row">
         <div class="col-8 d-flex align-items-center justify-content-start flex-column mt-auto text-white ">
@@ -18,51 +21,41 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush maxH-group">
+                        {{#each upcoming}}
                         <li class="list-group-item">
                             <div class="clearfix "> 
                                 <div class="float-left maxW">
-                                    <p>plyer11d23</p>
+                                    <p>{{name1}}</p>
                                     <p>VS</p>
-                                    <p>plyer111111</p>
+                                    <p>{{name2}}</p>
                                 </div>
                                 <div class="float-right">
-                                    <p>0</p>
+                                    <p>{{s1}}</p>
                                     <p>-</p>
-                                    <p>1</p>
+                                    <p>{{s2}}</p>
                                 </div>
                             </div>
-                            <h6 class="mt-2">15/2/2019</h6>
+                            <h6 class="mt-2">{{date}}</h6>
                         </li>
-                        <li class="list-group-item ">
+                        {{/each}}
+                        {{#each finished}}
+                        <li class="list-group-item finished">
                             <div class="clearfix "> 
                                 <div class="float-left maxW">
-                                    <p>plyer1123</p>
+                                    <p>{{name1}}</p>
                                     <p>VS</p>
-                                    <p>plyer111111</p>
+                                    <p>{{name2}}</p>
                                 </div>
                                 <div class="float-right">
-                                    <p>0</p>
+                                    <p>{{s1}}</p>
                                     <p>-</p>
-                                    <p>1</p>
+                                    <p>{{s2}}</p>
                                 </div>
                             </div>
-                            <h6 class="mt-2">15/2/2019</h6>
-                        </li><li class="list-group-item ">
-                            <div class="clearfix "> 
-                                <div class="float-left maxW">
-                                    <p>plyer1123</p>
-                                    <p>VS</p>
-                                    <p>plyer111111</p>
-                                </div>
-                                <div class="float-right">
-                                    <p>0</p>
-                                    <p>-</p>
-                                    <p>1</p>
-                                </div>
-                            </div>
-                            <h6 class="mt-2">15/2/2019</h6>
+                            <h6 class="mt-2">{{date}}</h6>
                         </li>
-                        
+                        {{/each}}
+
                     </ul>
                 </div>
 
@@ -74,9 +67,12 @@
         <h1>{{tournament.nameTournament}}</h1>
     </div>
     <div class="bracket my-5"></div>
-    
+
 </div>
 {{#section 'js'}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bracket/0.11.1/jquery.bracket.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/popper.min.js"></script>
 <script>
     var doubleElimination = {{{bracketFormat}}};
     if ({{isAuthenticated}}){

@@ -23,6 +23,7 @@
 .maxH-group{
     max-height: 675px;
     overflow:auto;
+    min-height: 675px;
 }
 
 .custom-card,.card-header{
@@ -43,4 +44,8 @@
     color: white;
     background: rgba(122, 122, 122, 0.05) !important;
     border-width: 3px;
+}
+
+.finished{
+    color: gray !important;
 }

@@ -13,11 +13,12 @@ router.use('/match/:idTournament/:branch', express.static('public'));
 
 router.get('/', async (req,res)=>{
     const idTournament = res.locals.current;
-
-    const [data, upcoming, finished] = await Promise.all([
+    const editable = req.query.editable || 0;
+    const [data, upcoming, finished, status] = await Promise.all([
         adminModel.getBracketData(idTournament),
         adminModel.getUpcomingMatch(idTournament),
         adminModel.getFinishedMatch(idTournament),
+        adminModel.statusTournament(idTournament),
     ])
     console.log(upcoming);
     if (upcoming.length > 0){
@@ -29,7 +30,7 @@ router.get('/', async (req,res)=>{
     }
 
     var listPlayer;
-    if (res.locals.isAuthenticated){ // list for admin have id to edit
+    if (res.locals.isAuthenticated && status[0].Status == 0 && editable == 1){ // list for admin have id to edit when tournament start
         listPlayer = [    
             [{name: data[0].name1, ID: data[0].ID1}, {name: data[0].name2, ID: data[0].ID2}],
             [{name: data[1].name1, ID: data[1].ID1}, {name: data[1].name2, ID: data[1].ID2}],
@@ -107,9 +108,9 @@ router.get('/', async (req,res)=>{
             //[[2, 1]]
         ]]
     }
-    console.log(doubleElimination.results[0][0]);
-
+    const num = await adminModel.allPlayerByTournament(idTournament);
     const Tournament = await adminModel.detailTournament(idTournament);
+    console.log(editable);
     res.render('home',{
         title: 'Home Page',
         style: ['home.css', 'popup.css'],
@@ -118,8 +119,11 @@ router.get('/', async (req,res)=>{
         tournament: Tournament[0],
         upcoming,
         finished,
+        num: num.length,
+        status: status[0].Status,
+        editable,
     })
-    console.log("login: " + res.locals.isAuthenticated);
+    console.log(doubleElimination);
 });
 router.post('/',async (req,res)=>{
     const data = req.body;
@@ -476,6 +480,42 @@ router.get('/overview',(req,res)=>{
         title: 'Over View',
         style: ['style.css'],
     })
+})
+
+router.post('/startTournament/:random', async (req,res)=>{
+    const idTournament = req.body.id;
+    const random = req.params.random;
+
+    const listPlayers = await adminModel.allPlayerIDByTournament(idTournament);
+
+    function shuffleFisherYates(array) {
+        let i = array.length;
+        while (i--) {
+          const ri = Math.floor(Math.random() * (i + 1));
+          [array[i], array[ri]] = [array[ri], array[i]];
+        }
+        return array;
+    }
+    
+    var list = listPlayers;
+    if (random == 1){ // random
+        list = shuffleFisherYates(listPlayers);
+    }
+    
+    for(i = 0; i < list.length/2; i++){
+        const entity = {
+            match_roundMatch: i + 1,
+            player_idPlayer1: list[i*2].id,
+            player_idPlayer2: list[i*2+1].id,
+            match_tournament_idTournament: idTournament 
+        }
+        await adminModel.addPlayerBracket(entity);
+    }
+    res.redirect('/');
+})
+router.post('/confirm', async (req,res)=>{
+    await adminModel.updateStatusTournament(req.body.id);
+    res.redirect('/');
 })
 
 module.exports = router;

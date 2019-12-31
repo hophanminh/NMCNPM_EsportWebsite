@@ -49,3 +49,14 @@
 .finished{
     color: gray !important;
 }
+
+.info{
+    color: white;
+}
+
+.numPlayer{
+    width: 175px;
+    background: rgb(141, 0, 0) !important;
+    border: 1px solid rgb(65, 3, 3) !important;
+}
+

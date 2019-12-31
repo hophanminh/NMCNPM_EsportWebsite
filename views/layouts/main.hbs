@@ -84,16 +84,6 @@
                     {{/each}}
                 </select>
             </form>     
-            <script>
-                function mySubmit(e) {
-                    $.ajax({
-                        type: 'POST',
-                        data: {current: e.value},
-                        url: '/current',
-                        dataType: 'text',
-                    });
-                }
-            </script>
         </div>
     </nav>
     <!--/Nav-->

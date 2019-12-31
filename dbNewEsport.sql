@@ -370,6 +370,7 @@ CREATE TABLE `tournament` (
   `Rule` varchar(1500) DEFAULT NULL,
   `TinyDescription` varchar(1500) DEFAULT NULL,
   `FullDescription` varchar(1500) DEFAULT NULL,
+  `Status` int(11) DEFAULT 1 COMMENT '1: preparing, 0: playing',
   PRIMARY KEY (`idTournament`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

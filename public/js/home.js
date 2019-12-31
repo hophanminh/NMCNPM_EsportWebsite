@@ -111,7 +111,7 @@ function initGuest(doubleElimination) {
       skipSecondaryFinal: true,
 
       onMatchClick: onclick,
-      //onMatchHover: onhover,
+      onMatchHover: onhover,
       init: doubleElimination, /* data to initialize the bracket with */
   })
 }

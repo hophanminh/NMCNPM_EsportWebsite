@@ -62,20 +62,74 @@
             </div>
         </div>
     </div>
-
     <div class="title" id="123">
         <h1>{{tournament.nameTournament}}</h1>
     </div>
+
+    <div class="d-flex flex-column float-left">
+    {{#if isAuthenticated}}
+    {{#if status}}
+    {{#if_eq num 16}}
+    <form method="POST" >
+        <input type="hidden" name="id" value="{{current}}">
+        <button type="submit" class="btn btn-danger float-left numPlayer" formaction="/startTournament/1">
+            Random players
+        </button>
+    </form>
+    <form method="POST" >
+        <input type="hidden" name="id" value="{{current}}">
+        <button type="submit" class="btn btn-danger float-left numPlayer" formaction="/startTournament/0">
+            No random
+        </button>
+    </form>
+    <form method="POST" onsubmit="return confirm('Are you sure?');">
+        <input type="hidden" name="id" value="{{current}}">
+        <button type="submit" class="btn btn-danger float-left numPlayer" formaction="/confirm">
+            {{num}}/16 players</br>
+            Start tournament
+        </button>
+    </form>
+    {{else}}
+    <form action="/player">
+        <button type="submit" class="btn btn-danger float-left numPlayer">
+            {{num}}/16 players</br>
+            Click to manage players
+        </button>
+    </form>
+    {{/if_eq}}
+    {{/if}}
+    {{/if}}
+
+    {{#if isAuthenticated}}
+    {{#if_eq status 0}}
+    {{#if editable}}
+    <form action="/">
+        <button type="submit" class="btn btn-danger float-left numPlayer">
+            Finish
+        </button>
+    </form>
+    {{else}}
+    <form action="/">
+        <input type="hidden" name="editable" value="1">
+        <button type="submit" class="btn btn-danger float-left numPlayer">
+            Edit score
+        </button>
+    </form>
+    {{/if}}
+    {{/if_eq}}
+    {{/if}}
+
+    </div>
+    <span class="info float-right">Hover or click on individual matchs for more infomations</span>
     <div class="bracket my-5"></div>
 
 </div>
 {{#section 'js'}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bracket/0.11.1/jquery.bracket.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/popper.min.js"></script>
 <script>
     var doubleElimination = {{{bracketFormat}}};
-    if ({{isAuthenticated}}){
+    if ({{isAuthenticated}} && {{status}} == 0 && {{editable}} == 1){
         init(doubleElimination);
     }
     else{

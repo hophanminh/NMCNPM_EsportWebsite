@@ -14,6 +14,13 @@ module.exports = {
   add: (entity)=> db.add('tournament',entity),
   
   // bracket
+  addPlayerBracket: async entity =>{ 
+    var query =`update player_has_match
+                set player_idPlayer1 = ?, player_idPlayer2 = ?, score1 = ?, score2 = ? 
+                where match_roundMatch = ? and match_branch = 0 and match_tournament_idTournament = ?`;
+    return await db.loadA(query, [entity.player_idPlayer1, entity.player_idPlayer2, null, null, entity.match_roundMatch, entity.match_tournament_idTournament]);
+  },
+
   patchBracket: async (entity)=>{ 
     var query =`update player_has_match
                 set player_idPlayer1 = ?, player_idPlayer2 = ?, score1 = ?, score2 = ? 
@@ -30,16 +37,6 @@ module.exports = {
                       WHERE match_tournament_idTournament = ?
                       ORDER BY M.branch, M.roundMatch
                       LIMIT 31`, id),
-  getUpcomingMatch: id =>
-        db.loadSafe(` SELECT M.dateMatch as date, P1.idPlayer as ID1, P1.usernamePlayer as name1, P2.idPlayer as ID2, P2.usernamePlayer as name2, PhM.score1 as s1, PhM.score2 as s2 
-                      FROM esport.match M LEFT JOIN esport.player_has_match PhM ON M.roundMatch = PhM.match_roundMatch AND
-                                                                                   M.branch = PhM.match_branch AND
-                                                                                   M.tournament_idTournament = PhM.match_tournament_idTournament
-                                          LEFT JOIN esport.player P1 ON PhM.player_idPlayer1 = P1.idPlayer
-                                          LEFT JOIN esport.player P2 ON PhM.player_idPlayer2 = P2.idPlayer
-                      WHERE match_tournament_idTournament = ?
-                      ORDER BY M.dateMatch DESC
-                      LIMIT 2`, id),
   getUpcomingMatch: id =>
         db.loadSafe(` SELECT M.dateMatch as date, P1.idPlayer as ID1, P1.usernamePlayer as name1, P2.idPlayer as ID2, P2.usernamePlayer as name2, PhM.score1 as s1, PhM.score2 as s2 
                       FROM esport.match M LEFT JOIN esport.player_has_match PhM ON M.roundMatch = PhM.match_roundMatch AND
@@ -67,6 +64,10 @@ module.exports = {
   allPlayerByTournament: id => db.loadSafe(`select player.*, tournament.nameTournament 
                                           from player left join tournament on player.tournament_idTournament = tournament.idTournament
                                           where player.tournament_idTournament = ?`, id),
+  allPlayerIDByTournament: id => db.loadSafe(`select player.idPlayer as id
+                                              from player left join tournament on player.tournament_idTournament = tournament.idTournament
+                                              where player.tournament_idTournament = ?`, id),
+
   detailPlayer: (id)=> db.load(`select * from player where idPlayer=${id}`),
   modifyPlayer: (entity) =>{
     const condition = {idPlayer: entity.idPlayer};
@@ -91,12 +92,15 @@ module.exports = {
   getIdByEmail: email => db.loadSafe(`SELECT * FROM esport.account WHERE email = ?`, email),
   addUser: entity => db.add('esport.account', entity),
 
-  //
+  
   getCurrentTournament: () => db.load(`SELECT MAX(idTournament) as max FROM esport.tournament`),
   getIDAllTournament: ()=> db.load(`select idTournament, nameTournament from tournament order by idTournament desc`),
   addMatch: entity => db.add('esport.match', entity),
-
   addPlayer_Match: entity => db.add('esport.player_has_match', entity),
+
   addOverview: entity => db.add('overview',entity),
   singleTournament: id => db.load(`select * from tournament where idTournament = ${id}`),
+  statusTournament: id => db.load(`select Status from tournament where idTournament = ${id}`),
+  updateStatusTournament: id => db.loadSafe(`update tournament set Status = 0 where idTournament = ?`, id),
+
 }

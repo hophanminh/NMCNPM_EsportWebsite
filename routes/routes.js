@@ -20,6 +20,8 @@ router.get('/', async (req,res)=>{
         adminModel.getFinishedMatch(idTournament),
         adminModel.statusTournament(idTournament),
     ])
+    console.log('where2');
+
     console.log(upcoming);
     if (upcoming.length > 0){
         upcoming[0].date = moment(upcoming[0].date).format('MMMM Do YYYY, h:mm');
@@ -110,6 +112,7 @@ router.get('/', async (req,res)=>{
     }
     const num = await adminModel.allPlayerByTournament(idTournament);
     const Tournament = await adminModel.detailTournament(idTournament);
+    console.log('where2');
     console.log(editable);
     res.render('home',{
         title: 'Home Page',

@@ -1,7 +1,8 @@
 {{#section 'css'}}
 <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.3/css/fileinput.min.css" media="all"
+    rel="stylesheet" type="text/css" />
 {{/section}}
 
 {{#section 'js'}}
@@ -56,7 +57,7 @@
     })();
 </script>
 
-<script>
+{{!-- <script>
     var fileInput = document.getElementById('txtFile');
     var fileDisplayArea = document.getElementById('fileDisplayArea');
 
@@ -77,6 +78,17 @@
         fileDisplayArea.innerText = "File not supported!"
     }
 });
+</script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.3/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.3/themes/fa/theme.min.js"></script>
+<script>
+    $('#img').fileinput({
+        maxFileCount: 10,
+        theme: 'fa',
+        dropZoneEnabled: false,
+        allowedFileExtensions: ['png', 'jpg', 'gif'],
+        removeClass: "btn btn-danger",
+    });
 </script>
 {{/section}}
 
@@ -104,6 +116,18 @@
                 <label for="tournament_idTournament">ID tournament join</label>
                 <input type="text" class="form-control" id="tournament_idTournament" name="tournament_idTournament"
                     value="{{this.idTournament}}" readonly>
+            </div>
+        </div>
+        <div class="card">
+            <h4 class="card-header">
+                Upload
+            </h4>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="file-loading">
+                        <input id="img" name="img" type="file" multiple>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group">

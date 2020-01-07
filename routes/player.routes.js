@@ -4,6 +4,7 @@ const multer = require('multer');
 const adminModel = require('../models/model');
 const router = express.Router();
 const fs = require('fs-extra');
+const util = require('util');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -83,12 +84,13 @@ router.get('/:idTournament/addPlayer',(req,res)=>{
 router.post('/:idTournament/addPlayer',async (req,res)=>{
     console.log(req.body);
 
-    const DoB = moment(req.body.dob,'DD/MM/YYYY').format('YYYY-MM-DD');
-    const entity = req.body;
-    delete entity.dob;
-    entity.DoB = DoB;
-    entity.statusPlayer = 0;
-
+    const dobP = moment(req.body.dob,'DD/MM/YYYY').format('YYYY-MM-DD');
+    const entity = {
+        usernamePlayer: req.body.usernamePlayer,
+        realnamePlayer: req.body.realnamePlayer,
+        DoB: dobP,
+        tournament_idTournament: req.body.tournament_idTournament,
+    };
     const result = await adminModel.addPlayer(entity);
     res.redirect('/player');
 })

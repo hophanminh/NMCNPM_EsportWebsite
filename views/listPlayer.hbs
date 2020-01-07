@@ -1,45 +1,91 @@
+{{#section 'js'}}
+<script>
+    function checkinput(id){
+        var file = $("#files")
+        var fileName = file.val();
+
+        if (fileName) { // returns true if the string is not empty
+            // check file extension
+            pos = fileName.lastIndexOf(".");       
+            if (pos < 1 || fileName.slice(pos + 1) != 'txt') {
+                alert("Please choose correct .txt file");
+                return; 
+            }
+
+            // read file data            
+            const reader = new FileReader()
+            reader.onload = event =>  $.ajax({          // post data to route
+                                            type: 'POST',       
+                                            data: {lists: event.target.result},
+                                            url: '/player/' + id + '/addPlayerFile',
+                                            dataType: 'text',
+                                        });
+            reader.readAsText($('#files').prop('files')[0]);
+            location.reload();
+        }
+        else { // no file was selected
+            alert("Please select file");
+        }
+    }
+
+    function triggerClick(){
+        $("#files")[0].click();
+    }
+</script>
+
+{{/section}}
+ 
     <!--container-->
-    <div class="container">
-        <div class="text-center text-white">
-            <p class="h1">
-                PLAYERS
-            </p>
-        </div>
-        <table class="table table-hover text-white">
-            <thead>
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Real name</th>
-                <th scope="col">Date of birth</th>
-                <th scope="col">Status</th>
-                <th scope="col">Tournament</th>
-                {{#if isAuthenticated}}<th scope="col">Detail</th>{{/if}}
-                </tr>
-            </thead>
-            <tbody>
-                {{#each this.player}}
-                <td scope="row">*</td>
-                <td>{{usernamePlayer}}</td>
-                <td>{{realnamePlayer}}</td>
-                <td>{{DoB}}</td>
-                <td>{{branch}}</td>
-                <td>{{nameTournament}}</td>
-                {{#if ../isAuthenticated}}
-                <td>
-                    <a href="/player/{{idPlayer}}" role="button" class="btn btn-outline-success">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </a>
-                </td>
-                {{/if}}
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+<div class="container">
+    <div class="text-center text-white">
+        <p class="h1">
+            PLAYERS
+        </p>
+    </div>
+    <table class="table table-hover text-white">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Real name</th>
+            <th scope="col">Date of birth</th>
+            <th scope="col">Status</th>
+            <th scope="col">Tournament</th>
+            {{#if isAuthenticated}}<th scope="col">Detail</th>{{/if}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this.player}}
+            <td scope="row">*</td>
+            <td>{{usernamePlayer}}</td>
+            <td>{{realnamePlayer}}</td>
+            <td>{{DoB}}</td>
+            <td>{{branch}}</td>
+            <td>{{nameTournament}}</td>
+            {{#if ../isAuthenticated}}
+            <td>
+                <a href="/player/{{idPlayer}}" role="button" class="btn btn-outline-success">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                </a>
+            </td>
+            {{/if}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
     {{#if isAuthenticated}}
-    <a href="/player/{{current}}/addPlayer" class="btn btn-outline-primary">
+    <a href="/player/{{current}}/addPlayer" class="btn btn-outline-primary float-left">
         <i class="fa fa-plus" aria-hidden="true"></i>
-        Add
+        Add player
     </a>
+    <button class= "btn btn-outline-primary float-left ml-3" onclick="checkinput({{current}});">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Add using file
+    </button>
+    <button class= "btn btn-outline-primary float-left ml-3" type="button" onclick="triggerClick();" style="height: 46.44px;">
+        <i class="fa fa-file"></i>
+        <label>Select file</label>
+    </button>
+    <input type="file" id="files" accept=".txt" class="d-none"/>
     {{/if}}
 </div>

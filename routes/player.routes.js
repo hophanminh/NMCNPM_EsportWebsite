@@ -95,23 +95,10 @@ router.post('/:idTournament/addPlayer',async (req,res)=>{
     res.redirect('/player');
 })
 
-router.post('/:idTournament/addPlayerFile',upload.single('txtFile'),async (req,res)=>{
+router.post('/:idTournament/addPlayerFile', async (req,res)=>{
+
+    
     console.log(req.body);    
-
-    // const DoB = moment(req.body.dob,'DD/MM/YYYY').format('YYYY-MM-DD');
-    // const entity = req.body;
-    // delete entity.dob;
-    // entity.DoB = DoB;
-    // entity.statusPlayer = 0;
-
-    // const result = await adminModel.addPlayer(entity);
-    //res.redirect('/player');
-    fs.readFile('player.txt', (e, data) => {
-        if (e) 
-            console.log('err');
-        console.log(data);
-    });
-    res.send("arrive");
 })
 
 router.post('/:idPlayer/modify',async(req,res)=>{

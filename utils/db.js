@@ -5,11 +5,11 @@ const pool = mysql.createPool({
   connectionLimit: 50,
   host: 'localhost',
   // Minh port:
-  //port: 3012,
-  port: 3306,
+  port: 3012,
+  //port: 3306,
   user: 'root',
-  //password: 'root',
-  password: 'root3306',
+  password: 'root',
+  //password: 'root3306',
   database: 'esport'
 });
 

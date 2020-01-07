@@ -18,14 +18,14 @@ module.exports = {
     var query =`update player_has_match
                 set player_idPlayer1 = ?, player_idPlayer2 = ?, score1 = ?, score2 = ? 
                 where match_roundMatch = ? and match_branch = 0 and match_tournament_idTournament = ?`;
-    return await db.loadA(query, [entity.player_idPlayer1, entity.player_idPlayer2, null, null, entity.match_roundMatch, entity.match_tournament_idTournament]);
+    return await db.loadSafe(query, [entity.player_idPlayer1, entity.player_idPlayer2, null, null, entity.match_roundMatch, entity.match_tournament_idTournament]);
   },
 
   patchBracket: async (entity)=>{ 
     var query =`update player_has_match
                 set player_idPlayer1 = ?, player_idPlayer2 = ?, score1 = ?, score2 = ? 
                 where match_roundMatch = ? and match_branch = ? and match_tournament_idTournament = ?`;
-    return await db.loadA(query, [entity.player_idPlayer1, entity.player_idPlayer2, entity.score1, entity.score2, entity.match_roundMatch, entity.match_branch, entity.match_tournament_idTournament]);
+    return await db.loadSafe(query, [entity.player_idPlayer1, entity.player_idPlayer2, entity.score1, entity.score2, entity.match_roundMatch, entity.match_branch, entity.match_tournament_idTournament]);
   },
   getBracketData: id =>
         db.loadSafe(` SELECT PhM.match_roundMatch as idMatch, PhM.match_branch as branch, M.dateMatch as date, P1.idPlayer as ID1, P1.usernamePlayer as name1, P2.idPlayer as ID2, P2.usernamePlayer as name2, PhM.score1 as s1, PhM.score2 as s2 

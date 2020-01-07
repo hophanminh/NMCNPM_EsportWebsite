@@ -9,7 +9,7 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script>
     $('#dateStart').datetimepicker({
-        // format: 'd/m/Y H:i'
+        defaultDate: this.value,
         format: 'Y/m/d',
         timepicker: false,
         mask: true,

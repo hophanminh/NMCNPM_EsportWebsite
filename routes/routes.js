@@ -9,6 +9,7 @@ const { check, validationResult } = require('express-validator');
 
 const router = express.Router();
 router.use('/login', express.static('public'));
+router.use('/register', express.static('public'));
 router.use('/match/:idTournament/:branch', express.static('public'));
 
 router.get('/', async (req,res)=>{

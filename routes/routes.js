@@ -427,6 +427,7 @@ router.get('/about',(req,res)=>{
         js: ['home.js']
     })
 })
+
 router.get('/match/:idTournament/:branch/:idMatch',(req,res)=>{
     res.render('match',{
         title: 'Match',

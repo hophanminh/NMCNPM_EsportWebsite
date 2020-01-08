@@ -96,9 +96,28 @@ router.post('/:idTournament/addPlayer',async (req,res)=>{
 })
 
 router.post('/:idTournament/addPlayerFile', async (req,res)=>{
+                                                                        //correct format :
+    function trim(str) {                                                //usernamePlayer1, realnamePlayer2, DoB1(YYYY/MM/DD)
+        return str.replace(/^\s+|\s+$/g,"");                            //usernamePlayer1, realnamePlayer2, DoB2(YYYY/MM/DD)
+    }
+    console.log(req.body);   
+    var lines = req.body.lists.split(/\r?\n/).filter(x => x); 
+    for (i = 0;i< lines.length;i++){
+        var words = lines[i].split(',').filter(x => x); 
+        if (words.length != 3){
+            continue;
+        }
 
-    
-    console.log(req.body);    
+        const entity = {
+            usernamePlayer: trim(words[0]),
+            realnamePlayer: trim(words[1]),
+            DoB: trim(words[2]),
+            statusPlayer: 0,
+            tournament_idTournament: req.params.idTournament
+        }
+        await adminModel.addPlayer(entity);
+        console.log(entity);
+    }
 })
 
 router.post('/:idPlayer/modify',async(req,res)=>{

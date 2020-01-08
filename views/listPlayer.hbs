@@ -19,9 +19,8 @@
                                             data: {lists: event.target.result},
                                             url: '/player/' + id + '/addPlayerFile',
                                             dataType: 'text',
-                                        });
+                                        }).then(response =>  location.reload());
             reader.readAsText($('#files').prop('files')[0]);
-            location.reload();
         }
         else { // no file was selected
             alert("Please select file");

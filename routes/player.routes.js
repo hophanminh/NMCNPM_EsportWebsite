@@ -97,8 +97,8 @@ router.post('/:idTournament/addPlayer',async (req,res)=>{
 
 router.post('/:idTournament/addPlayerFile', async (req,res)=>{
                                                                         //correct format :
-    function trim(str) {                                                //usernamePlayer1, realnamePlayer2, DoB1(YYYY/MM/DD)
-        return str.replace(/^\s+|\s+$/g,"");                            //usernamePlayer1, realnamePlayer2, DoB2(YYYY/MM/DD)
+    function trim(str) {                                                //usernamePlayer1, realnamePlayer2, DoB1
+        return str.replace(/^\s+|\s+$/g,"");                            //usernamePlayer1, realnamePlayer2, DoB2
     }
     console.log(req.body);   
     var lines = req.body.lists.split(/\r?\n/).filter(x => x); 
@@ -112,12 +112,13 @@ router.post('/:idTournament/addPlayerFile', async (req,res)=>{
             usernamePlayer: trim(words[0]),
             realnamePlayer: trim(words[1]),
             DoB: trim(words[2]),
-            statusPlayer: 0,
+            statusPlayer: 2,
             tournament_idTournament: req.params.idTournament
         }
         await adminModel.addPlayer(entity);
         console.log(entity);
     }
+    res.send("1");
 })
 
 router.post('/:idPlayer/modify',async(req,res)=>{

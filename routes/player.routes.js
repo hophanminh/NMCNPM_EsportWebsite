@@ -95,8 +95,7 @@ router.post('/:idTournament/addPlayer',async (req,res)=>{
     res.redirect('/player');
 })
 
-router.post('/:idTournament/addPlayerFile', async (req,res)=>{
-                                                                        //correct format :
+router.post('/:idTournament/addPlayerFile', async (req,res)=>{                                                                        //correct format :
     function trim(str) {                                                //usernamePlayer1, realnamePlayer2, DoB1
         return str.replace(/^\s+|\s+$/g,"");                            //usernamePlayer1, realnamePlayer2, DoB2
     }

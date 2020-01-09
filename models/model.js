@@ -71,6 +71,20 @@ module.exports = {
                                         LEFT JOIN esport.player P1 ON PhM.player_idPlayer1 = P1.idPlayer
                                         LEFT JOIN esport.player P2 ON PhM.player_idPlayer2 = P2.idPlayer                                    
                 where M.roundMatch = ? AND M.branch = ? AND M.tournament_idTournament = ?`, [round, branch, id]),
+
+  modifyDetailMatch: (entity)=>{ 
+    var query =`update detailmatch
+                set time = ?, kill1 = ?, kill2 = ?, died1 = ?, died2 = ?
+                where match_roundMatch = ? and match_branch = ? and match_tournament_idTournament = ?`;
+    return db.loadSafe(query, [entity.time, entity.kill1, entity.kill2, entity.died1, entity.died2, entity.match_roundMatch, entity.match_branch, entity.match_tournament_idTournament]);
+  },
+  modifyMatch: (entity)=>{ 
+    var query =`update esport.match
+                set dateMatch = ?
+                where roundMatch = ? and branch = ? and tournament_idTournament = ?`;
+    return db.loadSafe(query, [entity.dateMatch, entity.roundMatch, entity.branch, entity.tournament_idTournament]);
+  },
+
   // player page
   allPlayer: ()=> db.load(`select player.*, tournament.nameTournament 
                           from player left join tournament on player.tournament_idTournament = tournament.idTournament`),

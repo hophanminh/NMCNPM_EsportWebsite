@@ -56,7 +56,7 @@ CREATE TABLE `detailmatch` (
   `kill2` int(11) DEFAULT NULL,
   `died1` int(11) DEFAULT NULL,
   `died2` int(11) DEFAULT NULL,
-  `time` date DEFAULT NULL,
+  `time` varchar(45) DEFAULT NULL,
   `match_roundMatch` int(11) NOT NULL COMMENT 'ID of match in branch',
   `match_branch` int(11) NOT NULL COMMENT '0: win branch\n 1: lose branch 2: final',
   `match_tournament_idTournament` int(11) NOT NULL,

@@ -11,7 +11,7 @@
                {{#if dateMatch}}
                {{formatDate dateMatch}}
                {{else}}
-               Waitng for update
+               Waiting for update
                {{/if}}</p>
         </div>
         <div class="row text-center d-flex justify-content-center">
@@ -45,5 +45,10 @@
                 </tbody>
             </table>
         </div>
+        {{#if ../isAuthenticated}}
+        <a class="btn btn-primary float-right" type="button" href="/match/{{../id}}/{{../branch}}/{{../round}}/modify">
+            Modify
+        </a>
+        {{/if}}
         {{/each}}
     </div>

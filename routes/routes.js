@@ -10,7 +10,8 @@ const { check, validationResult } = require('express-validator');
 const router = express.Router();
 router.use('/login', express.static('public'));
 router.use('/register', express.static('public'));
-router.use('/match/:idTournament/:branch', express.static('public'));
+router.use('/match/:idTournament/:branch/:round', express.static('public'));
+router.use('/match/:idTournament/:branch/:round/modify', express.static('public'));
 
 router.get('/', async (req,res)=>{
     const idTournament = res.locals.current;
@@ -441,16 +442,59 @@ router.get('/match/:idTournament/:branch/:idMatch', async (req,res)=>{
     const round = req.params.idMatch;
     const branch = req.params.branch;
     const id = req.params.idTournament;
-
     const match = await adminModel.getMatch(round, branch, id);
-    console.log(match);
     res.render('match',{
         title: 'Match',
         style: ['match.css'],
         js: ['home.js'],
-        match
+        match,
+        round,
+        branch,
+        id
     })
 })
+
+router.get('/match/:idTournament/:branch/:idMatch/modify', UserOnly, async (req,res)=>{
+    const round = req.params.idMatch;
+    const branch = req.params.branch;
+    const id = req.params.idTournament;
+    const match = await adminModel.getMatch(round, branch, id);
+    console.log(match);
+    res.render('modifyMatch',{
+        title: 'Modify match',
+        style: ['match.css'],
+        js: ['home.js'],
+        match,
+        round,
+        branch,
+        id
+    })
+})
+router.post('/match/:idTournament/:branch/:idMatch/modify', async (req,res)=>{
+
+    const detailMatch = {
+        time: req.body.time,
+        kill1: req.body.kill1,
+        kill2: req.body.kill2,
+        died1: req.body.died1,
+        died2: req.body.died2,
+        match_roundMatch: req.params.idMatch,
+        match_branch: req.params.branch,
+        match_tournament_idTournament: req.params.idTournament,
+    };
+    await adminModel.modifyDetailMatch(detailMatch);
+
+    const match = {
+        dateMatch: moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+        roundMatch: req.params.idMatch,
+        branch: req.params.branch,
+        tournament_idTournament: req.params.idTournament,
+    };
+    await adminModel.modifyMatch(match);
+
+    res.redirect(`/match/${req.params.idTournament}/${req.params.branch}/${req.params.idMatch}`)
+})
+
 
 router.post('/current',(req,res)=>{
     req.session.current = req.body.current;

@@ -105,7 +105,7 @@ router.post('/tournament/:idTournament/delete',async(req,res)=>{
     res.redirect('/listTournament');
 })
 
-router.use('/overview', express.static('public'));
+router.use('/:idTournament/overview', express.static('public'));
 
 router.get('/:idTournament/overview',async(req,res)=>{
     const rows = await adminModel.singleTournament(req.params.idTournament);

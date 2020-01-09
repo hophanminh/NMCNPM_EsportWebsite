@@ -101,6 +101,7 @@ module.exports = {
     delete entity.idPlayer;
     return db.modify('player',entity,condition);
   },
+
   deletePlayer: (id) => db.del('player',{idPlayer: id}),
 
   // tournament page

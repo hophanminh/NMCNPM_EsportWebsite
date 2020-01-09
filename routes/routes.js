@@ -309,14 +309,45 @@ router.post('/',async (req,res)=>{
         match_tournament_idTournament: idTournament
     })
 
-    for (const item of winnerBracket) {
-        const result = await adminModel.patchBracket(item);
+    // update status
+    var player = {
+        statusPlayer: 0,
+        idPlayer: 1
     }
-    for (const item of loserBracket) {
-        const result = await adminModel.patchBracket(item);
+    for (i = 0; i < 15; i++) {
+        const result = await adminModel.patchBracket(winnerBracket[i]);
+        if (winnerBracket[i].score1 != null && winnerBracket[i].score2 != null && winnerBracket[i].score1 > winnerBracket[i].score2){
+            player.idPlayer = winnerBracket[i].player_idPlayer2;
+            player.statusPlayer = 1;
+        }
+        else if (winnerBracket[i].score1 < winnerBracket[i].score2){
+            player.idPlayer = winnerBracket[i].player_idPlayer1;
+            player.statusPlayer = 1;
+        }
+        await adminModel.modifyPlayer(player);
     }
-    for (const item of finalBracket) {
-        const result = await adminModel.patchBracket(item);
+    for (i = 0; i < 14; i++) {
+        const result = await adminModel.patchBracket(loserBracket[i]);
+
+        if (loserBracket[i].score1 != null && loserBracket[i].score2 != null && loserBracket[i].score1 > loserBracket[i].score2){
+            player.idPlayer = loserBracket[i].player_idPlayer2;
+            player.statusPlayer = 2;
+        }
+        else if (loserBracket[i].score1 < loserBracket[i].score2){
+            player.idPlayer = loserBracket[i].player_idPlayer1;
+            player.statusPlayer = 2;
+        }
+        await adminModel.modifyPlayer(player);
+
+    }
+    for (i = 0; i < 2; i++) {
+        const result = await adminModel.patchBracket(finalBracket[i]);
+
+        player.statusPlayer = 3;
+        player.idPlayer = finalBracket[i].player_idPlayer1;
+        await adminModel.modifyPlayer(player);
+        player.idPlayer = finalBracket[i].player_idPlayer2;
+        await adminModel.modifyPlayer(player);
     }
 })
 

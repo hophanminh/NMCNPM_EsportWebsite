@@ -33,7 +33,10 @@ router.get('/',async(req,res)=>{
             rows[i].branch = 'Win branch';
         else if (rows[i].statusPlayer === 1)
             rows[i].branch = 'Lose branch';
-        else rows[i].branch = 'Out';
+        else if (rows[i].statusPlayer === 2)
+            rows[i].branch = 'Out';
+        else 
+            rows[i].branch = 'Final';
 
         let dob = rows[i].DoB;
         rows[i].DoB = moment(dob).format('LL');
@@ -90,6 +93,7 @@ router.post('/:idTournament/addPlayer',async (req,res)=>{
         usernamePlayer: req.body.usernamePlayer,
         realnamePlayer: req.body.realnamePlayer,
         DoB: dobP,
+        statusPlayer: 0,
         tournament_idTournament: req.body.tournament_idTournament,
     };
     const result = await adminModel.addPlayer(entity);
@@ -112,7 +116,7 @@ router.post('/:idTournament/addPlayerFile', async (req,res)=>{                  
             usernamePlayer: trim(words[0]),
             realnamePlayer: trim(words[1]),
             DoB: trim(words[2]),
-            statusPlayer: 2,
+            statusPlayer: 0,
             tournament_idTournament: req.params.idTournament
         }
         await adminModel.addPlayer(entity);

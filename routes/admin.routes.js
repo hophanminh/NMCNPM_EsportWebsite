@@ -71,6 +71,7 @@ router.post('/tournament',async (req,res)=>{
         add = await adminModel.addPlayer_Match(player_match);
         add = await adminModel.addDetailMatch(detailmatch);
     }   
+    delete req.session.current;
     res.redirect('/');
 })
 

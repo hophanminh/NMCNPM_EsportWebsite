@@ -77,16 +77,18 @@ function onhover(data, hover) {
 }
 
 function onclick(data) {
-  var string = "http://localhost:3000/match/" + data.idTour + "/" + data.branch + "/" + data.idMatch;
-  window.location.href = string;
+  if(data.idTour != undefined) {
+    var string = "http://localhost:3000/match/" + data.idTour + "/" + data.branch + "/" + data.idMatch;
+    window.location.href = string;
+  }
 }
 
   
 function init(doubleElimination) {
     $('.bracket').bracket({
         centerConnectors: true,
-        teamWidth: 80,
-        scoreWidth: 40,
+        teamWidth: 100,
+        scoreWidth: 20,
         matchMargin: 42,
         roundMargin: 20,
         skipSecondaryFinal: true,
@@ -104,8 +106,8 @@ function init(doubleElimination) {
 function initGuest(doubleElimination) {
   $('.bracket').bracket({
       centerConnectors: true,
-      teamWidth: 80,
-      scoreWidth: 40,
+      teamWidth: 100,
+      scoreWidth: 20,
       matchMargin: 42,
       roundMargin: 20,
       skipSecondaryFinal: true,

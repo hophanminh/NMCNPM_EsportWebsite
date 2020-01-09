@@ -515,8 +515,11 @@ router.get('/tournament/:idTournament',async(req,res)=>{
     })
 })
 
-router.get('/overview',(req,res)=>{
+router.get('/overview',async(req,res)=>{
+    const rows = await adminModel.getOverview(res.locals.current);
+    console.log(rows);
     res.render('overview',{
+        overviews: rows[0],
         title: 'Over View',
         style: ['style.css'],
     })

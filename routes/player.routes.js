@@ -21,6 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
+router.use('/', express.static('public'));
 
 router.get('/',async(req,res)=>{
 

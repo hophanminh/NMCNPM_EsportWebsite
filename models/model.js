@@ -118,4 +118,16 @@ module.exports = {
   statusTournament: id => db.load(`select Status from tournament where idTournament = ${id}`),
   updateStatusTournament: id => db.loadSafe(`update tournament set Status = 0 where idTournament = ?`, id),
 
+  getOverview: idTour => {
+    const sql = `
+    SELECT o.*, cham.usernamePlayer as PlayerChamUName, cham.realnamePlayer as PlayerChamRName, kil.usernamePlayer as PlayerKillUName, kil.realnamePlayer as PlayerKillRName
+    FROM overview o
+    join player cham on o.Champion = cham.idPlayer
+    join player kil on o.mostkillPlayer = kil.idPlayer
+    where o.tournament_idTournament = ${idTour}
+    `
+    return db.load(sql);
+  },
+
+
 }

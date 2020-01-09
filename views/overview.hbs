@@ -1,4 +1,3 @@
-
 {{#section 'css'}}
 <style>
     html,
@@ -43,57 +42,38 @@
     .third:hover {
         color: rgba(167, 55, 55, 0.884);
     }
-    .player:hover{
+
+    .player:hover {
         text-decoration: none;
     }
 </style>
 {{/section}}
-    <div class="container">
-        <div class=" row mt-3">
-
-            <div class="col-4" style="margin-top: 100px;">
-                <a href="#" class="player">
-                <div class="card text-dark second" style="width: 15rem;">
-                    
-                    <img src="img/ava.jpg" class="card-img-top" alt="...">
-                    <div class="card-body text-center second">
-                        <h5 class="card-title ">quanky99</h5>
-                        <p class="card-text">Lưu Đặng Kỳ Quân</p>
-                        <img src="img/2nd.jpg" class="card-img-top" alt="..." height="150px">
-                    </div>
-
+<div class="container">
+    <div class=" row mt-3 d-flex justify-content-center mb-4">
+        <a href="/player" class="player">
+            <div class="card text-dark " style="width: 15rem;">
+                <img src="img/ava.jpg" class="card-img-top" width="70%" height="70%" alt="champion">
+                <div class="card-body text-center first ">
+                    <h5 class="card-title ">{{this.overviews.PlayerChamUName}}</h5>
+                    <p class="card-text ">{{this.overviews.PlayerChamRName}}</p>
+                    <img src="img/1st.png" class="card-img-top" alt="..." height="150px">
                 </div>
-                </a>
             </div>
-
-
-            <div class="col-4">
-                <a href="#" class="player">
-                    <div class="card text-dark " style="width: 15rem;">
-                        <img src="img/ava.jpg" class="card-img-top" alt="...">
-                        <div class="card-body text-center first ">
-                            <h5 class="card-title ">quanky99</h5>
-                            <p class="card-text ">Lưu Đặng Kỳ Quân</p>
-                            <img src="img/1st.png" class="card-img-top" alt="..." height="150px">
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-
-            <div class="col-4" style="margin-top: 200px;">
-                <a href="#" class="player">
-                    <div class="card text-dark " style="width: 15rem;">
-                        <img src="img/ava.jpg" class="card-img-top" alt="...">
-                        <div class="card-body text-center third">
-                            <h5 class="card-title">quanky99</h5>
-                            <p class="card-text">Lưu Đặng Kỳ Quân</p>
-                            <img src="img/3rd.jpg" class="card-img-top" alt="..." height="150px">
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-        </div>
-
+        </a>
     </div>
+
+    <div class="row bt-3 text-center">
+        <div class="col">
+            <p class="h3 text-success">Viewers</p>
+            <p class='h1 text-success'>{{this.overviews.viewers}}</p>
+        </div>
+        <div class="col">
+            <p class="h3 text-danger">Most kill player</p><br>
+            <p class='h3 text-danger'>{{this.overviews.PlayerKillUName}}</p>
+        </div>
+        <div class="col">
+            <p class="h3 text-dark">Description</p><br>
+            <p class='text-white'>{{this.overviews.Discription}}</p>
+        </div>
+    </div>
+</div>

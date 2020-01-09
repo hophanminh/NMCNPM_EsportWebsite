@@ -33,6 +33,12 @@ router.post('/tournament',async (req,res)=>{
         statusMatch: 0,
         tournament_idTournament: idTournament[0].max
     }
+    var detailmatch = {
+        match_roundMatch: 0,
+        match_branch: 0,
+        match_tournament_idTournament: idTournament[0].max,
+    }
+
     var player_match = {
         match_roundMatch: 0,
         match_branch: 0,
@@ -40,23 +46,30 @@ router.post('/tournament',async (req,res)=>{
         player_idPlayer1: null,
         player_idPlayer2: null,
     }
-    for (i = 1; i <= 31; i++) {     // branch: 0-winner, 1-loser, 2-final
+    for (i = 1; i <= 32; i++) {     // branch: 0-winner, 1-loser, 2-final
         if (i == 16){               
             match.roundMatch = 0;
             match.branch = 1;
             player_match.match_roundMatch = 0;
             player_match.match_branch = 1;
+            detailmatch.match_roundMatch = 0;
+            detailmatch.match_branch = 1;
+
         }
         if (i == 30){                
             match.roundMatch = 0;
             match.branch = 2;
             player_match.match_roundMatch = 0;
             player_match.match_branch = 2;
+            detailmatch.match_roundMatch = 0;
+            detailmatch.match_branch = 2;
         }
         match.roundMatch++;
         player_match.match_roundMatch++;
+        detailmatch.match_roundMatch++;
         add = await adminModel.addMatch(match);
         add = await adminModel.addPlayer_Match(player_match);
+        add = await adminModel.addDetailMatch(detailmatch);
     }   
     res.redirect('/');
 })

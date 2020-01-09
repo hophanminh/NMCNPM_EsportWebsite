@@ -1,94 +1,56 @@
         <!--container-->
         <div class="container-fluid">
+            {{#each tournament}}
             <div class="row d-flex justify-content-center mb-5">
                 <div class="text-center text-white">
                     <p class="h1 mb-5">
-                        NAMEGAME
+                        {{nameTournament}}
                     </p>
-                    <p style="max-width: 400px;">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Inventore, quasi. Harum laborum tempore officiis vitae
-                        beatae iure quaerat, veritatis distinctio hic, ut
-                        reprehenderit cupiditate ab voluptas earum modi! Est,
-                        fuga.
-                    </p>
+                    <div style="max-width: 600px;">
+                        {{{TinyDescription}}}
+                    </div>
                 </div>
             </div>
             <div class="row d-flex justify-content-center my-auto">
-                <div class="col-3 text-success">
-                    <span>
-                        <i class="fa fa-heart fa-2x " aria-hidden="true"></i>
-                    </span>
-                    <p>Viewers</p>
-                    <p class="limit-text">
-                        Ab quisquam officia repellat. Eum est ipsum dolor aut
-                        veritatis ea. Ea ea ut non consequatur sed soluta
-                        maxime. Nemo quo praesentium. Aliquam officia
-                        consequuntur eum.
-                    </p>
-                </div>
                 <div class="col-3 text-warning">
                     <span>
                         <i class="fa fa-usd fa-2x" aria-hidden="true"></i>
                     </span>
-                    <p>Price</p>
+                    <p>Tournament Price</p>
                     <p class="limit-text">
-                        Ab quisquam officia repellat. Eum est ipsum dolor aut
-                        veritatis ea. Ea ea ut non consequatur sed soluta
-                        maxime. Nemo quo praesentium. Aliquam officia
-                        consequuntur eum.
-                    </p>
-                </div>
-                <div class="col-3 text-secondary">
-                    <span>
-                        <i class="fa fa-cogs fa-2x" aria-hidden="true"></i>
-                    </span>
-                    <p>Rules</p>
-                    <p class="limit-text">
-                        Ab quisquam officia repellat. Eum est ipsum dolor aut
-                        veritatis ea. Ea ea ut non consequatur sed soluta
-                        maxime. Nemo quo praesentium. Aliquam officia
-                        consequuntur eum.
-                    </p>
-                </div>
-            </div>
-            <div class="row d-flex justify-content-center my-auto">
-                <div class="col-3 text-primary">
-                    <span>
-                        <i class="fa fa-map-marker fa-2x " aria-hidden="true"></i>
-                    </span>
-                    <p>Stadium</p>
-                    <p class="limit-text">
-                        Ab quisquam officia repellat. Eum est ipsum dolor aut
-                        veritatis ea. Ea ea ut non consequatur sed soluta
-                        maxime. Nemo quo praesentium. Aliquam officia
-                        consequuntur eum.
-                    </p>
-                </div>
-                <div class="col-3 text-danger">
-                    <span>
-                        <i class="fa fa-copyright fa-2x" aria-hidden="true"></i>
-                    </span>
-                    <p>Host</p>
-                    <p class="limit-text">
-                        Ab quisquam officia repellat. Eum est ipsum dolor aut
-                        veritatis ea. Ea ea ut non consequatur sed soluta
-                        maxime. Nemo quo praesentium. Aliquam officia
-                        consequuntur eum.
+                        {{formatMoney prizeTournament}}
                     </p>
                 </div>
                 <div class="col-3 text-info">
                     <span>
                         <i class="fa fa-code fa-2x" aria-hidden="true"></i>
                     </span>
-                    <p>Developed by</p>
+                    <p>Rules</p>
                     <p class="limit-text">
-                        Ab quisquam officia repellat. Eum est ipsum dolor aut
-                        veritatis ea. Ea ea ut non consequatur sed soluta
-                        maxime. Nemo quo praesentium. Aliquam officia
-                        consequuntur eum.
+                       {{{Rule}}}
+                    </p>
+                </div>
+                <div class="col-3 text-success">
+                    <span>
+                        <i class="fa fa-calendar fa-2x" aria-hidden="true"></i>
+                    </span>
+                    <p>Dates</p>
+                    <p class="limit-text">
+                        {{formatDate dateStart}} - {{formatDate dateEnd}}
                     </p>
                 </div>
             </div>
+            <div class="row d-flex justify-content-center mb-5">
+                <div class="text-center text-white">
+                    <h3 class="h1 mb-5">
+                        Description
+                    </h3>
+                    <div class="mx-3">
+                        {{{FullDescription}}}
+                    </div>
+                </div>
+            </div>
+
+            {{/each}}
         </div>
         <!--/container-->

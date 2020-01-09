@@ -54,7 +54,7 @@ DROP TABLE IF EXISTS `detailmatch`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `detailmatch` (
-  `idDetailMatch` int(11) NOT NULL,
+  `idDetailMatch` int(11) AUTO_INCREMENT NOT NULL,
   `kill` int(11) DEFAULT NULL,
   `died` int(11) DEFAULT NULL,
   `time` date DEFAULT NULL,

@@ -1,6 +1,8 @@
 const exphbs = require('express-handlebars');
 const hbs_section = require('express-handlebars-sections')
 const path = require('path');
+const numeral = require('numeral');
+const moment = require('moment');
 
 module.exports=function(app){
     app.engine('hbs',exphbs({
@@ -13,7 +15,11 @@ module.exports=function(app){
                     return opts.fn(this);
                 else
                     return opts.inverse(this);
-            }
+            },
+            formatMoney: val => numeral(val).format('0,0[.]00') + ' VNĐ',
+            formatDate: val => moment(val).format('DD/MM/YYYY'),
+
+
 
         }
     }))

@@ -96,6 +96,8 @@ module.exports = {
   getCurrentTournament: () => db.load(`SELECT MAX(idTournament) as max FROM esport.tournament`),
   getIDAllTournament: ()=> db.load(`select idTournament, nameTournament from tournament order by idTournament desc`),
   addMatch: entity => db.add('esport.match', entity),
+  addDetailMatch: entity => db.add('esport.detailmatch', entity),
+
   addPlayer_Match: entity => db.add('esport.player_has_match', entity),
 
   addOverview: entity => db.add('overview',entity),

@@ -51,6 +51,7 @@
       'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
     ],
   });
+
   tinymce.init({
     selector: '#TinyDes',
     height: 400,
@@ -71,6 +72,20 @@
       'table link image media',
     ],
   });
+
+$(document).ready(function() {
+    tinymce.get('FulDes').on('init',function(e) {
+      e.target.setContent(`{{{this.tournament.FullDescription}}}`);
+    });
+    tinymce.get('TinyDes').on('init',function(e) {
+      e.target.setContent(`{{{this.tournament.TinyDescription}}}`);
+    });
+    tinymce.get('Rule').on('init',function(e) {
+      e.target.setContent(`{{{this.tournament.Rule}}}`);
+    });
+
+
+});
 </script>
 {{/section}}
 
@@ -154,18 +169,17 @@
                 </div>
                 <div class="form-group">
                     <label for="Rule">Rule</label>
-                    <textarea class="form-control bg-transparent " aria-label="With textarea" id="Rule" name="Rule"
-                        value={{this.tournament.Rule}}></textarea>
+                    <textarea class="form-control bg-transparent " aria-label="With textarea" id="Rule" name="Rule"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="TinyDes">Brief Description</label>
                     <textarea class="form-control bg-transparent " aria-label="With textarea" id="TinyDes"
-                        name="TinyDescription" value={{this.tournament.TinyDescription}}></textarea>
+                        name="TinyDescription"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="FullDes">Full Description</label>
                     <textarea class="form-control bg-transparent " aria-label="With textarea" id="FulDes"
-                        name="FullDescription" value={{this.tournament.FullDescription}}></textarea>
+                        name="FullDescription"></textarea>
                 </div>
                 <a href="/listTournament" class="btn btn-outline-primary" role="button">
                     <i class="fa fa-angle-double-left" aria-hidden="true"></i>

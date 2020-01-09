@@ -1,0 +1,70 @@
+{{#section 'css'}}
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+{{/section}}
+{{#section 'js'}}
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script>
+    $('#dob').datetimepicker({
+        // format: 'd/m/Y H:i'
+        format: 'd/m/Y',
+        timepicker: false,
+        mask: true,
+    });
+</script>
+
+{{/section}}
+
+    <!--container-->
+    <div class="container">
+       <div class="mb-4">
+           <p class="h1 text-center" style="color: rgb(255, 185, 185);">THỐNG KÊ TRẬN ĐẤU</p>
+        </div>
+        {{#each match}}
+        <form method="POST">
+            <div class="mb-4 d-flex justify-content-center">
+                <span class="h4 text-center" style="color: rgb(255, 185, 185);">Date start:</span> 
+                <input id="dob" name='dob' class="form-control ml-3" style="width: 15%;">
+            </div>
+            <div class="row text-center d-flex justify-content-center">
+                <table class="table table-hover text-white">
+                    <thead>
+                        <tr>
+                        <th scope="col">{{name1}}</th>
+                        <th scope="col" class="d-flex justify-content-center">
+                            <input type="text" id="time" name="time" class="form-control" style="width: 50%;" value="{{time}}" placeholder="Time" >
+                        </th>   
+                        <th scope="col">{{name2}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{score1}}</td>
+                            <td>Score</td>
+                            <td>{{score2}}</td>
+                        </tr>
+                        <tr>
+                            <td class="d-flex justify-content-center">
+                                <input type="number" id="kill1" name="kill1" class="form-control" style="width: 60%;"  value="{{kill1}}" placeholder="Number of kills">
+                            </td>
+                            <td>Kill</td>
+                            <td class="d-flex justify-content-center">
+                                <input type="number" id="kill2" name="kill2" class="form-control" style="width: 60%;"  value="{{kill2}}" placeholder="Number of kills">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="d-flex justify-content-center">
+                                <input type="number" id="died1" name="died1" class="form-control" style="width: 60%;"  value="{{died1}}" placeholder="Number of deaths">
+                            </td>
+                            <td>Death</td>
+                            <td class="d-flex justify-content-center">
+                                <input type="number" id="died1" name="died2" class="form-control" style="width: 60%;"  value="{{died2}}" placeholder="Number of deaths">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        {{/each}}
+    </div>

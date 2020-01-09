@@ -441,7 +441,6 @@ router.get('/match/:idTournament/:branch/:idMatch', async (req,res)=>{
     const round = req.params.idMatch;
     const branch = req.params.branch;
     const id = req.params.idTournament;
-
     const match = await adminModel.getMatch(round, branch, id);
     console.log(match);
     res.render('match',{
@@ -451,6 +450,26 @@ router.get('/match/:idTournament/:branch/:idMatch', async (req,res)=>{
         match
     })
 })
+router.get('/match/:idTournament/:branch/:idMatch/modify', async (req,res)=>{
+    const round = req.params.idMatch;
+    const branch = req.params.branch;
+    const id = req.params.idTournament;
+    const match = await adminModel.getMatch(round, branch, id);
+    console.log(match);
+    res.render('modifyMatch',{
+        title: 'Match',
+        style: ['match.css'],
+        js: ['home.js'],
+        match
+    })
+})
+router.post('/match/:idTournament/:branch/:idMatch/modify', async (req,res)=>{
+
+
+    console.log(req.body);
+    res.redirect(`/match/${req.params.idTournament}/${req.params.branch}/${req.params.idMatch}`)
+})
+
 
 router.post('/current',(req,res)=>{
     req.session.current = req.body.current;

@@ -169,17 +169,24 @@ $(document).ready(function() {
                 </div>
                 <div class="form-group">
                     <label for="Rule">Rule</label>
-                    <textarea class="form-control bg-transparent " aria-label="With textarea" id="Rule" name="Rule"></textarea>
+                    <textarea class="form-control bg-transparent " aria-label="With textarea" id="Rule" name="Rule">
+                        {{{this.tournament.Rule}}}
+                    </textarea>
                 </div>
                 <div class="form-group">
                     <label for="TinyDes">Brief Description</label>
                     <textarea class="form-control bg-transparent " aria-label="With textarea" id="TinyDes"
-                        name="TinyDescription"></textarea>
+                        name="TinyDescription">
+                        {{{this.tournament.TinyDes}}}
+                        </textarea>
                 </div>
                 <div class="form-group">
                     <label for="FullDes">Full Description</label>
                     <textarea class="form-control bg-transparent " aria-label="With textarea" id="FulDes"
-                        name="FullDescription"></textarea>
+                        name="FullDescription">
+                        {{{this.tournament.FullDes}}}
+
+                        </textarea>
                 </div>
                 <a href="/listTournament" class="btn btn-outline-primary" role="button">
                     <i class="fa fa-angle-double-left" aria-hidden="true"></i>

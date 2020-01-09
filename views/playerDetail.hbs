@@ -60,8 +60,8 @@
 <div class="container text-white">
     <div class="h1 text-white d-flex justify-content-center mb-3">
         Player Detail
-    </div>
     <form method="POST" class="needs-validation" novalidate>
+    </div>
         <div class="form-row">
             <div class="col mb-3">
                 <label for="idPlayer">ID Player</label>
@@ -71,21 +71,21 @@
             <div class="col mb-3">
                 <label for="usernamePlayer">Usesrname Player</label>
                 <input type="text" class="form-control" id="usernamePlayer" name="usernamePlayer"
-                    value="{{this.player.usernamePlayer}}" required>
+                    value="{{this.player.usernamePlayer}}" {{#if isAuthenticated}} required {{else}} readonly {{/if}}>
             </div>
             <div class="col mb-3">
                 <label for="realnamePlayer">Real name player</label>
-                <input type="text" class="form-control" id="realnamePlayer" name="realnamePlayer" value="{{this.player.realnamePlayer}}" required>
+                <input type="text" class="form-control" id="realnamePlayer" name="realnamePlayer" value="{{this.player.realnamePlayer}}" {{#if isAuthenticated}} required {{else}} readonly {{/if}}>
             </div>
         </div>
         <div class="form-row">
             <div class="col-6 mb-3">
                 <label for="dob">Date of birth</label>
-                <input class="form-control" id="dob" name='dob' value="{{this.player.DoBTemp}}" required>
+                <input class="form-control" name='dob' value="{{this.player.DoBTemp}}" {{#if isAuthenticated}}  id="dob" required {{else}} readonly {{/if}}>
             </div>
             <div class="col-md-3 mb-3">
                 <label for="statusPlayer">Status Player</label>
-                <select class="custom-select" id="statusPlayer" name="statusPlayer" value='{{this.player.branch}}' required>
+                <select class="custom-select" id="statusPlayer" name="statusPlayer" value='{{this.player.branch}}' {{#if isAuthenticated}} required {{else}}disabled readonly {{/if}}>
                     <option value="0">Win branch</option>
                     <option value="1">Lose branch</option>
                     <option value="2">Out</option>
@@ -93,9 +93,10 @@
             </div>
             <div class="col-md-3 mb-3">
                 <label for="tournament_idTournament">ID tournament join</label>
-                <input type="text" class="form-control" id="tournament_idTournament" name="tournament_idTournament" value='{{this.player.tournament_idTournament}}' required>
+                <input type="text" class="form-control" id="tournament_idTournament" name="tournament_idTournament" value='{{this.player.tournament_idTournament}}' {{#if isAuthenticated}} required {{else}} readonly {{/if}}>
             </div>
         </div>
+        {{#if isAuthenticated}} 
         <div class="form-group">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox"required>
@@ -104,7 +105,8 @@
                 </label>
             </div>
         </div>
-        <button class="btn btn-primary" type="submit" formaction="/player/{{this.player.idPlayer}}/modify">Change info</button>
+         <button class="btn btn-primary" type="submit" formaction="/player/{{this.player.idPlayer}}/modify">Change info</button>
         <button class="btn btn-primary" type="submit" formaction="/player/{{this.player.idPlayer}}/delete">Delete player</button>
-    </form>
+        {{/if}}
+        </form>
 </div>

@@ -82,13 +82,6 @@
             No random
         </button>
     </form>
-    <form method="POST" onsubmit="return confirm('Are you sure?');">
-        <input type="hidden" name="id" value="{{current}}">
-        <button type="submit" class="btn btn-danger float-left numPlayer" formaction="/confirm">
-            {{num}}/16 players</br>
-            Start tournament
-        </button>
-    </form>
     {{else}}
     <form action="/player">
         <button type="submit" class="btn btn-danger float-left numPlayer">

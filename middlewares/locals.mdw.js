@@ -9,10 +9,16 @@ module.exports = function (app) {
     res.locals.list = list;
 
     if (typeof (req.session.current) === 'undefined') {
-      req.session.current = current[0].max;
+      if (current.length == 0){
+        req.session.current = 0;
+      }
+      else{
+        req.session.current = current[0].max;
+      }
     }
     res.locals.current = req.session.current;
-
+    
+    console.log(res.locals.current)
     if (typeof (req.session.isAuthenticated) === 'undefined') {
       req.session.isAuthenticated = false;
     }

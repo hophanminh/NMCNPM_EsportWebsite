@@ -46,7 +46,7 @@ router.post('/tournament',async (req,res)=>{
         player_idPlayer1: null,
         player_idPlayer2: null,
     }
-    for (i = 1; i <= 32; i++) {     // branch: 0-winner, 1-loser, 2-final
+    for (i = 1; i <= 31; i++) {     // branch: 0-winner, 1-loser, 2-final
         if (i == 16){               
             match.roundMatch = 0;
             match.branch = 1;

@@ -30,7 +30,7 @@ CREATE TABLE `account` (
   `password` varchar(100) NOT NULL,
   `email` varchar(45) NOT NULL,
   PRIMARY KEY (`idAccount`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,10 +39,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` (`idAccount`, `username`, `password`, `email`) VALUES (1,'admin1','root','someone@example.com');
-INSERT INTO `account` (`idAccount`, `username`, `password`, `email`) VALUES (2,'admin2','root','someone@example.com');
-INSERT INTO `account` (`idAccount`, `username`, `password`, `email`) VALUES (3,'admin3','root','someone@example.com');
-INSERT INTO `account` (`idAccount`, `username`, `password`, `email`) VALUES (4,'admin123','$2a$10$CSwY2h83i/VjVUMpNGBfG.jzAb1VSloF//KMMRNM/KBp8JL3pg9SO','masa23vn@gmail.com');
+INSERT INTO `account` (`idAccount`, `username`, `password`, `email`) VALUES (1,'admin1','root','someone@example.com'),(2,'admin2','root','someone@example.com'),(3,'admin3','root','someone@example.com'),(4,'admin123','$2a$10$CSwY2h83i/VjVUMpNGBfG.jzAb1VSloF//KMMRNM/KBp8JL3pg9SO','masa23vn@gmail.com'),(5,'masa23vn','$2a$10$WhhEFj/ipR5T0gEK8NKhVu7RbWjYgWaZiJlV504DifQl/yg1SFcQO','masa24vn@gmail.com');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,18 +51,19 @@ DROP TABLE IF EXISTS `detailmatch`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `detailmatch` (
-  `idDetailMatch` int(11) AUTO_INCREMENT NOT NULL,
-  `kill` int(11) DEFAULT NULL,
-  `died` int(11) DEFAULT NULL,
+  `idDetailMatch` int(11) NOT NULL AUTO_INCREMENT,
+  `kill1` int(11) DEFAULT NULL,
+  `kill2` int(11) DEFAULT NULL,
+  `died1` int(11) DEFAULT NULL,
+  `died2` int(11) DEFAULT NULL,
   `time` date DEFAULT NULL,
-  `highlight` varchar(100) DEFAULT NULL COMMENT 'link hình ảnh',
   `match_roundMatch` int(11) NOT NULL COMMENT 'ID of match in branch',
   `match_branch` int(11) NOT NULL COMMENT '0: win branch\n 1: lose branch 2: final',
   `match_tournament_idTournament` int(11) NOT NULL,
   PRIMARY KEY (`idDetailMatch`,`match_roundMatch`,`match_branch`,`match_tournament_idTournament`),
   KEY `fk_detailmatch_match1_idx` (`match_roundMatch`,`match_branch`,`match_tournament_idTournament`),
   CONSTRAINT `fk_detailmatch_match1` FOREIGN KEY (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`) REFERENCES `match` (`roundMatch`, `branch`, `tournament_idTournament`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,6 +72,7 @@ CREATE TABLE `detailmatch` (
 
 LOCK TABLES `detailmatch` WRITE;
 /*!40000 ALTER TABLE `detailmatch` DISABLE KEYS */;
+INSERT INTO `detailmatch` (`idDetailMatch`, `kill1`, `kill2`, `died1`, `died2`, `time`, `match_roundMatch`, `match_branch`, `match_tournament_idTournament`) VALUES (33,NULL,NULL,NULL,NULL,NULL,1,0,4),(34,NULL,NULL,NULL,NULL,NULL,2,0,4),(35,NULL,NULL,NULL,NULL,NULL,3,0,4),(36,NULL,NULL,NULL,NULL,NULL,4,0,4),(37,NULL,NULL,NULL,NULL,NULL,5,0,4),(38,NULL,NULL,NULL,NULL,NULL,6,0,4),(39,NULL,NULL,NULL,NULL,NULL,7,0,4),(40,NULL,NULL,NULL,NULL,NULL,8,0,4),(41,NULL,NULL,NULL,NULL,NULL,9,0,4),(42,NULL,NULL,NULL,NULL,NULL,10,0,4),(43,NULL,NULL,NULL,NULL,NULL,11,0,4),(44,NULL,NULL,NULL,NULL,NULL,12,0,4),(45,NULL,NULL,NULL,NULL,NULL,13,0,4),(46,NULL,NULL,NULL,NULL,NULL,14,0,4),(47,NULL,NULL,NULL,NULL,NULL,15,0,4),(48,NULL,NULL,NULL,NULL,NULL,1,1,4),(49,NULL,NULL,NULL,NULL,NULL,2,1,4),(50,NULL,NULL,NULL,NULL,NULL,3,1,4),(51,NULL,NULL,NULL,NULL,NULL,4,1,4),(52,NULL,NULL,NULL,NULL,NULL,5,1,4),(53,NULL,NULL,NULL,NULL,NULL,6,1,4),(54,NULL,NULL,NULL,NULL,NULL,7,1,4),(55,NULL,NULL,NULL,NULL,NULL,8,1,4),(56,NULL,NULL,NULL,NULL,NULL,9,1,4),(57,NULL,NULL,NULL,NULL,NULL,10,1,4),(58,NULL,NULL,NULL,NULL,NULL,11,1,4),(59,NULL,NULL,NULL,NULL,NULL,12,1,4),(60,NULL,NULL,NULL,NULL,NULL,13,1,4),(61,NULL,NULL,NULL,NULL,NULL,14,1,4),(62,NULL,NULL,NULL,NULL,NULL,1,2,4),(63,NULL,NULL,NULL,NULL,NULL,2,2,4),(64,NULL,NULL,NULL,NULL,NULL,1,0,5),(65,NULL,NULL,NULL,NULL,NULL,2,0,5),(66,NULL,NULL,NULL,NULL,NULL,3,0,5),(67,NULL,NULL,NULL,NULL,NULL,4,0,5),(68,NULL,NULL,NULL,NULL,NULL,5,0,5),(69,NULL,NULL,NULL,NULL,NULL,6,0,5),(70,NULL,NULL,NULL,NULL,NULL,7,0,5),(71,NULL,NULL,NULL,NULL,NULL,8,0,5),(72,NULL,NULL,NULL,NULL,NULL,9,0,5),(73,NULL,NULL,NULL,NULL,NULL,10,0,5),(74,NULL,NULL,NULL,NULL,NULL,11,0,5),(75,NULL,NULL,NULL,NULL,NULL,12,0,5),(76,NULL,NULL,NULL,NULL,NULL,13,0,5),(77,NULL,NULL,NULL,NULL,NULL,14,0,5),(78,NULL,NULL,NULL,NULL,NULL,15,0,5),(79,NULL,NULL,NULL,NULL,NULL,1,1,5),(80,NULL,NULL,NULL,NULL,NULL,2,1,5),(81,NULL,NULL,NULL,NULL,NULL,3,1,5),(82,NULL,NULL,NULL,NULL,NULL,4,1,5),(83,NULL,NULL,NULL,NULL,NULL,5,1,5),(84,NULL,NULL,NULL,NULL,NULL,6,1,5),(85,NULL,NULL,NULL,NULL,NULL,7,1,5),(86,NULL,NULL,NULL,NULL,NULL,8,1,5),(87,NULL,NULL,NULL,NULL,NULL,9,1,5),(88,NULL,NULL,NULL,NULL,NULL,10,1,5),(89,NULL,NULL,NULL,NULL,NULL,11,1,5),(90,NULL,NULL,NULL,NULL,NULL,12,1,5),(91,NULL,NULL,NULL,NULL,NULL,13,1,5),(92,NULL,NULL,NULL,NULL,NULL,14,1,5),(93,NULL,NULL,NULL,NULL,NULL,1,2,5),(94,NULL,NULL,NULL,NULL,NULL,2,2,5);
 /*!40000 ALTER TABLE `detailmatch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,68 +101,7 @@ CREATE TABLE `match` (
 
 LOCK TABLES `match` WRITE;
 /*!40000 ALTER TABLE `match` DISABLE KEYS */;
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (1,0,'2019-12-12 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (1,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (1,1,'2019-12-20 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (1,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (1,2,'2020-01-11 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (1,2,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (2,0,'2019-12-13 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (2,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (2,1,'2019-12-21 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (2,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (2,2,'2020-01-12 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (2,2,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (3,0,'2019-12-14 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (3,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (3,1,'2019-12-23 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (3,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (4,0,'2019-12-15 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (4,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (4,1,'2019-12-24 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (4,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (5,0,'2019-12-16 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (5,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (5,1,'2019-12-29 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (5,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (6,0,'2019-12-17 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (6,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (6,1,'2019-12-30 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (6,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (7,0,'2019-12-18 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (7,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (7,1,'2019-12-31 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (7,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (8,0,'2019-12-19 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (8,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (8,1,'2020-01-01 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (8,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (9,0,'2019-12-25 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (9,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (9,1,'2020-01-02 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (9,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (10,0,'2019-12-26 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (10,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (10,1,'2020-01-03 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (10,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (11,0,'2019-12-27 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (11,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (11,1,'2020-01-06 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (11,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (12,0,'2019-12-28 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (12,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (12,1,'2020-01-07 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (12,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (13,0,'2020-01-04 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (13,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (13,1,'2020-01-08 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (13,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (14,0,'2020-01-05 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (14,0,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (14,1,'2020-01-10 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (14,1,NULL,0,2);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (15,0,'2020-01-09 00:00:00',0,1);
-INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (15,0,NULL,0,2);
+INSERT INTO `match` (`roundMatch`, `branch`, `dateMatch`, `statusMatch`, `tournament_idTournament`) VALUES (1,0,NULL,0,4),(1,0,NULL,0,5),(1,1,NULL,0,4),(1,1,NULL,0,5),(1,2,NULL,0,4),(1,2,NULL,0,5),(2,0,NULL,0,4),(2,0,NULL,0,5),(2,1,NULL,0,4),(2,1,NULL,0,5),(2,2,NULL,0,4),(2,2,NULL,0,5),(3,0,NULL,0,4),(3,0,NULL,0,5),(3,1,NULL,0,4),(3,1,NULL,0,5),(4,0,NULL,0,4),(4,0,NULL,0,5),(4,1,NULL,0,4),(4,1,NULL,0,5),(5,0,NULL,0,4),(5,0,NULL,0,5),(5,1,NULL,0,4),(5,1,NULL,0,5),(6,0,NULL,0,4),(6,0,NULL,0,5),(6,1,NULL,0,4),(6,1,NULL,0,5),(7,0,NULL,0,4),(7,0,NULL,0,5),(7,1,NULL,0,4),(7,1,NULL,0,5),(8,0,NULL,0,4),(8,0,NULL,0,5),(8,1,NULL,0,4),(8,1,NULL,0,5),(9,0,NULL,0,4),(9,0,NULL,0,5),(9,1,NULL,0,4),(9,1,NULL,0,5),(10,0,NULL,0,4),(10,0,NULL,0,5),(10,1,NULL,0,4),(10,1,NULL,0,5),(11,0,NULL,0,4),(11,0,NULL,0,5),(11,1,NULL,0,4),(11,1,NULL,0,5),(12,0,NULL,0,4),(12,0,NULL,0,5),(12,1,NULL,0,4),(12,1,NULL,0,5),(13,0,NULL,0,4),(13,0,NULL,0,5),(13,1,NULL,0,4),(13,1,NULL,0,5),(14,0,NULL,0,4),(14,0,NULL,0,5),(14,1,NULL,0,4),(14,1,NULL,0,5),(15,0,NULL,0,4),(15,0,NULL,0,5);
 /*!40000 ALTER TABLE `match` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,8 +129,6 @@ CREATE TABLE `overview` (
 
 LOCK TABLES `overview` WRITE;
 /*!40000 ALTER TABLE `overview` DISABLE KEYS */;
-INSERT INTO `overview` (`mostkillPlayer`, `Champion`, `viewers`, `Discription`, `tournament_idTournament`) VALUES (6,3,7,'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.',1);
-INSERT INTO `overview` (`mostkillPlayer`, `Champion`, `viewers`, `Discription`, `tournament_idTournament`) VALUES (6,1,5,'Fusce consequat. Nulla nisl. Nunc nisl.',2);
 /*!40000 ALTER TABLE `overview` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,7 +149,7 @@ CREATE TABLE `player` (
   PRIMARY KEY (`idPlayer`,`tournament_idTournament`),
   KEY `fk_player_tournament1_idx` (`tournament_idTournament`),
   CONSTRAINT `fk_player_tournament1` FOREIGN KEY (`tournament_idTournament`) REFERENCES `tournament` (`idTournament`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,38 +158,7 @@ CREATE TABLE `player` (
 
 LOCK TABLES `player` WRITE;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (1,'blerwell0','Berny Lerwell','2019-03-12',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (2,'tmuirden1','Teri Muirden','2019-10-24',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (3,'jsmallacombe2','Jule Smallacombe','2019-06-01',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (4,'djeremaes3','Demeter Jeremaes','2019-05-12',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (5,'oroj4','Ollie Roj','2019-04-17',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (6,'ndurnford5','Nadeen Durnford','2019-07-07',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (7,'priccetti6','Penn Riccetti','2019-05-23',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (8,'dwegener7','Dewain Wegener','2019-05-05',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (9,'aabsolom8','Abagail Absolom','2019-01-15',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (10,'cantoniewski9','Charlie Antoniewski','2019-10-08',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (11,'tcoldmana','Teddy Coldman','2018-12-18',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (12,'gedgesonb','Gwennie Edgeson','2019-11-17',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (13,'tkedwardc','Terry Kedward','2019-11-30',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (14,'caggissd','Cad Aggiss','2018-12-13',0,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (15,'gdee','Gertruda De Michetti','2018-12-15',6,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (16,'ajosipovitzf','Alexei Josipovitz','2019-08-27',10,1);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (17,'tmateog','Tamiko Mateo','2019-03-13',2,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (18,'kbrammerh','Karon Brammer','2019-09-12',10,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (19,'ahuegetti','Addy Huegett','2018-12-26',8,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (20,'iolenanej','Ivan O\'Lenane','2019-11-25',10,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (21,'tmateog','Tamiko Mateo','2019-03-13',2,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (22,'kbrammerh','Karon Brammer','2019-09-12',10,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (23,'ahuegetti','Addy Huegett','2018-12-26',8,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (24,'iolenanej','Ivan O\'Lenane','2019-11-25',10,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (25,'blerwell0','Berny Lerwell','2019-03-12',0,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (26,'tmuirden1','Teri Muirden','2019-10-24',0,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (27,'jsmallacombe2','Jule Smallacombe','2019-06-01',0,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (28,'djeremaes3','Demeter Jeremaes','2019-05-12',0,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (29,'oroj4','Ollie Roj','2019-04-17',0,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (30,'ndurnford5','Nadeen Durnford','2019-07-07',0,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (31,'priccetti6','Penn Riccetti','2019-05-23',0,2);
-INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (32,'dwegener7','Dewain Wegener','2019-05-05',0,2);
+INSERT INTO `player` (`idPlayer`, `usernamePlayer`, `realnamePlayer`, `DoB`, `statusPlayer`, `tournament_idTournament`) VALUES (34,'player1','player1','1999-12-31',2,4),(35,'player2','player2','1999-12-31',2,4),(36,'player3','player3','1999-12-31',2,4),(37,'player4','player4','1999-12-31',2,4),(38,'player5','player5','1999-12-31',2,4),(39,'player6','player6','1999-12-31',2,4),(40,'player7','player7','1999-12-31',2,4),(41,'player8','player8','1999-12-31',2,4),(42,'player9','player9','1999-12-31',2,4),(43,'player10','player10','1999-12-31',2,4),(44,'player11','player11','1999-12-31',2,4),(45,'player12','player12','1999-12-31',2,4),(46,'player13','player13','1999-12-31',2,4),(47,'player14','player14','1999-12-31',2,4),(48,'player15','player15','1999-12-31',2,4),(49,'player16','player16','1999-12-31',2,4),(50,'player1','player1','1999-12-31',2,5),(51,'player2','player2','1999-12-31',2,5),(52,'player3','player3','1999-12-31',2,5),(53,'player4','player4','1999-12-31',2,5),(54,'player5','player5','1999-12-31',2,5),(55,'player6','player6','1999-12-31',2,5),(56,'player7','player7','1999-12-31',2,5),(57,'player8','player8','1999-12-31',2,5),(58,'player9','player9','1999-12-31',2,5),(59,'player10','player10','1999-12-31',2,5),(60,'player11','player11','1999-12-31',2,5),(61,'player12','player12','1999-12-31',2,5),(62,'player13','player13','1999-12-31',2,5),(63,'player14','player14','1999-12-31',2,5),(64,'player15','player15','1999-12-31',2,5),(65,'player16','player16','1999-12-31',2,5);
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,68 +193,7 @@ CREATE TABLE `player_has_match` (
 
 LOCK TABLES `player_has_match` WRITE;
 /*!40000 ALTER TABLE `player_has_match` DISABLE KEYS */;
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (1,0,1,1,2,1,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (1,0,2,17,25,2,3);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (1,1,1,1,3,0,8);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (1,1,2,17,26,2,5);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (1,2,1,15,10,12,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (1,2,2,NULL,NULL,NULL,NULL);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (2,0,1,3,4,3,4);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (2,0,2,18,26,4,1);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (2,1,1,5,7,9,1);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (2,1,2,19,20,3,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (2,2,1,4,8,3,1);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (2,2,2,NULL,NULL,NULL,NULL);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (3,0,1,5,6,5,6);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (3,0,2,19,27,2,3);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (3,1,1,9,11,2,3);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (3,1,2,21,30,1,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (4,0,1,7,8,7,8);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (4,0,2,20,28,0,1);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (4,1,1,14,16,4,5);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (4,1,2,23,24,0,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (5,0,1,9,10,1,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (5,0,2,21,29,0,7);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (5,1,1,3,13,6,7);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (5,1,2,26,32,0,1);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (6,0,1,11,12,3,5);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (6,0,2,22,30,3,1);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (6,1,1,5,12,8,9);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (6,1,2,19,29,3,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (7,0,1,13,14,2,1);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (7,0,2,23,31,1,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (7,1,1,11,6,10,11);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (7,1,2,30,27,0,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (8,0,1,15,16,2,1);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (8,0,2,24,32,1,3);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (8,1,1,16,2,12,13);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (8,1,2,24,18,0,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (9,0,1,2,4,1,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (9,0,2,25,18,2,0);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (9,1,1,13,12,0,1);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (9,1,2,32,19,3,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (10,0,1,6,8,2,3);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (10,0,2,27,28,2,3);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (10,1,1,6,2,12,3);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (10,1,2,27,18,1,3);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (11,0,1,10,12,45,7);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (11,0,2,29,22,1,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (11,1,1,12,4,4,5);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (11,1,2,32,NULL,NULL,NULL);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (12,0,1,13,15,8,9);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (12,0,2,31,32,3,2);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (12,1,1,6,10,6,7);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (12,1,2,18,NULL,NULL,NULL);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (13,0,1,4,8,1,3);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (13,0,2,25,28,2,NULL);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (13,1,1,4,10,8,9);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (13,1,2,NULL,NULL,NULL,NULL);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (14,0,1,10,15,3,4);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (14,0,2,22,31,NULL,NULL);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (14,1,1,10,8,1,0);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (14,1,2,NULL,NULL,NULL,NULL);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (15,0,1,8,15,5,6);
-INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (15,0,2,NULL,NULL,NULL,NULL);
+INSERT INTO `player_has_match` (`match_roundMatch`, `match_branch`, `match_tournament_idTournament`, `player_idPlayer1`, `player_idPlayer2`, `score1`, `score2`) VALUES (1,0,4,48,47,NULL,NULL),(1,0,5,60,58,0,2),(1,1,4,NULL,NULL,NULL,NULL),(1,1,5,60,61,NULL,NULL),(1,2,4,NULL,NULL,NULL,NULL),(1,2,5,NULL,NULL,NULL,NULL),(2,0,4,38,46,NULL,NULL),(2,0,5,61,52,1,3),(2,1,4,NULL,NULL,NULL,NULL),(2,1,5,NULL,NULL,NULL,NULL),(2,2,4,NULL,NULL,NULL,NULL),(2,2,5,NULL,NULL,NULL,NULL),(3,0,4,36,44,NULL,NULL),(3,0,5,51,63,NULL,NULL),(3,1,4,NULL,NULL,NULL,NULL),(3,1,5,NULL,NULL,NULL,NULL),(4,0,4,39,34,NULL,NULL),(4,0,5,56,64,NULL,NULL),(4,1,4,NULL,NULL,NULL,NULL),(4,1,5,NULL,NULL,NULL,NULL),(5,0,4,43,49,NULL,NULL),(5,0,5,62,65,NULL,NULL),(5,1,4,NULL,NULL,NULL,NULL),(5,1,5,NULL,NULL,NULL,NULL),(6,0,4,40,41,NULL,NULL),(6,0,5,50,53,NULL,NULL),(6,1,4,NULL,NULL,NULL,NULL),(6,1,5,NULL,NULL,NULL,NULL),(7,0,4,45,35,NULL,NULL),(7,0,5,57,54,NULL,NULL),(7,1,4,NULL,NULL,NULL,NULL),(7,1,5,NULL,NULL,NULL,NULL),(8,0,4,42,37,NULL,NULL),(8,0,5,55,59,NULL,NULL),(8,1,4,NULL,NULL,NULL,NULL),(8,1,5,NULL,58,NULL,NULL),(9,0,4,NULL,NULL,NULL,NULL),(9,0,5,58,52,1,4),(9,1,4,NULL,NULL,NULL,NULL),(9,1,5,NULL,NULL,NULL,NULL),(10,0,4,NULL,NULL,NULL,NULL),(10,0,5,NULL,NULL,NULL,NULL),(10,1,4,NULL,NULL,NULL,NULL),(10,1,5,NULL,NULL,NULL,NULL),(11,0,4,NULL,NULL,NULL,NULL),(11,0,5,NULL,NULL,NULL,NULL),(11,1,4,NULL,NULL,NULL,NULL),(11,1,5,NULL,NULL,NULL,NULL),(12,0,4,NULL,NULL,NULL,NULL),(12,0,5,NULL,NULL,NULL,NULL),(12,1,4,NULL,NULL,NULL,NULL),(12,1,5,NULL,NULL,NULL,NULL),(13,0,4,NULL,NULL,NULL,NULL),(13,0,5,52,NULL,NULL,NULL),(13,1,4,NULL,NULL,NULL,NULL),(13,1,5,NULL,NULL,NULL,NULL),(14,0,4,NULL,NULL,NULL,NULL),(14,0,5,NULL,NULL,NULL,NULL),(14,1,4,NULL,NULL,NULL,NULL),(14,1,5,NULL,NULL,NULL,NULL),(15,0,4,NULL,NULL,NULL,NULL),(15,0,5,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `player_has_match` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -370,9 +214,9 @@ CREATE TABLE `tournament` (
   `Rule` varchar(1500) DEFAULT NULL,
   `TinyDescription` varchar(1500) DEFAULT NULL,
   `FullDescription` varchar(1500) DEFAULT NULL,
-  `Status` int(11) DEFAULT 1 COMMENT '1: preparing, 0: playing',
+  `Status` int(11) DEFAULT '1' COMMENT '1: preparing, 0: playing',
   PRIMARY KEY (`idTournament`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -381,8 +225,7 @@ CREATE TABLE `tournament` (
 
 LOCK TABLES `tournament` WRITE;
 /*!40000 ALTER TABLE `tournament` DISABLE KEYS */;
-INSERT INTO `tournament` (`idTournament`, `nameTournament`, `nameGame`, `dateStart`, `dateEnd`, `prizeTournament`, `Rule`, `TinyDescription`, `FullDescription`) VALUES (1,'tour1','LOL','2020-05-01','2019-12-31',1000000,'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fermentum ante nec quam volutpat, eget tincidunt nisi suscipit. Nam tempor enim in leo vehicula, vitae convallis massa sagittis. Mauris sed lorem vitae arcu laoreet lobortis vel ac arcu. Vestibulum hendrerit mauris luctus est tincidunt fermentum. Quisque dapibus eros nunc, id consectetur sem cursus posuere. Donec eleifend elementum pulvinar. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam dapibus efficitur molestie. Donec fermentum libero in consectetur dignissim. Aliquam vitae est sed nibh consequat condimentum.</p>','<p>Duis risus elit, suscipit non felis ultrices, tincidunt laoreet metus. Mauris ullamcorper magna in nisi efficitur convallis. Nam posuere facilisis sapien quis mattis. Duis sed vulputate dolor. Vivamus at lacus odio. Fusce efficitur magna tortor, placerat mollis leo dapibus id. Donec volutpat, augue id venenatis fermentum, massa eros blandit ex, id ullamcorper diam erat a sem. Nulla facilisi. Maecenas vitae quam massa. Nulla porta rutrum sem.</p>','<p>Maecenas non ligula sapien. Nam dui purus, condimentum et cursus id, faucibus a neque. Quisque aliquet tortor felis, non viverra neque cursus sit amet. Proin volutpat metus viverra mauris scelerisque consequat. Aenean eu lorem id odio elementum dignissim. Cras dapibus, quam pharetra aliquet fringilla, nisi augue mattis leo, ac rhoncus enim sapien a metus. Vivamus maximus fringilla sodales. Phasellus placerat bibendum magna imperdiet condimentum. Fusce ultrices leo sit amet arcu commodo, a tincidunt leo iaculis. In lacinia finibus justo id suscipit. Nullam odio lorem, lobortis in justo ut, gravida porttitor turpis. Praesent ullamcorper vehicula velit in semper. Ut vehicula tellus quam, in ultricies diam sollicitudin id. Quisque sollicitudin nisi efficitur, dapibus elit in, ullamcorper quam. Nulla consequat nisi orci, at rutrum nunc vehicula eu.</p>');
-INSERT INTO `tournament` (`idTournament`, `nameTournament`, `nameGame`, `dateStart`, `dateEnd`, `prizeTournament`, `Rule`, `TinyDescription`, `FullDescription`) VALUES (2,'tour2','CSGO','2020-03-04','2020-01-28',20000000,'','','');
+INSERT INTO `tournament` (`idTournament`, `nameTournament`, `nameGame`, `dateStart`, `dateEnd`, `prizeTournament`, `Rule`, `TinyDescription`, `FullDescription`, `Status`) VALUES (4,'tour3','LOL','2020-01-20','2020-01-20',1243214214,'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fermentum ante nec quam volutpat, eget tincidunt nisi suscipit. Nam tempor enim in leo vehicula, vitae convallis massa sagittis. Mauris sed lorem vitae arcu laoreet lobortis vel ac arcu. Vestibulum hendrerit mauris luctus est tincidunt fermentum. Quisque dapibus eros nunc, id consectetur sem cursus posuere.</p>','<p>Duis risus elit, suscipit non felis ultrices, tincidunt laoreet metus. Mauris ullamcorper magna in nisi efficitur convallis. Nam posuere facilisis sapien quis mattis. Duis sed vulputate dolor. Vivamus at lacus odio. Fusce efficitur magna tortor, placerat mollis leo dapibus id. Donec volutpat, augue id venenatis fermentum, massa eros blandit ex, id ullamcorper diam erat a sem. Nulla facilisi. Maecenas vitae quam massa. Nulla porta rutrum sem.</p>','<p>Maecenas non ligula sapien. Nam dui purus, condimentum et cursus id, faucibus a neque. Quisque aliquet tortor felis, non viverra neque cursus sit amet. Proin volutpat metus viverra mauris scelerisque consequat. Aenean eu lorem id odio elementum dignissim. Cras dapibus, quam pharetra aliquet fringilla, nisi augue mattis leo, ac rhoncus enim sapien a metus. Vivamus maximus fringilla sodales. Phasellus placerat bibendum magna imperdiet condimentum. Fusce ultrices leo sit amet arcu commodo, a tincidunt leo iaculis. In lacinia finibus justo id suscipit. Nullam odio lorem, lobortis in justo ut, gravida porttitor turpis. Praesent ullamcorper vehicula velit in semper. Ut vehicula tellus quam, in ultricies diam sollicitudin id. Quisque sollicitudin nisi efficitur, dapibus elit in, ullamcorper quam. Nulla consequat nisi orci, at rutrum nunc vehicula eu.</p>',0),(5,'International','DOTA','2001-01-20','2031-01-20',200000000,'','','',0);
 /*!40000 ALTER TABLE `tournament` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -403,4 +246,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-29 17:03:38
+-- Dump completed on 2020-01-09 21:48:03

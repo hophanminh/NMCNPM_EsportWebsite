@@ -437,11 +437,18 @@ router.get('/about', async (req,res)=>{
     })
 })
 
-router.get('/match/:idTournament/:branch/:idMatch',(req,res)=>{
+router.get('/match/:idTournament/:branch/:idMatch', async (req,res)=>{
+    const round = req.params.idMatch;
+    const branch = req.params.branch;
+    const id = req.params.idTournament;
+
+    const match = await adminModel.getMatch(round, branch, id);
+    console.log(match);
     res.render('match',{
         title: 'Match',
         style: ['match.css'],
-        js: ['home.js']
+        js: ['home.js'],
+        match
     })
 })
 

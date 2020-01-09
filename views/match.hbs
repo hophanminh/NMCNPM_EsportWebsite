@@ -4,32 +4,46 @@
        <div class="mb-4">
            <p class="h1 text-center" style="color: rgb(255, 185, 185);">THỐNG KÊ TRẬN ĐẤU</p>
         </div>
+        {{#each match}}
+        <div class="mb-4">
+           <p class="h4 text-center" style="color: rgb(255, 185, 185);">
+               Date start:
+               {{#if dateMatch}}
+               {{formatDate dateMatch}}
+               {{else}}
+               Waitng for update
+               {{/if}}</p>
+        </div>
         <div class="row text-center d-flex justify-content-center">
             <table class="table table-hover text-white">
                 <thead>
                     <tr>
-                    <th scope="col">Player 1</th>
-                    <th scope="col">vs</th>
-                    <th scope="col">Player 2</th>
+                    <th scope="col">{{name1}}</th>
+                    <th scope="col">
+                        {{#if time}}
+                        Time: {{time}}
+                        {{else}}{{/if}}</th>
+                    <th scope="col">{{name2}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                    <td>3012</td>
-                    <td>Network</td>
-                    <td>1308</td>
+                    <td>{{score1}}</td>
+                    <td>Score</td>
+                    <td>{{score2}}</td>
                     </tr>
                     <tr>
-                    <td>11111</td>
-                    <td>Exp</td>
-                    <td>3456</td>
-                    </tr>
-                    <tr>
-                    <td>13</td>
+                    <td>{{kill1}}</td>
                     <td>Kill</td>
-                    <td>30</td>
+                    <td>{{kill2}}</td>
+                    </tr>
+                    <tr>
+                    <td>{{died1}}</td>
+                    <td>Death</td>
+                    <td>{{died2}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        {{/each}}
     </div>

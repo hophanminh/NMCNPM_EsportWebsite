@@ -57,7 +57,20 @@ module.exports = {
                       WHERE match_tournament_idTournament = ? AND M.dateMatch < NOW()
                       ORDER BY M.dateMatch DESC
                       LIMIT 2`, id),            
-                    
+  
+  // match page
+  getMatch: (round, branch, id) =>
+        db.loadSafe(`SELECT M.branch, M.dateMatch, M.statusMatch, DM.kill1, DM.died1, DM.kill2, DM.died2, DM.time, PhM.score1, PhM.score2,
+                            P1.usernamePlayer as name1, P2.usernamePlayer as name2
+                    FROM esport.match M JOIN esport.detailmatch DM ON M.roundMatch = DM.match_roundMatch AND
+                                                                      M.branch = DM.match_branch AND
+                                                                      M.tournament_idTournament = DM.match_tournament_idTournament
+                                        JOIN esport.player_has_match PhM ON M.roundMatch = PhM.match_roundMatch AND
+                                                                            M.branch = PhM.match_branch AND
+                                                                            M.tournament_idTournament = PhM.match_tournament_idTournament
+                                        LEFT JOIN esport.player P1 ON PhM.player_idPlayer1 = P1.idPlayer
+                                        LEFT JOIN esport.player P2 ON PhM.player_idPlayer2 = P2.idPlayer                                    
+                where M.roundMatch = ? AND M.branch = ? AND M.tournament_idTournament = ?`, [round, branch, id]),
   // player page
   allPlayer: ()=> db.load(`select player.*, tournament.nameTournament 
                           from player left join tournament on player.tournament_idTournament = tournament.idTournament`),

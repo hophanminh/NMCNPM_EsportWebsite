@@ -18,7 +18,6 @@ module.exports = function (app) {
     }
     res.locals.current = req.session.current;
     
-    console.log(res.locals.current)
     if (typeof (req.session.isAuthenticated) === 'undefined') {
       req.session.isAuthenticated = false;
     }

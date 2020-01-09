@@ -87,8 +87,8 @@ function init(doubleElimination) {
         centerConnectors: true,
         teamWidth: 80,
         scoreWidth: 40,
-        matchMargin: 42,
-        roundMargin: 20,
+        matchMargin: 60,
+        roundMargin: 100,
         skipSecondaryFinal: true,
         init: doubleElimination, /* data to initialize the bracket with */
 
@@ -106,8 +106,8 @@ function initGuest(doubleElimination) {
       centerConnectors: true,
       teamWidth: 80,
       scoreWidth: 40,
-      matchMargin: 42,
-      roundMargin: 20,
+      matchMargin: 60,
+      roundMargin: 100,
       skipSecondaryFinal: true,
 
       onMatchClick: onclick,

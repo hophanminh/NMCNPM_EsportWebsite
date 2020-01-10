@@ -316,33 +316,53 @@ router.post('/',async (req,res)=>{
     }
     for (i = 0; i < 15; i++) {
         const result = await adminModel.patchBracket(winnerBracket[i]);
+        player.statusPlayer = 0;
+        // change status of both to winnerbranch in case of draw or score = 0
+        player.idPlayer = winnerBracket[i].player_idPlayer1;
+        await adminModel.modifyPlayer(player);
+        player.idPlayer = winnerBracket[i].player_idPlayer2;
+        await adminModel.modifyPlayer(player);
+
+        // change status of loser to loser branch 
         if (winnerBracket[i].score1 != null && winnerBracket[i].score2 != null && winnerBracket[i].score1 > winnerBracket[i].score2){
             player.idPlayer = winnerBracket[i].player_idPlayer2;
             player.statusPlayer = 1;
+            await adminModel.modifyPlayer(player);
         }
-        else if (winnerBracket[i].score1 < winnerBracket[i].score2){
+        else 
+        if (winnerBracket[i].score1 != null && winnerBracket[i].score2 != null &&winnerBracket[i].score1 < winnerBracket[i].score2){
             player.idPlayer = winnerBracket[i].player_idPlayer1;
             player.statusPlayer = 1;
+            await adminModel.modifyPlayer(player);
         }
-        await adminModel.modifyPlayer(player);
     }
     for (i = 0; i < 14; i++) {
         const result = await adminModel.patchBracket(loserBracket[i]);
 
+        // change status of both to loser branch in case of draw or score = 0
+        player.statusPlayer = 1;
+        player.idPlayer = loserBracket[i].player_idPlayer1;
+        await adminModel.modifyPlayer(player);
+        player.idPlayer = loserBracket[i].player_idPlayer2;
+        await adminModel.modifyPlayer(player);
+
+        // change status of loser to out branch 
         if (loserBracket[i].score1 != null && loserBracket[i].score2 != null && loserBracket[i].score1 > loserBracket[i].score2){
             player.idPlayer = loserBracket[i].player_idPlayer2;
             player.statusPlayer = 2;
+            await adminModel.modifyPlayer(player);
         }
-        else if (loserBracket[i].score1 < loserBracket[i].score2){
+        else 
+        if (loserBracket[i].score1 != null && loserBracket[i].score2 != null && loserBracket[i].score1 < loserBracket[i].score2){
             player.idPlayer = loserBracket[i].player_idPlayer1;
             player.statusPlayer = 2;
+            await adminModel.modifyPlayer(player);
         }
-        await adminModel.modifyPlayer(player);
-
     }
     for (i = 0; i < 2; i++) {
         const result = await adminModel.patchBracket(finalBracket[i]);
 
+        // change status of both to final branch
         player.statusPlayer = 3;
         player.idPlayer = finalBracket[i].player_idPlayer1;
         await adminModel.modifyPlayer(player);

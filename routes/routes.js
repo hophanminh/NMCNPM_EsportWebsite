@@ -592,6 +592,7 @@ router.get('/tournament/:idTournament',async(req,res)=>{
 })
 
 router.get('/overview',async(req,res)=>{
+    console.log(res.locals.current);
     const rows = await adminModel.getOverview(res.locals.current);
     console.log(rows);
     res.render('overview',{

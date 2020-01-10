@@ -50,7 +50,7 @@
 {{/section}}
 <div class="container">
     <div class=" row mt-3 d-flex justify-content-center mb-4">
-        <a href="/player" class="player">
+        <a href="/player/{{this.overviews.Champion}}" class="player">
             <div class="card text-dark " style="width: 15rem;">
                 <img src="img/ava.jpg" class="card-img-top" width="70%" height="70%" alt="champion">
                 <div class="card-body text-center first ">
@@ -68,12 +68,12 @@
             <p class='h1 text-success'>{{this.overviews.viewers}}</p>
         </div>
         <div class="col">
-            <p class="h3 text-danger">Most kill player</p><br>
-            <p class='h3 text-danger'>{{this.overviews.PlayerKillUName}}</p>
+            <a href="/player/{{this.overviews.mostkillPlayer}}"><p class="h3 text-danger">Most kill player</p><br>
+            <p class='h3 text-danger'>{{this.overviews.PlayerKillUName}}</p></a>
         </div>
         <div class="col">
-            <p class="h3 text-dark">Description</p><br>
-            <p class='text-white'>{{this.overviews.Discription}}</p>
+            <p class="h3 text-white">Description</p><br>
+            <p class='h3 text-white'>{{{this.overviews.Discription}}}</p>
         </div>
     </div>
 </div>

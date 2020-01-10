@@ -119,13 +119,14 @@ router.get('/:idTournament/overview',async(req,res)=>{
 })
 router.post('/:idTournament/overview',async(req,res)=>{
     const entity = req.body;
-
+    console.log(entity);
     delete entity.nameTournament;
     delete entity.prizeTournament;
     delete entity.nameGame;
 
     entity.tournament_idTournament = req.params.idTournament;
     const result = await adminModel.addOverview(entity);
+    console.log('here');
     console.log(entity);
     res.redirect('/');
 })
